@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<placeable type="bigDisplayType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../shared/xml/schema/placeable.xsd">
+    <storeData>
+        <name params="20">$l10n_unversalDisplay</name>
+        <functions>
+            <function>$l10n_function_unversalDisplay</function>
+        </functions>
+        <image>store/store_BigDisplay.dds</image>
+        <price>15000</price>
+        <lifetime>1000</lifetime>
+        <dailyUpkeep>5</dailyUpkeep>
+        <rotation>0</rotation>
+        <brand>FARMERTOOLS</brand>
+        <species>placeable</species>
+        <category>placeableMisc</category>
+        <brush>
+            <type>placeable</type>
+            <category>buildings</category>
+            <tab>tools</tab>
+        </brush>
+    </storeData>
+    
+    <base>
+        <filename>placeable/BigDisplay.i3d</filename>
+        <canBeRenamed>true</canBeRenamed>
+    </base>
+    
+    <bigDisplays>
+        <bigDisplay upperLeftNode="0>1|0" height="2.1" width="1.85" size="0.11" color="0 0.9 0 1"></bigDisplay>
+    </bigDisplays>
+    
+    <clearAreas />
+    
+    <leveling requireLeveling="false" />
+	
+    <indoorAreas />
+	
+    <ai>
+        <updateAreas />
+    </ai>
+    
+    <infoTrigger triggerNode="1>0" />
+</placeable>

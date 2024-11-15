@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<placeable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="bigDisplayType" xsi:noNamespaceSchemaLocation="../../../../shared/xml/schema/placeable.xsd">
+  <storeData>
+    <name params="12">$l10n_unversalDisplay</name>
+    <functions>
+      <function>$l10n_function_unversalDisplay</function>
+    </functions>
+    <image>store/store_MediumDisplay.dds</image>
+    <price>8000</price>
+    <lifetime>1000</lifetime>
+    <dailyUpkeep>5</dailyUpkeep>
+    <rotation>0</rotation>
+    <brand>FARMERTOOLS</brand>
+    <species>placeable</species>
+    <category>placeableMisc</category>
+    <brush>
+      <type>placeable</type>
+      <category>buildings</category>
+      <tab>tools</tab>
+    </brush>
+  </storeData>
+  <base>
+    <filename>placeable/MediumDisplay.i3d</filename>
+    <canBeRenamed>true</canBeRenamed>
+  </base>
+  <bigDisplays>
+    <bigDisplay upperLeftNode="displayStartPoint" height="1.31" width="1.89" size="0.11" color="0 0.9 0 1"/>
+  </bigDisplays>
+  <clearAreas/>
+  <leveling requireLeveling="false"/>
+  <indoorAreas/>
+  <ai>
+    <updateAreas/>
+  </ai>
+  <infoTrigger triggerNode="infoTriggerNode"/>
+  <i3dMappings>
+    <i3dMapping id="display" node="0>0"/>
+    <i3dMapping id="Case" node="0>0|0"/>
+    <i3dMapping id="Glass" node="0>0|0|0"/>
+    <i3dMapping id="displayStartPoint" node="0>0|0|1"/>
+    <i3dMapping id="infoTriggerNode" node="0>1|0"/>
+  </i3dMappings>
+</placeable>

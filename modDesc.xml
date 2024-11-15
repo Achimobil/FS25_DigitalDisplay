@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<modDesc descVersion="92">
+	<author>Achimobil</author>
+	<version>1.0.0.0</version>
+	<title>
+		<de>Digitalanzeigen</de>
+		<en>Digital Display</en>
+		<cz>Digitální Displej</cz>
+		<ru>Цифровые Дисплеи</ru>
+	</title>
+	<description>
+		<de>
+<![CDATA[Digitalanzeige für die nächste Produktion, Mithaufen, Tierställen (nur wenn diese ein Lager haben wie z.B. Wasser oder Gülle) oder ein Silo (keine Objektlager).
+Zeigt alle Inhalte alphabetisch (lua) sortiert an.
+Automatische Paging bei vielen Inhalten.
+
+Beim Spielstart und platzieren sucht sich das Display das nächstgelegene Ziel zur Anzeige.
+Wenn also etwas näher platziert oder gelöscht wird, so wird die Anzeige noch den alten Wert anzeigen.
+Bei den Misthaufen wird der inhalt nach Spielstart erst mit der nächsten vollen Stunde angezeigt.
+
+Enthalten ist ein klobiges Stand Display und mehrere Wanddisplays Mit 3 bis 26 Zeilen anzeige.
+Hinzu kommt noch ein 26 Zeiliges Wanddisplay mit doppelter Breite und somit 52 Anzeigbaren Inhalten.
+Für die Wanddiplays ist auch ein Mast dabei, wenn das Gebäude keine geeignete Fläche hat zum platzieren.
+Wanddisplays und der Mast haben Farbwahl.
+
+Preis pro Display: 3.000€ bis 20.000€
+Unterhalt pro Monat: 5€
+Preis für Mast: 250€
+
+Upload auf anderen Seiten nur durch mich selbst, Verlinkung nur mit Original-Downloadlink. KEIN Ersatzlink!
+Das Verändern oder erneutes hochladen, ob ganz oder in Teilen, ist nicht gestattet!
+
+Fehler oder Verbesserungsvorschläge bitte auf <a href="https://github.com/Achimobil/FS25_BigDisplay">Github</a> melden.
+]]>
+		</de>
+		<en>
+<![CDATA[Digital display for the next production, silo, animal husbandry (only when it has a storage) or warehouse.
+Displays all content sorted alphabetically (lua).
+Automatic paging when there is a lot of content.
+
+When the game starts, the display looks for the closest target to display.
+So if something is placed closer or deleted, the display will still show the old value.
+
+Included is a chunky stand display and several wall displays with 3 to 26 lines display.
+In addition, there is a 26-line wall display with double width and thus 52 displayable content.
+For the wall displays is also a pole included, if the building has no suitable area to place.
+
+Price per display: 3.000$ to 20.000$
+Maintenance per month: 5$
+Price per pole: 250$
+
+Upload on other sites only by myself, linking only with original download link. NO substitute link!
+Modifying and re-uploading in whole or in part is not allowed!
+
+Please report bugs or suggestions for improvement on <a href="https://github.com/Achimobil/FS22_BigDisplay">Github</a>.]]>
+		</en>
+	</description>
+	<multiplayer supported="true"/>
+	<iconFilename>icon_bigDisplay.dds</iconFilename>
+	<storeItems>
+		<storeItem xmlFilename="displayStand.xml"/>
+		<storeItem xmlFilename="XtraSmallDisplay.xml"/>
+		<storeItem xmlFilename="smallDisplay.xml"/>
+		<storeItem xmlFilename="mediumDisplay.xml"/>
+		<storeItem xmlFilename="bigWallDisplay.xml"/>
+		<storeItem xmlFilename="bigWallDoubleDisplay.xml"/>
+		<storeItem xmlFilename="bigDisplay.xml"/>
+	</storeItems>
+	<brands>
+		<brand name="FARMERTOOLS" title="Farmer Tools" image="store/brand_FarmerTools.dds"/>
+	</brands>
+
+	<placeableSpecializations>
+		<specialization name="bigDisplay" className="BigDisplaySpecialization" filename="scripts/bigDisplaySpecialization.lua"/>
+	</placeableSpecializations>
+    
+	<placeableTypes>
+		<type name="bigDisplayType" parent="simplePlaceable" filename="$dataS/scripts/placeables/Placeable.lua">
+			<specialization name="bigDisplay"/>
+			<specialization name="infoTrigger"/>
+		</type>
+	</placeableTypes>
+    
+	<l10n>
+		<text name="unversalDisplay">
+			<de>Universal Anzeige (%s Zeilen)</de>
+			<en>Universal Display (%s Lines)</en>
+			<ru>Универсальный дисплей (%s Строк)</ru>
+			<cz>Univerzální displej (%s Řádky)</cz>
+			<it>Visualizzazione universale (%s linee)</it>
+		</text>
+		<text name="function_unversalDisplay">
+			<de>Digitalanzeige für die nächste Produktion oder das Lager (keine Objektlager). Zeigt alle Inhalte alphabetisch (lua) sortiert an. Automatische Paging bei vielen Inhalten.</de>
+			<en>Digital display for the next production or warehouse (no object storages). Displays all content sorted alphabetically (lua). Automatic paging when there is a lot of content.</en>
+			<ru>Цифровой дисплей для ближайшего производства или склада. Отображает всё содержимое, отсортированное в алфавитном порядке. Автоматическая прокрутка для длинного списка.</ru>
+			<cz>Digitální displej pro další výrobu nebo sklad. Zobrazuje veškerý obsah seřazený podle abecedy (lua). Automatické stránkování při velkém množství obsahu.</cz>
+			<it>Display digitale per la prossima produzione o magazzino (nessun oggetto di stoccaggio). Visualizza tutti i contenuti ordinati alfabeticamente (lua). Paginazione automatica quando c'è molto contenuto.</it>
+		</text>
+		<text name="bigDisplay_connected_with">
+			<de>Verbundenn mit</de>
+			<en>Connected with</en>
+			<ru>Подключён к</ru>
+			<cz>Spojeno s</cz>
+			<it>Connesso</it>
+		</text>
+		<text name="storeItem_displayStand">
+			<de>Mast für die Wanddisplays</de>
+			<en>Mast for the wall displays</en>
+			<ru>Столб для дисплеев</ru>
+			<cz>Stojan pro nástěnné displeje</cz>
+			<it>Albero per espositori da parete</it>
+		</text>
+		<text name="function_displayStand">
+			<de>An diesen Mast können die Wanddisplays angebracht werden, wenn keine Fläche am Gebäude geeignet ist</de>
+			<en>The wall displays can be attached to this mast if there is no suitable surface on the building.</en>
+			<ru>Дисплеи могут быть закреплены на этом столбе, если на здании нет подходящей поверхности.</ru>
+			<cz>Pokud na budově není vhodná plocha, lze na tento stojan připevnit nástěnné displeje.</cz>
+			<it>Se nell'edificio non è presente una superficie adatta, è possibile fissare gli espositori da parete a questo palo.</it>
+		</text>
+	</l10n>
+</modDesc>

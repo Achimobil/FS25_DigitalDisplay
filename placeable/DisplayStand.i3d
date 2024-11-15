@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="DisplayStand.i3d" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="9.0.4"/>
+  </Asset>
+
+  <Files>
+    <File fileId="4" filename="$data/shaders/buildingShader.xml"/>
+    <File fileId="2" filename="$data/shared/default_normal.dds"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="stand_mat" materialId="116" diffuseColor="0.8 0.8 0.8 1" specularColor="0.494118 1 0" customShaderId="4" customShaderVariation="colorScale">
+      <Normalmap fileId="2"/>
+      <CustomParameter name="dirtMossSmoothness" value="0.12 0.12 0 0.5"/>
+      <CustomParameter name="dirtMossMix" value="1 1 120000 0"/>
+      <CustomParameter name="snowScale" value="1 0 0 1"/>
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="DisplayStand.i3d.shapes">
+  </Shapes>
+
+
+  <Dynamics>
+  </Dynamics>
+
+  <Scene>
+      <TransformGroup name="displayStand" nodeId="119">
+        <TransformGroup name="clearAreas" nodeId="120">
+          <TransformGroup name="clearArea1Start" translation="0.15 0 -0.15" nodeId="121">
+            <TransformGroup name="clearArea1Height" translation="-0.3 0 0" nodeId="122"/>
+            <TransformGroup name="clearArea1Width" translation="0 0 0.3" nodeId="123"/>
+          </TransformGroup>
+        </TransformGroup>
+        <TransformGroup name="levelAreas" nodeId="124">
+          <TransformGroup name="levelArea1Start" translation="0.5 0 -0.5" nodeId="125">
+            <TransformGroup name="levelArea1Height" translation="0 0 1" nodeId="126"/>
+            <TransformGroup name="levelArea1Width" translation="-1 0 0" nodeId="127"/>
+          </TransformGroup>
+        </TransformGroup>
+        <TransformGroup name="tipOcclusionUpdateAreas" nodeId="128">
+          <TransformGroup name="tipOcclusionUpdateArea1Start" translation="0.15 0 -0.15" nodeId="129">
+            <TransformGroup name="tipOcclusionUpdateArea1End" translation="-0.3 0 0.3" nodeId="130"/>
+          </TransformGroup>
+        </TransformGroup>
+        <TransformGroup name="visuals" nodeId="131">
+          <Shape shapeId="1" name="Cylinder" translation="0 1.5 0" scale="1 1.49978 1" static="true" clipDistance="50" nodeId="132" materialIds="116" castsShadows="true" receiveShadows="true"/>
+        </TransformGroup>
+      </TransformGroup>
+  </Scene>
+
+</i3D>

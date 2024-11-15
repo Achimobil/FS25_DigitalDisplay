@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="bigWallDoubleDisplay.i3d" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="9.0.4"/>
+  </Asset>
+
+  <Files>
+    <File fileId="4" filename="$data/shaders/buildingShader.xml"/>
+    <File fileId="10" filename="$data/shaders/vehicleShader.xml"/>
+    <File fileId="9" filename="$data/shared/clearPlastic_diffuse.dds"/>
+    <File fileId="2" filename="$data/shared/default_normal.dds"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="case_mat" materialId="5" diffuseColor="0.8 0.8 0.8 1" specularColor="0.498039 1 0" customShaderId="4" customShaderVariation="colorScale">
+      <Normalmap fileId="2"/>
+      <CustomParameter name="dirtMossSmoothness" value="0.12 0.12 0 0.5"/>
+      <CustomParameter name="dirtMossMix" value="1 1 120000 0"/>
+      <CustomParameter name="snowScale" value="1 0 0 1"/>
+    </Material>
+    <Material name="glass_mat" materialId="6" specularColor="0.498039 1 0" alphaBlending="true" customShaderId="10" customShaderVariation="colorMask">
+      <Texture fileId="9"/>
+      <CustomParameter name="colorMat0" value="0.1 0 0 2"/>
+    </Material>
+    <Material name="i3d_default_material" materialId="7" diffuseColor="0.8 0.8 0.8 1" specularColor="0.6 1 0">
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="bigWallDoubleDisplay.i3d.shapes">
+  </Shapes>
+
+
+  <Dynamics>
+  </Dynamics>
+
+  <Scene>
+      <TransformGroup name="MediumDisplay" nodeId="12">
+        <TransformGroup name="display" translation="0 0 0.05" nodeId="13">
+          <Shape shapeId="1" name="Case" translation="0 0.5 0" static="true" clipDistance="100" nodeId="14" materialIds="5" castsShadows="true" receiveShadows="true">
+            <Shape shapeId="2" name="Glass" translation="0 -0.5 0" rotation="90 -0 0" clipDistance="100" nodeId="15" materialIds="6"/>
+            <TransformGroup name="displayStartPoint" translation="-1.945 2.415 0.089" nodeId="16"/>
+          </Shape>
+        </TransformGroup>
+        <TransformGroup name="functions" translation="0 0 0.05" nodeId="17">
+          <Shape shapeId="3" name="infoTriggerNode" translation="0 0 0.7" kinematic="true" compound="true" trigger="true" collisionMask="1048576" clipDistance="100" nodeId="18" materialIds="7" nonRenderable="true"/>
+        </TransformGroup>
+      </TransformGroup>
+  </Scene>
+
+</i3D>
