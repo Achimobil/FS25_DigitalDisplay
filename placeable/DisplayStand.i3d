@@ -12,11 +12,12 @@
 
 
   <Materials>
-    <Material name="stand_mat" materialId="116" diffuseColor="0.8 0.8 0.8 1" specularColor="0.494118 1 0" customShaderId="4" customShaderVariation="colorScale">
+    <Material name="stand_mat" materialId="116" diffuseColor="0.8 0.8 0.8 1" specularColor="0.8 0.8 0.8 1" customShaderId="4" customShaderVariation="colorScale">
       <Normalmap fileId="2"/>
       <CustomParameter name="dirtMossSmoothness" value="0.12 0.12 0 0.5"/>
       <CustomParameter name="dirtMossMix" value="1 1 120000 0"/>
       <CustomParameter name="snowScale" value="1 0 0 1"/>
+      <CustomParameter name="colorScale0" value="0.8 0.8 0.8 1"/>
     </Material>
   </Materials>
 
