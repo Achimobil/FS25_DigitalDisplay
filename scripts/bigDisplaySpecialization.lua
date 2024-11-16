@@ -27,7 +27,8 @@ An diesem Skript dürfen ohne Genehmigung von Achimobil oder braeven keine Ände
 BigDisplaySpecialization = {
     Version = "0.1.4.6",
     Name = "BigDisplaySpecialization",
-    displays = {}
+    displays = {},
+	Debug = false
 }
 
 BigDisplaySpecialization.modName = g_currentModName;
@@ -37,6 +38,7 @@ function BigDisplaySpecialization.info(infoMessage, ...)
 end
 
 function BigDisplaySpecialization.devInfo(infoMessage, ...)
+	if not BigDisplaySpecialization.Debug then return end
 	if infoMessage == nil then infoMessage = "nil" end
 	Logging.devInfo(BigDisplaySpecialization.modName .. " - " .. infoMessage, ...);
 end
