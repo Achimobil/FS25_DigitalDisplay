@@ -16,12 +16,10 @@ Automatische Paging bei vielen Inhalten.
 
 Beim Spielstart und platzieren sucht sich das Display das nächstgelegene Ziel zur Anzeige.
 Wenn also etwas näher platziert oder gelöscht wird, so wird die Anzeige noch den alten Wert anzeigen.
-Bei den Misthaufen wird der inhalt nach Spielstart erst mit der nächsten vollen Stunde angezeigt.
 
 Enthalten ist ein klobiges Stand Display und mehrere Wanddisplays Mit 3 bis 26 Zeilen anzeige.
 Hinzu kommt noch ein 26 Zeiliges Wanddisplay mit doppelter Breite und somit 52 Anzeigbaren Inhalten.
 Für die Wanddiplays ist auch ein Mast dabei, wenn das Gebäude keine geeignete Fläche hat zum platzieren.
-Wanddisplays und der Mast haben Farbwahl.
 
 Preis pro Display: 3.000€ bis 20.000€
 Unterhalt pro Monat: 5€
@@ -30,7 +28,7 @@ Preis für Mast: 250€
 Upload auf anderen Seiten nur durch mich selbst, Verlinkung nur mit Original-Downloadlink. KEIN Ersatzlink!
 Das Verändern oder erneutes hochladen, ob ganz oder in Teilen, ist nicht gestattet!
 
-Fehler oder Verbesserungsvorschläge bitte auf <a href="https://github.com/Achimobil/FS25_BigDisplay">Github</a> melden.
+Fehler oder Verbesserungsvorschläge bitte auf <a href="https://github.com/Achimobil/FS25_DigitalDisplay">Github</a> melden.
 ]]>
 		</de>
 		<en>
@@ -52,7 +50,7 @@ Price per pole: 250$
 Upload on other sites only by myself, linking only with original download link. NO substitute link!
 Modifying and re-uploading in whole or in part is not allowed!
 
-Please report bugs or suggestions for improvement on <a href="https://github.com/Achimobil/FS22_BigDisplay">Github</a>.]]>
+Please report bugs or suggestions for improvement on <a href="https://github.com/Achimobil/FS25_DigitalDisplay">Github</a>.]]>
 		</en>
 	</description>
 	<multiplayer supported="true"/>
