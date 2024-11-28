@@ -22,12 +22,19 @@
   <base>
     <filename>placeable/SmallDisplay.i3d</filename>
     <canBeRenamed>true</canBeRenamed>
+	<boughtWithFarmland>true</boughtWithFarmland>
   </base>
+  <placement useRandomYRotation="false" useManualYRotation="true">
+    <sounds>
+      <place template="smallImp" pitchScale="1.4"/>
+    </sounds>
+  </placement>
   <bigDisplays>
     <bigDisplay upperLeftNode="displayStartPoint" height="0.81" width="1.89" size="0.11" color="0 0.9 0 1"/>
   </bigDisplays>
   <clearAreas/>
   <leveling requireLeveling="false"/>
+  <testArea/>
   <indoorAreas/>
   <ai>
     <updateAreas/>
