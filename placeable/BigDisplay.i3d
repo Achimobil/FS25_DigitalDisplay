@@ -1,40 +1,36 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<i3D name="BigDisplay" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+<i3D name="BigDisplay.i3d" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
   <Asset>
-    <Export program="GIANTS Editor 64bit" version="9.0.3"/>
+    <Export program="GIANTS Editor 64bit" version="10.0.3"/>
   </Asset>
 
   <Files>
-    <File fileId="3" filename="$data/shaders/vehicleShader.xml"/>
-    <File fileId="16" filename="$data/maps/mapEU/textures/windowsGlass_diffuse.png"/>
-    <File fileId="17" filename="$data/maps/mapEU/textures/windowsGlass_normal.png"/>
-    <File fileId="18" filename="$data/maps/mapEU/textures/windowsGlass_specular.png"/>
-	
-	
-    <File fileId="110" filename="$data/shared/white_diffuse.png" />
-    <File fileId="117" filename="$data/shared/detailLibrary/nonMetallic/plastic/plasticPainted_diffuse.png" />
-    <File fileId="118" filename="$data/shared/detailLibrary/flat_normal.png" />
-    <File fileId="119" filename="$data/shared/detailLibrary/nonMetallic/plastic/plasticPainted_specular.png" />
-    <File fileId="116" filename="$data/placeables/lely/astronautA5/astronautA5_normal.png" />
-    <File fileId="103" filename="$data/placeables/lely/astronautA5/astronautA5_vmask.png" />
+    <File fileId="10" filename="$data/maps/mapEU/textures/windowsGlass_diffuse.png"/>
+    <File fileId="11" filename="$data/maps/mapEU/textures/windowsGlass_normal.png"/>
+    <File fileId="12" filename="$data/maps/mapEU/textures/windowsGlass_specular.png"/>
+    <File fileId="2" filename="$data/shaders/vehicleShader.xml"/>
+    <File fileId="4" filename="$data/shared/detailLibrary/flat_normal.png"/>
+    <File fileId="5" filename="$data/shared/detailLibrary/nonMetallic/plastic/plasticPainted_diffuse.png"/>
+    <File fileId="3" filename="$data/shared/detailLibrary/nonMetallic/plastic/plasticPainted_specular.png"/>
+    <File fileId="1" filename="$data/shared/white_diffuse.png"/>
   </Files>
 
 
   <Materials>
-    <Material name="displayglas_mat" materialId="4" alphaBlending="true">
-      <Texture fileId="16"/>
-      <Normalmap fileId="17"/>
-      <Glossmap fileId="18"/>
+    <Material name="displayglas_mat" materialId="5" alphaBlending="true">
+      <Texture fileId="10"/>
+      <Normalmap fileId="11"/>
+      <Glossmap fileId="12"/>
     </Material>
-    <Material name="Plastik_mat" materialId="5" customShaderId="3">
+    <Material name="Plastik_mat" materialId="6" customShaderId="2">
+      <Texture fileId="1"/>
+      <Custommap name="detailSpecular" fileId="3"/>
+      <Custommap name="detailNormal" fileId="4"/>
+      <Custommap name="detailDiffuse" fileId="5"/>
       <CustomParameter name="colorScale" value="0.347 0.347 0.347"/>
-      <Custommap name="detailDiffuse" fileId="117"/>
-      <Custommap name="detailNormal" fileId="118"/>
-      <Custommap name="detailSpecular" fileId="119"/>
-      <Texture fileId="110"/>
     </Material>
-    <Material name="UnnamedMaterial" materialId="17" diffuseColor="1 1 1 1">
+    <Material name="UnnamedMaterial" materialId="7" diffuseColor="1 1 1 1">
     </Material>
   </Materials>
 
@@ -42,20 +38,16 @@
   <Shapes externalShapesFile="BigDisplay.i3d.shapes">
   </Shapes>
 
-
-  <Dynamics>
-  </Dynamics>
-
   <Scene>
-      <TransformGroup name="display" nodeId="9">
-        <Shape shapeId="1" name="Cube" rotation="-6.83019e-06 -0 0" static="true" clipDistance="200" nodeId="10" materialIds="5" castsShadows="true" receiveShadows="true"/>
-        <Shape shapeId="2" name="Plane" translation="-0.0113409 1.76 0.014176" rotation="90 -0 0" clipDistance="200" nodeId="11" materialIds="4" castsShadows="true" receiveShadows="true">
-          <TransformGroup name="TextArea" translation="-0.909901 0.14 -1.12801" rotation="-90 -0 0" clipDistance="200" nodeId="12"/>
-        </Shape>
-      </TransformGroup>
-      <TransformGroup name="functions" nodeId="18">
-        <Shape shapeId="3" name="cube" translation="0 1.5 0" scale="3 3 3" static="true" trigger="true" collisionMask="1048576" nodeId="16" materialIds="17" nonRenderable="true" distanceBlending="false"/>
-      </TransformGroup>
+    <TransformGroup name="display" nodeId="12">
+      <Shape name="Cube" rotation="-6.83019e-06 -0 0" shapeId="1" static="true" clipDistance="200" nodeId="13" castsShadows="true" receiveShadows="true" materialIds="6"/>
+      <Shape name="Plane" translation="-0.0113409 1.76 0.014176" rotation="90 -0 0" shapeId="2" clipDistance="200" nodeId="14" castsShadows="true" receiveShadows="true" materialIds="5">
+        <TransformGroup name="TextArea" translation="-0.909901 0.14 -1.12801" rotation="-90 -0 0" clipDistance="200" nodeId="15"/>
+      </Shape>
+    </TransformGroup>
+    <TransformGroup name="functions" nodeId="16">
+      <Shape name="cube" translation="0 1.5 0" scale="3 3 3" shapeId="3" static="true" trigger="true" collisionFilterGroup="0x100000" collisionFilterMask="0x100000" nodeId="17" castsShadows="false" receiveShadows="false" nonRenderable="true" distanceBlending="false" materialIds="7"/>
+    </TransformGroup>
   </Scene>
 
 </i3D>

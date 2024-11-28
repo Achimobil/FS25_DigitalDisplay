@@ -2,33 +2,29 @@
 
 <i3D name="MediumDisplay.i3d" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
   <Asset>
-    <Export program="GIANTS Editor 64bit" version="9.0.4"/>
+    <Export program="GIANTS Editor 64bit" version="10.0.3"/>
   </Asset>
 
   <Files>
+    <File fileId="10" filename="$data/maps/mapEU/textures/windowsGlass_diffuse.png"/>
+    <File fileId="11" filename="$data/maps/mapEU/textures/windowsGlass_normal.png"/>
+    <File fileId="12" filename="$data/maps/mapEU/textures/windowsGlass_specular.png"/>
     <File fileId="4" filename="$data/shaders/buildingShader.xml"/>
-    <File fileId="9" filename="$data/shared/clearPlastic_diffuse.dds"/>
     <File fileId="2" filename="$data/shared/default_normal.dds"/>
-    <File fileId="16" filename="$data/maps/mapEU/textures/windowsGlass_diffuse.png"/>
-    <File fileId="17" filename="$data/maps/mapEU/textures/windowsGlass_normal.png"/>
-    <File fileId="18" filename="$data/maps/mapEU/textures/windowsGlass_specular.png"/>
   </Files>
 
 
   <Materials>
-    <Material name="case_mat" materialId="21" diffuseColor="0.8 0.8 0.8 1" specularColor="0.8 0.8 0.8 1" customShaderId="4" customShaderVariation="colorScale">
+    <Material name="case_mat" materialId="5" diffuseColor="0.8 0.8 0.8 1" specularColor="0.8 1 0.8" customShaderId="4" customShaderVariation="colorScale">
       <Normalmap fileId="2"/>
-      <CustomParameter name="dirtMossSmoothness" value="0.12 0.12 0 0.5"/>
-      <CustomParameter name="dirtMossMix" value="1 1 120000 0"/>
-      <CustomParameter name="snowScale" value="1 0 0 1"/>
       <CustomParameter name="colorScale0" value="0.8 0.8 0.8 1"/>
     </Material>
-    <Material name="glass_mat" materialId="22" alphaBlending="true">
-      <Texture fileId="16"/>
-      <Normalmap fileId="17"/>
-      <Glossmap fileId="18"/>
+    <Material name="glass_mat" materialId="6" alphaBlending="true">
+      <Texture fileId="10"/>
+      <Normalmap fileId="11"/>
+      <Glossmap fileId="12"/>
     </Material>
-    <Material name="i3d_default_material" materialId="23" diffuseColor="0.8 0.8 0.8 1" specularColor="0.6 1 0">
+    <Material name="i3d_default_material" materialId="7" diffuseColor="0.8 0.8 0.8 1" specularColor="0.6 1 0">
     </Material>
   </Materials>
 
@@ -36,22 +32,18 @@
   <Shapes externalShapesFile="MediumDisplay.i3d.shapes">
   </Shapes>
 
-
-  <Dynamics>
-  </Dynamics>
-
   <Scene>
-      <TransformGroup name="MediumDisplay" nodeId="28">
-        <TransformGroup name="display" translation="0 0 0.05" nodeId="29">
-          <Shape shapeId="1" name="Case" translation="0 0.5 0" static="true" clipDistance="100" nodeId="30" materialIds="21" castsShadows="true" receiveShadows="true">
-            <Shape shapeId="2" name="Glass" translation="0 -0.5 0" rotation="90 -0 0" clipDistance="100" nodeId="31" materialIds="22"/>
-            <TransformGroup name="displayStartPoint" translation="-0.945 0.915 0.089" nodeId="32"/>
-          </Shape>
-        </TransformGroup>
-        <TransformGroup name="functions" translation="0 0 0.05" nodeId="33">
-          <Shape shapeId="3" name="infoTriggerNode" translation="0 0 0.7" kinematic="true" compound="true" trigger="true" collisionMask="1048576" clipDistance="100" nodeId="34" materialIds="23" nonRenderable="true"/>
-        </TransformGroup>
+    <TransformGroup name="MediumDisplay" nodeId="12">
+      <TransformGroup name="display" translation="0 0 0.05" nodeId="13">
+        <Shape name="Case" translation="0 0.5 0" shapeId="1" static="true" clipDistance="100" nodeId="14" castsShadows="true" receiveShadows="true" materialIds="5">
+          <Shape name="Glass" translation="0 -0.5 0" rotation="90 -0 0" shapeId="2" clipDistance="100" nodeId="15" castsShadows="false" receiveShadows="false" materialIds="6"/>
+          <TransformGroup name="displayStartPoint" translation="-0.945 0.915 0.089" nodeId="16"/>
+        </Shape>
       </TransformGroup>
+      <TransformGroup name="functions" translation="0 0 0.05" nodeId="17">
+        <Shape name="infoTriggerNode" translation="0 0 0.7" shapeId="3" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x100000" collisionFilterMask="0x100000" clipDistance="100" nodeId="18" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="7"/>
+      </TransformGroup>
+    </TransformGroup>
   </Scene>
 
 </i3D>
