@@ -3,7 +3,7 @@
 Meine Digital Displays die unperformant mit Debug Methoden den Inhalt anzeigen, weil Giants die sonderzeichen vergessen hat
 
 # ModHub
-comming soon
+https://www.farming-simulator.com/mod.php?mod_id=303955&title=fs2025
 
 # General
 ## DE
