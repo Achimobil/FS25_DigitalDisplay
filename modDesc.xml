@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="93">
     <author>Achimobil</author>
-    <version>1.0.0.1</version>
+    <version>1.0.0.2</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -29,6 +29,9 @@ Upload auf anderen Seiten außer dem ModHub ist verboten und somit illegal, Verl
 Das Verändern oder erneutes Hochladen, ob ganz oder in Teilen, ist nicht gestattet!
 
 Fehler oder Verbesserungsvorschläge bitte auf <a href="https://github.com/Achimobil/FS25_DigitalDisplay">Github</a> melden.
+
+Changelog:
+1.0.0.2 - Mehr Tierställe werden jetzt unterstützt
 ]]>
         </de>
         <en>
