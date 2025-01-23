@@ -6,3 +6,5 @@ store\*.png
 images
 sourceModels
 *.md
+*.gspu
+*.gsp
