@@ -74,6 +74,9 @@ end
 
 BigDisplaySpecialization.info("init %s(Version: %s)", BigDisplaySpecialization.Name, BigDisplaySpecialization.Version);
 
+---Checks if all prerequisite specializations are loaded
+-- @param table specializations specializations
+-- @return boolean hasPrerequisite true if all prerequisite specializations are loaded
 function BigDisplaySpecialization.prerequisitesPresent(specializations)
     return true;
 end
@@ -211,10 +214,10 @@ function BigDisplaySpecialization:onLoad(savegame)
                 displayLine.text.y = y;
                 displayLine.text.z = z;
 
-                local x,y,z = localToWorld(upperLeftNode, rightStart, currentY, 0);
-                displayLine.value.x = x;
-                displayLine.value.y = y;
-                displayLine.value.z = z;
+                local x2,y2,z2 = localToWorld(upperLeftNode, rightStart, currentY, 0);
+                displayLine.value.x = x2;
+                displayLine.value.y = y2;
+                displayLine.value.z = z2;
 
                 displayLine.rx = rx;
                 displayLine.ry = ry;
@@ -343,14 +346,14 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
             local x, y, z = getWorldTranslation(self.rootNode);
             local distance = BigDisplaySpecialization:getDistance(loadingStation, x, y, z);
             BigDisplaySpecialization.DebugText("Distance: %s", distance);
-            if distance < currentDistance and not ignore then
+            if distance < currentDistance then
                 currentDistance = distance;
                 currentLoadingStation = loadingStation;
             end
         else
             BigDisplaySpecialization.DebugText("No Loadingstation");
 
-            BigDisplaySpecialization.DebugTable("husbandryPlacable", husbandryPlacable)
+--             BigDisplaySpecialization.DebugTable("husbandryPlacable", husbandryPlacable)
         end
 
     end
@@ -392,7 +395,6 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
 
     -- Futter bei Tierställen hinzufügen einfärben
     if spec.loadingStationToUse.owningPlaceable ~= nil and spec.loadingStationToUse.owningPlaceable.spec_husbandryFood ~= nil then
-        local spec = self.spec_bigDisplay;
         for fillType, fillLevel in pairs(spec.loadingStationToUse.owningPlaceable.spec_husbandryFood.fillLevels) do
             if spec.changedColors[fillType] == nil then
                 spec.changedColors[fillType] = {isInput = false, isOutput = false};
@@ -579,7 +581,7 @@ function BigDisplaySpecialization:updateDisplays(dt)
                 bigDisplay.lastPageTime = 0;
             end
 
-            local pageOffset = (bigDisplay.currentPage - 1) * #bigDisplay.displayLines;
+            pageOffset = (bigDisplay.currentPage - 1) * #bigDisplay.displayLines;
             for index, displayLine in pairs(bigDisplay.displayLines) do
                 local lineIndex = index + pageOffset;
                 if bigDisplay.lineInfos[lineIndex] ~= nil then
