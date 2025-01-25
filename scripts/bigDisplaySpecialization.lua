@@ -23,7 +23,10 @@ An diesem Skript dürfen ohne Genehmigung von Achimobil oder braeven keine Ände
 0.1.4.5 - 07.02.2024 - Read out info from robot when main storage is updated
 0.1.4.6 - 07.02.2024 - fix for game exit
 0.1.5.0 - 23.01.2025 - Add new debu logging and connect more hubandries
+0.1.5.1 - 25.01.2025 - Add giants storage with filltypes
 ]]
+
+
 
 BigDisplaySpecialization = {
     Version = "0.1.5.0",
@@ -33,21 +36,31 @@ BigDisplaySpecialization = {
 }
 
 BigDisplaySpecialization.modName = g_currentModName;
+BigDisplaySpecialization.modDir = g_currentModDirectory;
+
+source(BigDisplaySpecialization.modDir.."scripts/PlaceableObjectStorageExtension.lua");
 
 ---Print the text to the log as info. Example: BigDisplaySpecialization.info("Alter: %s", age)
 -- @param string infoMessage the text to print formated
 -- @param any ... format parameter
 function BigDisplaySpecialization.info(infoMessage, ...)
-    Logging.info(BigDisplaySpecialization.modName .. " - " .. infoMessage, ...);
+    if BigDisplaySpecialization.Debug then
+        BigDisplaySpecialization.DebugText("Info:" .. infoMessage, ...)
+    else
+        Logging.info(BigDisplaySpecialization.modName .. " - " .. infoMessage, ...);
+    end
 end
 
 ---Print the text to the log as dev info. Example: BigDisplaySpecialization.devInfo("Alter: %s", age)
 -- @param string infoMessage the text to print formated
 -- @param any ... format parameter
 function BigDisplaySpecialization.devInfo(infoMessage, ...)
-    if not BigDisplaySpecialization.Debug then return end
     if infoMessage == nil then infoMessage = "nil" end
-    Logging.devInfo(BigDisplaySpecialization.modName .. " - " .. infoMessage, ...);
+    if BigDisplaySpecialization.Debug then
+        BigDisplaySpecialization.DebugText("DevInfo:" .. infoMessage, ...)
+    else
+        Logging.devInfo(BigDisplaySpecialization.modName .. " - " .. infoMessage, ...);
+    end
 end
 
 --- Print the given Table to the log
@@ -140,45 +153,27 @@ function BigDisplaySpecialization:onLoad(savegame)
 
         -- display general stuff
         local size = self.xmlFile:getValue(bigDisplayKey .. "#size", 0.11);
-        -- local color = self.xmlFile:getValue(bigDisplayKey .. "#color", {
-        -- 0.0,
-        -- 0.9,
-        -- 0.0,
-        -- 1
-        -- }, true);
-        -- local colorHybrid = self.xmlFile:getValue(bigDisplayKey .. "#colorHybrid", {
-        -- 0.5,
-        -- 0.7,
-        -- 0.0,
-        -- 1
-        -- }, true);
-        -- local colorInput = self.xmlFile:getValue(bigDisplayKey .. "#colorInput", {
-        -- 0.0,
-        -- 0.7,
-        -- 0.3,
-        -- 1
-        -- }, true);
         local emptyFilltypes = xmlFile:getValue(bigDisplayKey .. "#emptyFilltypes", false)
         local columns = xmlFile:getValue(bigDisplayKey .. "#columns", 1)
 
         local bigDisplay = {};
         bigDisplay.color = {
-        0.0,
-        0.9,
-        0.0,
-        1
+            0.0,
+            0.9,
+            0.0,
+            1
         };
         bigDisplay.colorHybrid = {
-        0.5,
-        0.7,
-        0.0,
-        1
+            0.5,
+            0.7,
+            0.0,
+            1
         };
         bigDisplay.colorInput = {
-        0.0,
-        0.7,
-        0.3,
-        1
+            0.0,
+            0.7,
+            0.3,
+            1
         };
         bigDisplay.textSize = size;
         bigDisplay.displayLines = {};
@@ -352,10 +347,23 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
             end
         else
             BigDisplaySpecialization.DebugText("No Loadingstation");
-
 --             BigDisplaySpecialization.DebugTable("husbandryPlacable", husbandryPlacable)
         end
+    end
 
+    -- scan placables for object storages
+    for index, placable in ipairs(g_currentMission.placeableSystem.placeables) do
+        if placable.spec_objectStorage ~= nil then
+            BigDisplaySpecialization.DebugText("Found objectStorage: %s", placable:getName());
+            local x, y, z = getWorldTranslation(self.rootNode);
+            local distance = BigDisplaySpecialization:getDistance(placable, x, y, z);
+            BigDisplaySpecialization.DebugText("Distance: %s", distance);
+--             BigDisplaySpecialization.DebugTable("objectStorage", placable);
+            if distance < currentDistance then
+                currentDistance = distance;
+                currentLoadingStation = placable;
+            end
+        end
     end
 
     if currentLoadingStation == nil then
@@ -403,10 +411,18 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
         end
     end
 
+    -- Auswahl welches storage connected wird
     local storages = spec.loadingStationToUse.sourceStorages or spec.loadingStationToUse.targetStorages;
-
-    for _, sourceStorage in pairs(storages) do
-        sourceStorage:addFillLevelChangedListeners(spec.fillLevelChangedCallback);
+    if storages ~= nil then
+        for _, sourceStorage in pairs(storages) do
+            sourceStorage:addFillLevelChangedListeners(spec.fillLevelChangedCallback);
+        end
+    elseif spec.loadingStationToUse.addFillLevelChangedListeners ~= nil then
+        spec.loadingStationToUse:addFillLevelChangedListeners(spec.fillLevelChangedCallback);
+    else
+        BigDisplaySpecialization.info("no storage to add listener found");
+        local storeSpec = spec.loadingStationToUse.spec_objectStorage;
+        BigDisplaySpecialization.DebugTable("storeSpec", storeSpec);
     end
 
     spec.loadingStationToUse:addDeleteListener(self, "onStationDeleted")
@@ -474,8 +490,19 @@ function BigDisplaySpecialization:updateDisplayData()
         bigDisplay.lineInfos = {};
         for fillTypeId, fillLevel in pairs(BigDisplaySpecialization:getAllFillLevels(spec.loadingStationToUse, farmId)) do
             local lineInfo = {};
+
+            -- fermenting special case
+            local fermenting = false;
+            if fillTypeId > 1000000 then
+                fillTypeId = fillTypeId - 1000000;
+                fermenting = true;
+            end
+
             lineInfo.fillTypeId = fillTypeId;
             lineInfo.title = g_fillTypeManager:getFillTypeByIndex(fillTypeId).title;
+            if fermenting then
+                lineInfo.title = lineInfo.title .. "(" .. g_i18n:getText("info_fermenting") .. ")";
+            end
             local myFillLevel = Utils.getNoNil(fillLevel, 0);
             lineInfo.fillLevel = g_i18n:formatNumber(myFillLevel, 0);
 
@@ -501,11 +528,12 @@ function BigDisplaySpecialization:getAllFillLevels(station, farmId)
     local fillLevels = {}
 
     local storages = station.sourceStorages or station.targetStorages;
-
-    for _, sourceStorage in pairs(storages) do
-        if station:hasFarmAccessToStorage(farmId, sourceStorage) then
-            for fillType, fillLevel in pairs(sourceStorage:getFillLevels()) do
-                fillLevels[fillType] = Utils.getNoNil(fillLevels[fillType], 0) + fillLevel
+    if storages ~= nil then
+        for _, sourceStorage in pairs(storages) do
+            if station:hasFarmAccessToStorage(farmId, sourceStorage) then
+                for fillType, fillLevel in pairs(sourceStorage:getFillLevels()) do
+                    fillLevels[fillType] = Utils.getNoNil(fillLevels[fillType], 0) + fillLevel
+                end
             end
         end
     end
@@ -522,6 +550,31 @@ function BigDisplaySpecialization:getAllFillLevels(station, farmId)
         for fillType, _ in pairs(station.owningPlaceable.spec_husbandryFeedingRobot.feedingRobot.fillTypeToUnloadingSpot) do
             local fillLevel = station.owningPlaceable.spec_husbandryFeedingRobot.feedingRobot:getFillLevel(fillType);
             fillLevels[fillType] = Utils.getNoNil(fillLevels[fillType], 0) + fillLevel
+        end
+    end
+
+    -- inhalt von object storages einfügen
+    if station.spec_objectStorage ~= nil then
+        for _, storedObject in pairs(station.spec_objectStorage.storedObjects) do
+            local fillType = nil;
+            local fillLevel = nil;
+            if storedObject.palletAttributes ~= nil then
+                fillType = storedObject.palletAttributes.fillType;
+                fillLevel = storedObject.palletAttributes.fillLevel;
+            elseif storedObject.baleAttributes ~= nil then
+                fillType = storedObject.baleAttributes.fillType;
+                fillLevel = storedObject.baleAttributes.fillLevel;
+            elseif storedObject.baleObject ~= nil then
+                -- add 1000000 to say itis fermenting
+                fillType = storedObject.baleObject.fillType + 1000000;
+                fillLevel = storedObject.baleObject.fillLevel;
+            end
+
+            if fillType ~= nil and fillLevel ~= nil then
+                fillLevels[fillType] = Utils.getNoNil(fillLevels[fillType], 0) + fillLevel;
+            else
+                BigDisplaySpecialization.DebugTable("not used storedObject", storedObject);
+            end
         end
     end
 
@@ -639,3 +692,4 @@ function BigDisplaySpecialization:onStartMission()
     end
 end
 Mission00.onStartMission = Utils.appendedFunction(Mission00.onStartMission, BigDisplaySpecialization.onStartMission)
+

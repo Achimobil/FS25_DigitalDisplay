@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<modDesc descVersion="93">
+<modDesc descVersion="94">
     <author>Achimobil</author>
-    <version>1.0.0.2</version>
+    <version>1.0.0.3</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -32,6 +32,7 @@ Fehler oder Verbesserungsvorschläge bitte auf <a href="https://github.com/Achim
 
 Changelog:
 1.0.0.2 - Mehr Tierställe werden jetzt unterstützt
+1.0.0.3 - Giants Objektlager werden jetzt unterstützt
 ]]>
         </de>
         <en>
