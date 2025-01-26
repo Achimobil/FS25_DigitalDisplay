@@ -251,8 +251,10 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
 
     if spec.loadingStationToUse ~= nil then
         local storages = spec.loadingStationToUse.sourceStorages or spec.loadingStationToUse.targetStorages;
-        for _, sourceStorage in pairs(storages) do
-            sourceStorage:removeFillLevelChangedListeners(spec.fillLevelChangedCallback);
+        if storages ~= nil then
+            for _, sourceStorage in pairs(storages) do
+                sourceStorage:removeFillLevelChangedListeners(spec.fillLevelChangedCallback);
+            end
         end
         spec.loadingStationToUse:removeDeleteListener(self, "onStationDeleted")
         spec.loadingStationToUse = nil;
