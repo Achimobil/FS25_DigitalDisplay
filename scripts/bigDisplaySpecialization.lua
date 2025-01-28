@@ -24,12 +24,13 @@ An diesem Skript dürfen ohne Genehmigung von Achimobil oder braeven keine Ände
 0.1.4.6 - 07.02.2024 - fix for game exit
 0.1.5.0 - 23.01.2025 - Add new debu logging and connect more hubandries
 0.1.5.1 - 25.01.2025 - Add giants storage with filltypes
+0.1.5.2 - 28.01.2025 - Change giants storage for Server
 ]]
 
 
 
 BigDisplaySpecialization = {
-    Version = "0.1.5.0",
+    Version = "0.1.5.2",
     Name = "BigDisplaySpecialization",
     displays = {},
     Debug = false
@@ -557,25 +558,30 @@ function BigDisplaySpecialization:getAllFillLevels(station, farmId)
 
     -- inhalt von object storages einfügen
     if station.spec_objectStorage ~= nil then
-        for _, storedObject in pairs(station.spec_objectStorage.storedObjects) do
+        BigDisplaySpecialization.DebugTable("station.spec_objectStorage.objectInfos", station.spec_objectStorage.objectInfos);
+        for _, objectInfo in pairs(station.spec_objectStorage.objectInfos) do
             local fillType = nil;
             local fillLevel = nil;
-            if storedObject.palletAttributes ~= nil then
-                fillType = storedObject.palletAttributes.fillType;
-                fillLevel = storedObject.palletAttributes.fillLevel;
-            elseif storedObject.baleAttributes ~= nil then
-                fillType = storedObject.baleAttributes.fillType;
-                fillLevel = storedObject.baleAttributes.fillLevel;
-            elseif storedObject.baleObject ~= nil then
-                -- add 1000000 to say itis fermenting
-                fillType = storedObject.baleObject.fillType + 1000000;
-                fillLevel = storedObject.baleObject.fillLevel;
-            end
 
-            if fillType ~= nil and fillLevel ~= nil then
-                fillLevels[fillType] = Utils.getNoNil(fillLevels[fillType], 0) + fillLevel;
-            else
-                BigDisplaySpecialization.DebugTable("not used storedObject", storedObject);
+            for _, object in pairs(objectInfo.objects) do
+
+                if object.palletAttributes ~= nil then
+                    fillType = object.palletAttributes.fillType;
+                    fillLevel = object.palletAttributes.fillLevel;
+                elseif object.baleAttributes ~= nil then
+                    fillType = object.baleAttributes.fillType;
+                    fillLevel = object.baleAttributes.fillLevel;
+                elseif object.baleObject ~= nil then
+                    -- add 1000000 to say itis fermenting
+                    fillType = object.baleObject.fillType + 1000000;
+                    fillLevel = object.baleObject.fillLevel;
+                end
+
+                if fillType ~= nil and fillLevel ~= nil then
+                    fillLevels[fillType] = Utils.getNoNil(fillLevels[fillType], 0) + fillLevel;
+                else
+                    BigDisplaySpecialization.DebugTable("not used storedObject", object);
+                end
             end
         end
     end

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<modDesc descVersion="94">
+<modDesc descVersion="95">
     <author>Achimobil</author>
-    <version>1.0.0.4</version>
+    <version>1.0.0.5</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -34,6 +34,7 @@ Changelog:
 1.0.0.2 - Mehr Tierställe werden jetzt unterstützt
 1.0.0.3 - Giants Objektlager werden jetzt unterstützt
 1.0.0.4 - Lua fehler aus 1.0.0.3 gefixed
+1.0.0.5 - Umbau von Objektlagern, da das benutzte nicht auf Clients verfügbar ist
 ]]>
         </de>
         <en>
