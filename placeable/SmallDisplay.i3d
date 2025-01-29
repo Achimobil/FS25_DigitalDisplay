@@ -15,7 +15,7 @@
 
 
   <Materials>
-    <Material name="case_mat" materialId="5" diffuseColor="0.8 0.8 0.8 1" specularColor="0.8 1 0.8" customShaderId="4" customShaderVariation="colorScale">
+    <Material name="case_mat" materialId="20" diffuseColor="1 1 1 1" specularColor="0.501961 1 0" customShaderId="4" customShaderVariation="colorScale">
       <Normalmap fileId="2"/>
       <CustomParameter name="colorScale0" value="0.8 0.8 0.8 1"/>
     </Material>
@@ -34,14 +34,17 @@
 
   <Scene>
     <TransformGroup name="smallDisplay" nodeId="12">
-      <TransformGroup name="display" translation="0 0 0.05" clipDistance="100" nodeId="13">
-        <Shape name="Case" translation="0 0.5 0" shapeId="1" static="true" clipDistance="100" nodeId="14" castsShadows="true" receiveShadows="true" materialIds="5">
-          <Shape name="Glass" translation="0 -0.5 0" rotation="90 -0 0" shapeId="2" clipDistance="100" nodeId="15" castsShadows="false" receiveShadows="false" materialIds="6"/>
-          <TransformGroup name="displayStartPoint" translation="-0.945 0.415 0.089" nodeId="16"/>
+      <TransformGroup name="display" translation="0 0 0.1" nodeId="26">
+        <Shape name="Bottom" shapeId="1" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="27" castsShadows="true" receiveShadows="true" materialIds="20"/>
+        <Shape name="Middle" translation="0 0.05 0" scale="1 0.9 1" shapeId="2" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="28" castsShadows="true" receiveShadows="true" materialIds="20">
+          <Shape name="Glass" translation="0 0.499999 0.089" shapeId="3" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="29" castsShadows="true" receiveShadows="true" materialIds="6"/>
+        </Shape>
+        <Shape name="Top" translation="0 0.95 0" shapeId="4" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="30" castsShadows="true" receiveShadows="true" materialIds="20">
+          <TransformGroup name="displayStartPoint" translation="-0.95 0 0.089" nodeId="31"/>
         </Shape>
       </TransformGroup>
       <TransformGroup name="functions" translation="0 0 0.05" nodeId="17">
-        <Shape name="infoTriggerNode" translation="0 0 0.7" shapeId="3" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x100000" collisionFilterMask="0x100000" nodeId="18" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="7"/>
+        <Shape name="infoTriggerNode" translation="0 0 0.7" shapeId="5" kinematic="true" compound="true" trigger="true" collisionFilterGroup="0x100000" collisionFilterMask="0x100000" nodeId="18" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="7"/>
       </TransformGroup>
     </TransformGroup>
   </Scene>
