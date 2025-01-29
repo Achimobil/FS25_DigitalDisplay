@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="DisplayBase" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="i3dConverter" version="1.0"/>
+  </Asset>
+
+  <Files>
+    <File fileId="10" filename="$data/maps/mapEU/textures/windowsGlass_diffuse.dds"/>
+    <File fileId="11" filename="$data/maps/mapEU/textures/windowsGlass_normal.dds"/>
+    <File fileId="12" filename="$data/maps/mapEU/textures/windowsGlass_specular.dds"/>
+    <File fileId="4" filename="$data/shaders/buildingShader.xml"/>
+    <File fileId="2" filename="$data/shared/default_normal.dds"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="case_mat" materialId="1" diffuseColor="1 1 1 1" specularColor="0.501961 1 0" customShaderId="4" customShaderVariation="colorScale">
+      <Normalmap fileId="2"/>
+      <CustomParameter name="colorScale0" value="0.8 0.8 0.8 1"/>
+    </Material>
+    <Material name="glass_mat" materialId="2" alphaBlending="true">
+      <Texture fileId="10"/>
+      <Normalmap fileId="11"/>
+      <Glossmap fileId="12"/>
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="DisplayBase.i3d.shapes">
+  </Shapes>
+
+  <Scene>
+    <TransformGroup name="display" translation="0 0 0.1" nodeId="8">
+      <Shape name="Bottom" shapeId="1" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="9" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      <Shape name="Middle" translation="0 0.05 0" shapeId="2" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="10" castsShadows="true" receiveShadows="true" materialIds="1">
+        <Shape name="Glass" translation="0 0.499999 0.089" shapeId="3" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="11" castsShadows="true" receiveShadows="true" materialIds="2"/>
+      </Shape>
+      <Shape name="Top" translation="0 1.05 0" shapeId="4" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="12" castsShadows="true" receiveShadows="true" materialIds="1">
+        <TransformGroup name="displayStartPoint" translation="-0.95 0 0.089" nodeId="13"/>
+      </Shape>
+    </TransformGroup>
+  </Scene>
+
+</i3D>
