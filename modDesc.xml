@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="95">
     <author>Achimobil</author>
-    <version>1.0.0.5</version>
+    <version>1.0.0.7</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -35,6 +35,8 @@ Changelog:
 1.0.0.3 - Giants Objektlager werden jetzt unterstützt
 1.0.0.4 - Lua fehler aus 1.0.0.3 gefixed
 1.0.0.5 - Umbau von Objektlagern, da das benutzte nicht auf Clients verfügbar ist
+1.0.0.6 - 4 Standard Displays neu in Blender erstellt. Jetzt mit Farbwahl aber Position der Schrift nicht schön
+1.0.0.7 - Giants Objektlager noch mal umgebaut, da benutzte events nur server waren und so. Gähren wird nicht gesynced, ansonsten sieht das jetzt besser aus
 ]]>
         </de>
         <en>

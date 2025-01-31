@@ -1,7 +1,7 @@
 -- PlaceableObjectStorage um event erweitern
 PlaceableObjectStorageExtension = {}
-function PlaceableObjectStorageExtension:updateObjectStorageObjectInfos()
-    BigDisplaySpecialization.DebugText("PlaceableObjectStorageExtension:updateObjectStorageObjectInfos()");
+function PlaceableObjectStorageExtension:updateObjectStorageVisualAreas()
+    BigDisplaySpecialization.DebugText("PlaceableObjectStorageExtension:updateObjectStorageVisualAreas()");
     if self.fillLevelChangedListeners == nil then self.fillLevelChangedListeners = {} end;
 
     for _, func in ipairs(self.fillLevelChangedListeners) do
@@ -9,7 +9,7 @@ function PlaceableObjectStorageExtension:updateObjectStorageObjectInfos()
     end
 end
 
-PlaceableObjectStorage.updateObjectStorageObjectInfos = Utils.appendedFunction(PlaceableObjectStorage.updateObjectStorageObjectInfos, PlaceableObjectStorageExtension.updateObjectStorageObjectInfos)
+PlaceableObjectStorage.updateObjectStorageVisualAreas = Utils.appendedFunction(PlaceableObjectStorage.updateObjectStorageVisualAreas, PlaceableObjectStorageExtension.updateObjectStorageVisualAreas)
 
 function PlaceableObjectStorageExtension.registerFunctions(placeableType)
     SpecializationUtil.registerFunction(placeableType, "addFillLevelChangedListeners", PlaceableObjectStorage.addFillLevelChangedListeners)

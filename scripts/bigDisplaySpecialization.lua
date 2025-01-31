@@ -25,6 +25,7 @@ An diesem Skript dürfen ohne Genehmigung von Achimobil oder braeven keine Ände
 0.1.5.0 - 23.01.2025 - Add new debu logging and connect more hubandries
 0.1.5.1 - 25.01.2025 - Add giants storage with filltypes
 0.1.5.2 - 28.01.2025 - Change giants storage for Server
+0.1.5.3 - 31.01.2025 - Moche changes for giants storage on Server
 ]]
 
 
@@ -558,23 +559,29 @@ function BigDisplaySpecialization:getAllFillLevels(station, farmId)
 
     -- inhalt von object storages einfügen
     if station.spec_objectStorage ~= nil then
-        BigDisplaySpecialization.DebugTable("station.spec_objectStorage.objectInfos", station.spec_objectStorage.objectInfos);
+--         BigDisplaySpecialization.DebugTable("station.spec_objectStorage.objectInfos", station.spec_objectStorage.objectInfos, 4);
         for _, objectInfo in pairs(station.spec_objectStorage.objectInfos) do
             local fillType = nil;
             local fillLevel = nil;
+
+            -- when only on item in objects but numObjects contains multiple the filllevel needs do be multiplied
+            local serverClientDifferenceMultiplier = 1;
+            if objectInfo.numObjects ~= 1 and #objectInfo.objects == 1 then
+                serverClientDifferenceMultiplier = objectInfo.numObjects;
+            end
 
             for _, object in pairs(objectInfo.objects) do
 
                 if object.palletAttributes ~= nil then
                     fillType = object.palletAttributes.fillType;
-                    fillLevel = object.palletAttributes.fillLevel;
+                    fillLevel = object.palletAttributes.fillLevel * serverClientDifferenceMultiplier;
                 elseif object.baleAttributes ~= nil then
                     fillType = object.baleAttributes.fillType;
-                    fillLevel = object.baleAttributes.fillLevel;
+                    fillLevel = object.baleAttributes.fillLevel * serverClientDifferenceMultiplier;
                 elseif object.baleObject ~= nil then
                     -- add 1000000 to say itis fermenting
                     fillType = object.baleObject.fillType + 1000000;
-                    fillLevel = object.baleObject.fillLevel;
+                    fillLevel = object.baleObject.fillLevel * serverClientDifferenceMultiplier;
                 end
 
                 if fillType ~= nil and fillLevel ~= nil then
