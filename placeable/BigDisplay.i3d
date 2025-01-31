@@ -42,7 +42,7 @@
     <TransformGroup name="display" nodeId="12">
       <Shape name="Cube" rotation="-6.83019e-06 -0 0" shapeId="1" static="true" clipDistance="200" nodeId="13" castsShadows="true" receiveShadows="true" materialIds="6"/>
       <Shape name="Plane" translation="-0.0113409 1.76 0.014176" rotation="90 -0 0" shapeId="2" clipDistance="200" nodeId="14" castsShadows="true" receiveShadows="true" materialIds="5">
-        <TransformGroup name="TextArea" translation="-0.909901 0.14 -1.12801" rotation="-90 -0 0" clipDistance="200" nodeId="15"/>
+        <TransformGroup name="TextArea" translation="-0.909901 0.14 -1.15239" rotation="-90 -0 0" clipDistance="200" nodeId="15"/>
       </Shape>
     </TransformGroup>
     <TransformGroup name="functions" nodeId="16">

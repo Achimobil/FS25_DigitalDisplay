@@ -40,15 +40,18 @@
 			<updateArea startNode="tipOcclusionUpdateArea1Start" endNode="tipOcclusionUpdateArea1End"/>
 		</updateAreas>
 	</ai>
-	<i3dMappings>
-		<i3dMapping id="clearArea1Start" node="0>0|0"/>
-		<i3dMapping id="clearArea1Height" node="0>0|0|0"/>
-		<i3dMapping id="clearArea1Width" node="0>0|0|1"/>
-		<i3dMapping id="levelArea1Start" node="0>1|0"/>
-		<i3dMapping id="levelArea1Height" node="0>1|0|0"/>
-		<i3dMapping id="levelArea1Width" node="0>1|0|1"/>
-		<i3dMapping id="tipOcclusionUpdateArea1Start" node="0>2|0"/>
-		<i3dMapping id="tipOcclusionUpdateArea1End" node="0>2|0|0"/>
-		<i3dMapping id="Cylinder" node="0>3|0"/>
-	</i3dMappings>
+    <colorConfigurations useDefaultColors="true">
+        <material slotName="stand_mat"/>
+        <colorConfiguration color="RUDOLFHOERMANN_GREYALU"/>
+    </colorConfigurations>
+    <i3dMappings>
+        <i3dMapping id="clearArea1Start" node="0>0|0" />
+        <i3dMapping id="clearArea1Height" node="0>0|0|0" />
+        <i3dMapping id="clearArea1Width" node="0>0|0|1" />
+        <i3dMapping id="levelArea1Start" node="0>1|0" />
+        <i3dMapping id="levelArea1Height" node="0>1|0|0" />
+        <i3dMapping id="levelArea1Width" node="0>1|0|1" />
+        <i3dMapping id="tipOcclusionUpdateArea1Start" node="0>2|0" />
+        <i3dMapping id="tipOcclusionUpdateArea1End" node="0>2|0|0" />
+    </i3dMappings>
 </placeable>
