@@ -193,14 +193,14 @@ function BigDisplaySpecialization:onLoad(savegame)
         for currentColumn = 1, columns do
 
             -- linker startpunkt für die Schrift
-            local leftStart = 0 + ((columnWidth + 0.05) * (currentColumn - 1))
-            local rightStart = width - ((columnWidth + 0.05) * (columns - currentColumn))
+            local leftStart = 0.03 + ((columnWidth + 0.05) * (currentColumn - 1))
+            local rightStart = width - ((columnWidth + 0.05) * (columns - currentColumn)) - 0.02
 
             -- Mögliche zeilen anhand der Größe erstellen
             local lineHeight = size;
             -- local x, y, z = getWorldTranslation(upperLeftNode)
             local rx, ry, rz = getWorldRotation(upperLeftNode)
-            for currentY = -size/2, -height-(size/2), -lineHeight do
+            for currentY = -size, -height-(size/2), -lineHeight do
 
                 local displayLine = {};
                 displayLine.text = {}
