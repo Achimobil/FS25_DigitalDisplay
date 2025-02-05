@@ -1,7 +1,7 @@
 -- PlaceableObjectStorage um event erweitern
 PlaceableObjectStorageExtension = {}
 function PlaceableObjectStorageExtension:updateObjectStorageVisualAreas()
-    BigDisplaySpecialization.DebugText("PlaceableObjectStorageExtension:updateObjectStorageVisualAreas()");
+--     BigDisplaySpecialization.DebugText("PlaceableObjectStorageExtension:updateObjectStorageVisualAreas()");
     if self.fillLevelChangedListeners == nil then self.fillLevelChangedListeners = {} end;
 
     for _, func in ipairs(self.fillLevelChangedListeners) do
@@ -18,12 +18,12 @@ end
 PlaceableObjectStorage.registerFunctions = Utils.appendedFunction(PlaceableObjectStorage.registerFunctions, PlaceableObjectStorageExtension.registerFunctions)
 
 function PlaceableObjectStorage:addFillLevelChangedListeners(fillLevelChangedCallback)
-    BigDisplaySpecialization.DebugText("PlaceableObjectStorageExtension:addFillLevelChangedListeners()");
+--     BigDisplaySpecialization.DebugText("PlaceableObjectStorageExtension:addFillLevelChangedListeners()");
     if self.fillLevelChangedListeners == nil then self.fillLevelChangedListeners = {} end;
     table.addElement(self.fillLevelChangedListeners, fillLevelChangedCallback);
 end
 function PlaceableObjectStorage:removeFillLevelChangedListeners(fillLevelChangedCallback)
-    BigDisplaySpecialization.DebugText("PlaceableObjectStorageExtension:removeFillLevelChangedListeners()");
+--     BigDisplaySpecialization.DebugText("PlaceableObjectStorageExtension:removeFillLevelChangedListeners()");
     if self.fillLevelChangedListeners == nil then self.fillLevelChangedListeners = {} end;
     table.removeElement(self.fillLevelChangedListeners, fillLevelChangedCallback);
 end

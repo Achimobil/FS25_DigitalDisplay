@@ -1,9 +1,9 @@
 --[[
-Copyright (C) Achimobil, 2022-2023
+Copyright (C) Achimobil, 2022-2025
 
 Author: Achimobil
-Date: 11.06.2023
-Version: 0.1.4.0
+Date: 05.02.2025
+Version: 0.1.5.4
 
 Important:
 It is not allowed to copy in own Mods. Only usage as reference with Production Revamp.
@@ -26,6 +26,7 @@ An diesem Skript dürfen ohne Genehmigung von Achimobil oder braeven keine Ände
 0.1.5.1 - 25.01.2025 - Add giants storage with filltypes
 0.1.5.2 - 28.01.2025 - Change giants storage for Server
 0.1.5.3 - 31.01.2025 - Moche changes for giants storage on Server
+0.1.5.4 - 05.02.2025 - Text size in stored now in savegame for later adjust by player
 ]]
 
 
@@ -108,6 +109,7 @@ function BigDisplaySpecialization.registerFunctions(placeableType)
     SpecializationUtil.registerFunction(placeableType, "updateDisplayData", BigDisplaySpecialization.updateDisplayData);
     SpecializationUtil.registerFunction(placeableType, "reconnectToStorage", BigDisplaySpecialization.reconnectToStorage);
     SpecializationUtil.registerFunction(placeableType, "onStationDeleted", BigDisplaySpecialization.onStationDeleted);
+    SpecializationUtil.registerFunction(placeableType, "triggerCallback", BigDisplaySpecialization.triggerCallback)
 end
 
 function BigDisplaySpecialization.registerOverwrittenFunctions(placeableType)
@@ -126,10 +128,43 @@ function BigDisplaySpecialization.registerXMLPaths(schema, basePath)
     schema:register(XMLValueType.COLOR, basePath .. ".bigDisplays.bigDisplay(?)#colorInput", "Display text color");
     schema:register(XMLValueType.BOOL, basePath .. ".bigDisplays.bigDisplay(?)#emptyFilltypes", "Display empty Filltypes", false)
     schema:register(XMLValueType.INT, basePath .. ".bigDisplays.bigDisplay(?)#columns", "Number of columns the display is splittet to", 1)
+    schema:register(XMLValueType.NODE_INDEX, basePath .. ".bigDisplays#playerTrigger", "Player trigger node")
 
     schema:setXMLSpecializationType();
 end
 
+function BigDisplaySpecialization.initSpecialization(schema, basePath)
+    local schemaSavegame = Placeable.xmlSchemaSavegame;
+    schemaSavegame:register(XMLValueType.FLOAT, "placeables.placeable(?).FS25_DigitalDisplay.BigDisplay.display(?)#textSize", "Display text size", 0.11);
+end
+
+function BigDisplaySpecialization:saveToXMLFile(xmlFile, key, usedModNames)
+    local spec = self.spec_bigDisplay;
+    local index = 0;
+    for _, bigDisplay in pairs(spec.bigDisplays) do
+        local sizeKey = string.format("%s.display(%d)#textSize", key, index);
+        xmlFile:setValue(sizeKey, bigDisplay.textSize);
+    end
+end
+
+function BigDisplaySpecialization:loadFromXMLFile(xmlFile, key)
+    local spec = self.spec_bigDisplay
+
+    xmlFile:iterate(key .. ".display", function(index, displayKey)
+        local size = xmlFile:getValue(displayKey.."#textSize", 0)
+
+        if size ~= 0 then
+            if spec.bigDisplays[index] ~= nil then
+                spec.bigDisplays[index].textSize = size;
+                BigDisplaySpecialization:CreateDisplayLines(spec.bigDisplays[index]);
+            end
+        end
+        return
+    end)
+end
+
+---Called on loading
+-- @param table savegame savegame
 function BigDisplaySpecialization:onLoad(savegame)
     self.spec_bigDisplay = {};
     local spec = self.spec_bigDisplay;
@@ -140,8 +175,19 @@ function BigDisplaySpecialization:onLoad(savegame)
     spec.updateDisplaysRunning = false;
     spec.updateDisplaysRequested = false;
     spec.updateDisplaysDtSinceLastTime = 9999;
-    local i = 0;
 
+    spec.playerTrigger = xmlFile:getValue("placeable.bigDisplays#playerTrigger", nil, self.components, self.i3dMappings)
+
+    if spec.playerTrigger ~= nil then
+        BigDisplaySpecialization.DebugText("playerTrigger found");
+        addTrigger(spec.playerTrigger, "triggerCallback", self);
+        spec.isTriggerActive = true;
+        spec.activatable = BigDisplaySpecializationActivatable.new(self);
+    else
+        BigDisplaySpecialization.DebugText("playerTrigger not found");
+    end
+
+    local i = 0;
     while true do
         local bigDisplayKey = string.format("placeable.bigDisplays.bigDisplay(%d)", i);
 
@@ -178,40 +224,56 @@ function BigDisplaySpecialization:onLoad(savegame)
             1
         };
         bigDisplay.textSize = size;
-        bigDisplay.displayLines = {};
         bigDisplay.currentPage = 1;
         bigDisplay.lastPageTime = 0;
         bigDisplay.nodeId = upperLeftNode;
         bigDisplay.textDrawDistance = 30;
         bigDisplay.emptyFilltypes = emptyFilltypes;
         bigDisplay.columns = columns;
+        bigDisplay.width = width;
+        bigDisplay.height = height;
 
+        BigDisplaySpecialization:CreateDisplayLines(bigDisplay);
+
+        table.insert(spec.bigDisplays, bigDisplay);
+
+        i = i + 1;
+    end
+
+    function spec.fillLevelChangedCallback(fillType, delta)
+        self:updateDisplayData();
+    end
+end
+
+
+function BigDisplaySpecialization:CreateDisplayLines(bigDisplay)
+    bigDisplay.displayLines = {};
         -- breite pro Spalte berechnen
-        local columnWidth = (width - (0.05 * (columns - 1))) / columns;
+        local columnWidth = (bigDisplay.width - (0.05 * (bigDisplay.columns - 1))) / bigDisplay.columns;
 
         -- schleife pro spalte
-        for currentColumn = 1, columns do
+        for currentColumn = 1, bigDisplay.columns do
 
             -- linker startpunkt für die Schrift
             local leftStart = 0.03 + ((columnWidth + 0.05) * (currentColumn - 1))
-            local rightStart = width - ((columnWidth + 0.05) * (columns - currentColumn)) - 0.02
+            local rightStart = bigDisplay.width - ((columnWidth + 0.05) * (bigDisplay.columns - currentColumn)) - 0.02
 
             -- Mögliche zeilen anhand der Größe erstellen
-            local lineHeight = size;
+            local lineHeight = bigDisplay.textSize;
             -- local x, y, z = getWorldTranslation(upperLeftNode)
-            local rx, ry, rz = getWorldRotation(upperLeftNode)
-            for currentY = -size, -height-(size/2), -lineHeight do
+            local rx, ry, rz = getWorldRotation(bigDisplay.nodeId)
+            for currentY = -bigDisplay.textSize, -bigDisplay.height-(bigDisplay.textSize/2), -lineHeight do
 
                 local displayLine = {};
                 displayLine.text = {}
                 displayLine.value = {}
 
-                local x,y,z = localToWorld(upperLeftNode, leftStart, currentY, 0);
+                local x,y,z = localToWorld(bigDisplay.nodeId, leftStart, currentY, 0);
                 displayLine.text.x = x;
                 displayLine.text.y = y;
                 displayLine.text.z = z;
 
-                local x2,y2,z2 = localToWorld(upperLeftNode, rightStart, currentY, 0);
+                local x2,y2,z2 = localToWorld(bigDisplay.nodeId, rightStart, currentY, 0);
                 displayLine.value.x = x2;
                 displayLine.value.y = y2;
                 displayLine.value.z = z2;
@@ -223,14 +285,33 @@ function BigDisplaySpecialization:onLoad(savegame)
                 table.insert(bigDisplay.displayLines, displayLine);
             end
         end
+end
 
-        table.insert(spec.bigDisplays, bigDisplay);
+---Trigger callback
+-- @param integer triggerId id of trigger
+-- @param integer otherId id of object that calls callback
+-- @param boolean onEnter called on enter
+-- @param boolean onLeave called on leave
+-- @param boolean onStay called on stay
+function BigDisplaySpecialization:triggerCallback(triggerId, otherId, onEnter, onLeave, onStay)
+    BigDisplaySpecialization.DebugText("BigDisplaySpecialization:triggerCallback");
 
-        i = i + 1;
-    end
+    if onEnter or onLeave then
+        if g_localPlayer and g_localPlayer.rootNode == otherId then
+            local spec = self.spec_bigDisplay
+            if onEnter and spec.isTriggerActive then
+                -- automatically perform action without manual activation on mobile
+                if Platform.gameplay.autoActivateTrigger and spec.activatable:getIsActivatable() then
+                    spec.activatable:run()
+                    return
+                end
 
-    function spec.fillLevelChangedCallback(fillType, delta)
-        self:updateDisplayData();
+                g_currentMission.activatableObjectsSystem:addActivatable(spec.activatable)
+            end
+            if onLeave then
+                g_currentMission.activatableObjectsSystem:removeActivatable(spec.activatable)
+            end
+        end
     end
 end
 
@@ -247,7 +328,7 @@ function BigDisplaySpecialization:onPostFinalizePlacement(savegame)
 end
 
 function BigDisplaySpecialization:reconnectToStorage(savegame)
-    BigDisplaySpecialization.DebugText("reconnectToStorage");
+--     BigDisplaySpecialization.DebugText("reconnectToStorage");
 
     local spec = self.spec_bigDisplay;
 
@@ -271,7 +352,7 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
     local currentDistance = math.huge;
     local usedProduction = nil;
     for _, storage in pairs(g_currentMission.storageSystem:getStorages()) do
-        BigDisplaySpecialization.DebugText("Found Storage");
+--         BigDisplaySpecialization.DebugText("Found Storage");
 
         -- wenn tierstall, dann ignorieren
         local ignore = false;
@@ -296,16 +377,16 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
 --         BigDisplaySpecialization.DebugTable("loadingStation", loadingStation)
 
         if loadingStation ~= nil then
-            BigDisplaySpecialization.DebugText("Loadingstation Name: %s", loadingStation.owningPlaceable:getName());
+--             BigDisplaySpecialization.DebugText("Loadingstation Name: %s", loadingStation.owningPlaceable:getName());
             local x, y, z = getWorldTranslation(self.rootNode);
             local distance = BigDisplaySpecialization:getDistance(loadingStation, x, y, z);
-            BigDisplaySpecialization.DebugText("Distance: %s", distance);
+--             BigDisplaySpecialization.DebugText("Distance: %s", distance);
             if distance < currentDistance and not ignore then
                 currentDistance = distance;
                 currentLoadingStation = loadingStation;
             end
-        else
-            BigDisplaySpecialization.DebugText("No Loadingstation");
+--         else
+--             BigDisplaySpecialization.DebugText("No Loadingstation");
         end
     end
 
@@ -318,10 +399,10 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
             loadingStation = productionPoint.unloadingStation;
         end
         if loadingStation ~= nil then
-            BigDisplaySpecialization.DebugText("Found production: %s", loadingStation.owningPlaceable:getName());
+--             BigDisplaySpecialization.DebugText("Found production: %s", loadingStation.owningPlaceable:getName());
             local x, y, z = getWorldTranslation(self.rootNode);
             local distance = BigDisplaySpecialization:getDistance(loadingStation, x, y, z);
-            BigDisplaySpecialization.DebugText("Distance: %s", distance);
+--             BigDisplaySpecialization.DebugText("Distance: %s", distance);
             if distance < currentDistance then
                 currentDistance = distance;
                 currentLoadingStation = loadingStation;
@@ -332,7 +413,7 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
 
     -- jetzt auch mal die Tierställe durchsuchen. Doppelt bei denen, die einen storage haben
     for index, husbandryPlacable in ipairs(g_currentMission.husbandrySystem.placeables) do
-        BigDisplaySpecialization.DebugText("Found husbandry");
+--         BigDisplaySpecialization.DebugText("Found husbandry");
 
         local loadingStation = husbandryPlacable.spec_husbandry.loadingStation;
         if loadingStation == nil then
@@ -341,16 +422,16 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
         end
 
         if loadingStation ~= nil then
-            BigDisplaySpecialization.DebugText("Loadingstation Name: %s", loadingStation.owningPlaceable:getName());
+--             BigDisplaySpecialization.DebugText("Loadingstation Name: %s", loadingStation.owningPlaceable:getName());
             local x, y, z = getWorldTranslation(self.rootNode);
             local distance = BigDisplaySpecialization:getDistance(loadingStation, x, y, z);
-            BigDisplaySpecialization.DebugText("Distance: %s", distance);
+--             BigDisplaySpecialization.DebugText("Distance: %s", distance);
             if distance < currentDistance then
                 currentDistance = distance;
                 currentLoadingStation = loadingStation;
             end
-        else
-            BigDisplaySpecialization.DebugText("No Loadingstation");
+--         else
+--             BigDisplaySpecialization.DebugText("No Loadingstation");
 --             BigDisplaySpecialization.DebugTable("husbandryPlacable", husbandryPlacable)
         end
     end
@@ -358,10 +439,10 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
     -- scan placables for object storages
     for index, placable in ipairs(g_currentMission.placeableSystem.placeables) do
         if placable.spec_objectStorage ~= nil then
-            BigDisplaySpecialization.DebugText("Found objectStorage: %s", placable:getName());
+--             BigDisplaySpecialization.DebugText("Found objectStorage: %s", placable:getName());
             local x, y, z = getWorldTranslation(self.rootNode);
             local distance = BigDisplaySpecialization:getDistance(placable, x, y, z);
-            BigDisplaySpecialization.DebugText("Distance: %s", distance);
+--             BigDisplaySpecialization.DebugText("Distance: %s", distance);
 --             BigDisplaySpecialization.DebugTable("objectStorage", placable);
             if distance < currentDistance then
                 currentDistance = distance;
@@ -446,6 +527,15 @@ end
 
 function BigDisplaySpecialization:onDelete()
     table.removeElement(BigDisplaySpecialization.displays, self);
+
+    local spec = self.spec_bigDisplay
+
+    g_currentMission.activatableObjectsSystem:removeActivatable(spec.activatable)
+    spec.activatable = nil
+
+    if spec.playerTrigger ~= nil then
+        removeTrigger(spec.playerTrigger)
+    end
 end
 
 function BigDisplaySpecialization:getDistance(loadingStation, x, y, z)

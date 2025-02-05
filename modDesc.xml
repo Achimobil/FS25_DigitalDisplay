@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="95">
     <author>Achimobil</author>
-    <version>1.0.0.9</version>
+    <version>1.0.0.10</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -39,6 +39,7 @@ Changelog:
 1.0.0.7 - Giants Objektlager noch mal umgebaut, da benutzte events nur server waren und so. Gähren wird nicht gesynced, ansonsten sieht das jetzt besser aus
 1.0.0.8 - Doppelbreites Display und Ständer neu gemacht mit Farbwahl. Stand Display bleibt wie es ist, nur textposition angepasst. Nostalgie ;)
 1.0.0.9 - Schrift Position an neue modelle angepasst. #12
+1.0.0.10 - Activatable eingefügt und im XtraSmall eingebaut als vorbereitung eines Einstellungsmenüs. Die Größe wird jetzt im Savegame gespeichert, aber noch nicht syncronisiert. Mit R kann jetzt die größe nur erhöht werden.
 ]]>
         </de>
         <en>
@@ -79,12 +80,12 @@ Please report bugs or suggestions for improvement on <a href="https://github.com
     </brands>
 
     <placeableSpecializations>
-        <specialization name="bigDisplay" className="BigDisplaySpecialization" filename="scripts/bigDisplaySpecialization.lua"/>
+        <specialization name="BigDisplay" className="BigDisplaySpecialization" filename="scripts/bigDisplaySpecialization.lua"/>
     </placeableSpecializations>
 
     <placeableTypes>
         <type name="bigDisplayType" parent="simplePlaceable" filename="$dataS/scripts/placeables/Placeable.lua">
-            <specialization name="bigDisplay"/>
+            <specialization name="BigDisplay"/>
             <specialization name="infoTrigger"/>
         </type>
     </placeableTypes>
