@@ -6,11 +6,11 @@ Date: 05.02.2025
 Version: 0.1.5.4
 
 Important:
-It is not allowed to copy in own Mods. Only usage as reference with Production Revamp.
-No changes are to be made to this script without permission from Achimobil or braeven.
+It is not allowed to copy in own Mods.
+No changes are to be made to this script without permission from Achimobil.
 
-Darf nicht in eigene Mods kopiert werden. Darf nur über den Production Revamp Mod benutzt werden.
-An diesem Skript dürfen ohne Genehmigung von Achimobil oder braeven keine Änderungen vorgenommen werden.
+Darf nicht in eigene Mods kopiert werden.
+An diesem Skript dürfen ohne Genehmigung von Achimobil keine Änderungen vorgenommen werden.
 
 0.1.1.0 - 25.10.2022 - Add emptyFilltypes parameter from 112TEC
 0.1.3.0 - 27.05.2023 - Add support for manure heaps and husbandaries
@@ -35,13 +35,15 @@ BigDisplaySpecialization = {
     Version = "0.1.5.2",
     Name = "BigDisplaySpecialization",
     displays = {},
-    Debug = false
+    Debug = true
 }
 
 BigDisplaySpecialization.modName = g_currentModName;
 BigDisplaySpecialization.modDir = g_currentModDirectory;
 
+source(BigDisplaySpecialization.modDir.."gui/displaySettingsDialog.lua");
 source(BigDisplaySpecialization.modDir.."scripts/PlaceableObjectStorageExtension.lua");
+source(BigDisplaySpecialization.modDir.."scripts/bigDisplaySpecializationActivatable.lua");
 
 ---Print the text to the log as info. Example: BigDisplaySpecialization.info("Alter: %s", age)
 -- @param string infoMessage the text to print formated
@@ -136,6 +138,8 @@ end
 function BigDisplaySpecialization.initSpecialization(schema, basePath)
     local schemaSavegame = Placeable.xmlSchemaSavegame;
     schemaSavegame:register(XMLValueType.FLOAT, "placeables.placeable(?).FS25_DigitalDisplay.BigDisplay.display(?)#textSize", "Display text size", 0.11);
+
+    DisplaySettingsDialog.register()
 end
 
 function BigDisplaySpecialization:saveToXMLFile(xmlFile, key, usedModNames)
@@ -797,4 +801,3 @@ function BigDisplaySpecialization:onStartMission()
     end
 end
 Mission00.onStartMission = Utils.appendedFunction(Mission00.onStartMission, BigDisplaySpecialization.onStartMission)
-

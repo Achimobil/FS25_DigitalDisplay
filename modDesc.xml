@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="95">
     <author>Achimobil</author>
-    <version>1.0.0.10</version>
+    <version>1.0.0.11</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -40,6 +40,7 @@ Changelog:
 1.0.0.8 - Doppelbreites Display und Ständer neu gemacht mit Farbwahl. Stand Display bleibt wie es ist, nur textposition angepasst. Nostalgie ;)
 1.0.0.9 - Schrift Position an neue modelle angepasst. #12
 1.0.0.10 - Activatable eingefügt und im XtraSmall eingebaut als vorbereitung eines Einstellungsmenüs. Die Größe wird jetzt im Savegame gespeichert, aber noch nicht syncronisiert. Mit R kann jetzt die größe nur erhöht werden.
+1.0.0.11 - XtraSmall hat jetzt einen Einstellungsdialog mit Slider für die Größe. Muss nur noch gesynced werden im MP
 ]]>
         </de>
         <en>
@@ -125,6 +126,18 @@ Please report bugs or suggestions for improvement on <a href="https://github.com
             <ru>Дисплеи могут быть закреплены на этом столбе, если на здании нет подходящей поверхности.</ru>
             <cz>Pokud na budově není vhodná plocha, lze na tento stojan připevnit nástěnné displeje.</cz>
             <it>Se nell'edificio non è presente una superficie adatta, è possibile fissare gli espositori da parete a questo palo.</it>
+        </text>
+        <text name="DisplaySettings_Title">
+            <de>Display Einstellungen</de>
+            <en>Display Settings</en>
+        </text>
+        <text name="action_openDisplaySettings">
+            <de>Display Einstellungen ändern</de>
+            <en>Change Display Settings</en>
+        </text>
+        <text name="display_textSizeLabel">
+            <de>Schriftgröße</de>
+            <en>Textsize</en>
         </text>
     </l10n>
 </modDesc>
