@@ -29,7 +29,7 @@
             <place template="smallImp" pitchScale="1.4"/>
         </sounds>
     </placement>
-    <bigDisplays>
+    <bigDisplays playerTrigger="playerTrigger">
         <bigDisplay upperLeftNode="displayStartPoint" height="1.31" width="1.89" size="0.11" color="0 0.9 0 1"/>
     </bigDisplays>
     <clearAreas/>
@@ -47,5 +47,6 @@
     <i3dMappings>
         <i3dMapping id="displayStartPoint" node="0>0|2|0"/>
         <i3dMapping id="infoTriggerNode" node="0>1|0"/>
+        <i3dMapping id="playerTrigger" node="0>1|1"/>
     </i3dMappings>
 </placeable>

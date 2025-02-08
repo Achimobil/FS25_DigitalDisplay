@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="95">
     <author>Achimobil</author>
-    <version>1.0.0.12</version>
+    <version>1.0.0.13</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -42,6 +42,7 @@ Changelog:
 1.0.0.10 - Activatable eingefügt und im XtraSmall eingebaut als vorbereitung eines Einstellungsmenüs. Die Größe wird jetzt im Savegame gespeichert, aber noch nicht syncronisiert. Mit R kann jetzt die größe nur erhöht werden.
 1.0.0.11 - XtraSmall hat jetzt einen Einstellungsdialog mit Slider für die Größe. Muss nur noch gesynced werden im MP
 1.0.0.12 - Sync beim ändern der größe und beim connecten in Skript eingebaut
+1.0.0.13 - Alle Displays mit dem Trigger für die Einstellungen versehen.
 ]]>
         </de>
         <en>

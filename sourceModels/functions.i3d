@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="functions.i3d" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="10.0.3"/>
+  </Asset>
+
+  <Files>
+  </Files>
+
+
+  <Materials>
+    <Material name="i3d_default_material" materialId="7" diffuseColor="0.8 0.8 0.8 1" specularColor="0.6 1 0">
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="functions.i3d.shapes">
+  </Shapes>
+
+  <Scene>
+    <TransformGroup name="functions" translation="0 0 0.05" nodeId="21">
+      <Shape name="infoTriggerNode" translation="0 0 0.7" shapeId="1" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x100000" clipDistance="100" nodeId="22" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="7"/>
+      <Shape name="playerTrigger" translation="0 0 0.7" shapeId="1" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x110000" clipDistance="100" nodeId="23" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="7"/>
+    </TransformGroup>
+  </Scene>
+
+</i3D>

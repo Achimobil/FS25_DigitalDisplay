@@ -23,14 +23,14 @@
       <Normalmap fileId="11"/>
       <Glossmap fileId="12"/>
     </Material>
+    <Material name="i3d_default_material" materialId="19" diffuseColor="0.8 0.8 0.8 1" specularColor="0.6 1 0">
+    </Material>
     <Material name="Plastik_mat" materialId="6" customShaderId="2">
       <Texture fileId="1"/>
       <Custommap name="detailSpecular" fileId="3"/>
       <Custommap name="detailNormal" fileId="4"/>
       <Custommap name="detailDiffuse" fileId="5"/>
       <CustomParameter name="colorScale" value="0.347 0.347 0.347"/>
-    </Material>
-    <Material name="UnnamedMaterial" materialId="7" diffuseColor="1 1 1 1">
     </Material>
   </Materials>
 
@@ -45,8 +45,9 @@
         <TransformGroup name="TextArea" translation="-0.909901 0.14 -1.15239" rotation="-90 -0 0" clipDistance="200" nodeId="15"/>
       </Shape>
     </TransformGroup>
-    <TransformGroup name="functions" nodeId="16">
-      <Shape name="cube" translation="0 1.5 0" scale="3 3 3" shapeId="3" static="true" trigger="true" collisionFilterGroup="0x100000" collisionFilterMask="0x100000" nodeId="17" castsShadows="false" receiveShadows="false" nonRenderable="true" distanceBlending="false" materialIds="7"/>
+    <TransformGroup name="functions" translation="0 1.52338 0.05" nodeId="22">
+      <Shape name="infoTriggerNode" translation="0 0 0.7" shapeId="3" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x100000" clipDistance="100" nodeId="23" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="19"/>
+      <Shape name="playerTrigger" translation="0 0 0.7" shapeId="3" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x110000" clipDistance="100" nodeId="24" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="19"/>
     </TransformGroup>
   </Scene>
 
