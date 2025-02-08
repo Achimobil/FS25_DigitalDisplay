@@ -44,12 +44,8 @@ function DisplaySettingsDialog:onClickOk()
 
     local newSize = (self.textSizeElement:getState() + 7) / 100;
 
-    local spec = self.placable.spec_bigDisplay;
-
-    for _, bigDisplay in pairs(spec.bigDisplays) do
-        bigDisplay.textSize = newSize;
-        BigDisplaySpecialization:CreateDisplayLines(bigDisplay);
-    end
+    local spec = self.placable;
+    spec:setTextSize(newSize);
 
     self:close()
 end
