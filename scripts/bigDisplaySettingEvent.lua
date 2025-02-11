@@ -21,13 +21,11 @@ function BigDisplaySettingEvent.new(placeable, textSize)
 end
 
 function BigDisplaySettingEvent:writeStream(streamId, connection)
-    BigDisplaySpecialization.DebugText("BigDisplaySettingEvent:writeStream");
     NetworkUtil.writeNodeObject(streamId, self.placeable);
     streamWriteFloat32(streamId, self.textSize);
 end
 
 function BigDisplaySettingEvent:readStream(streamId, connection)
-    BigDisplaySpecialization.DebugText("BigDisplaySettingEvent:readStream");
     self.placeable = NetworkUtil.readNodeObject(streamId);
     self.textSize = streamReadFloat32(streamId);
 
@@ -35,7 +33,6 @@ function BigDisplaySettingEvent:readStream(streamId, connection)
 end
 
 function BigDisplaySettingEvent:run(connection)
-    BigDisplaySpecialization.DebugText("BigDisplaySettingEvent:run");
     if self.placeable ~= nil then
 
         self.placeable:setTextSize(self.textSize, true);
@@ -47,8 +44,6 @@ function BigDisplaySettingEvent:run(connection)
 end
 
 function BigDisplaySettingEvent.sendEvent(placeable, textSize, noEventSend)
-    BigDisplaySpecialization.DebugText("BigDisplaySettingEvent:sendEvent(%s, %s, %s)", placeable, textSize, noEventSend);
-    BigDisplaySpecialization.DebugText("g_currentMission:getIsServer() = %s", g_currentMission:getIsServer());
     if noEventSend == nil or noEventSend == false then
         if g_currentMission:getIsServer() then
             g_server:broadcastEvent(BigDisplaySettingEvent.new(placeable, textSize), false)

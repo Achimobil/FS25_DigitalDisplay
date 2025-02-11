@@ -255,8 +255,9 @@ function BigDisplaySpecialization:CreateDisplayLines(bigDisplay)
         for currentY = -bigDisplay.textSize, -bigDisplay.height-(bigDisplay.textSize/2), -lineHeight do
 
             local displayLine = {};
-            displayLine.text = {}
-            displayLine.value = {}
+            displayLine.text = {};
+            displayLine.value = {};
+            displayLine.width = rightStart - leftStart;
 
             local x,y,z = localToWorld(bigDisplay.nodeId, leftStart, currentY, 0);
             displayLine.text.x = x;
@@ -527,6 +528,7 @@ function BigDisplaySpecialization:getDistance(loadingStation, x, y, z)
     return math.huge
 end
 
+---Update the Data which the Display shows
 function BigDisplaySpecialization:updateDisplayData()
     local spec = self.spec_bigDisplay;
     if spec == nil or spec.loadingStationToUse == nil then
@@ -725,8 +727,23 @@ function BigDisplaySpecialization:updateDisplays(dt)
 
                     setTextColor(color[1], color[2], color[3], color[4])
 
+                    local fillLevelWidth = getText3DWidth(spec.bigDisplays[1].textSize, lineInfo.fillLevel);
+                    local titleWidth = getText3DWidth(spec.bigDisplays[1].textSize, lineInfo.title);
+                    local maxWidth = displayLine.width - fillLevelWidth;
+
+                    local newTitle = lineInfo.title
+                    if titleWidth > maxWidth then
+                        local numChars = getTextLength(spec.bigDisplays[1].textSize, newTitle, 1);
+                        local maxChars = math.floor(numChars / titleWidth * maxWidth) - 1;
+                        newTitle = utf8Substr(newTitle, 0, maxChars) .. "…";
+
+                    end
+
+
+--                     newTitle = lineInfo.title .. "      -"..  tostring(displayLine.width) .. "-"..  tostring(fillLevelWidth) .. "-"..  tostring(titleWidth) .. "-"..  tostring(maxWidth);
+
                     setTextAlignment(RenderText.ALIGN_LEFT)
-                    renderText3D(displayLine.text.x, displayLine.text.y, displayLine.text.z, displayLine.rx, displayLine.ry, displayLine.rz, spec.bigDisplays[1].textSize, lineInfo.title)
+                    renderText3D(displayLine.text.x, displayLine.text.y, displayLine.text.z, displayLine.rx, displayLine.ry, displayLine.rz, spec.bigDisplays[1].textSize, newTitle)
                     setTextAlignment(RenderText.ALIGN_RIGHT)
                     renderText3D(displayLine.value.x, displayLine.value.y, displayLine.value.z, displayLine.rx, displayLine.ry, displayLine.rz, spec.bigDisplays[1].textSize, lineInfo.fillLevel)
                 end
