@@ -20,11 +20,15 @@ function BigDisplaySettingEvent.new(placeable, textSize)
     return self;
 end
 
+-- @param integer streamId network stream identification
+-- @param table connection connection information
 function BigDisplaySettingEvent:writeStream(streamId, connection)
     NetworkUtil.writeNodeObject(streamId, self.placeable);
     streamWriteFloat32(streamId, self.textSize);
 end
 
+-- @param integer streamId network stream identification
+-- @param table connection connection information
 function BigDisplaySettingEvent:readStream(streamId, connection)
     self.placeable = NetworkUtil.readNodeObject(streamId);
     self.textSize = streamReadFloat32(streamId);

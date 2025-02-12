@@ -45,7 +45,7 @@ function BigDisplaySpecialization.devInfo(infoMessage, ...)
     if BigDisplaySpecialization.Debug then
         BigDisplaySpecialization.DebugText("DevInfo:" .. infoMessage, ...)
     else
-        Logging.devInfo(BigDisplaySpecialization.modName .. " - " .. infoMessage, ...);
+        Logging.devInfo(BigDisplaySpecialization.modName .. " - " .. infoMessage, ...)
     end
 end
 
@@ -80,6 +80,8 @@ function BigDisplaySpecialization.prerequisitesPresent(specializations)
     return true;
 end
 
+--- register the event listeners for this spec
+-- @param any placeableType
 function BigDisplaySpecialization.registerEventListeners(placeableType)
     SpecializationUtil.registerEventListener(placeableType, "onLoad", BigDisplaySpecialization);
     SpecializationUtil.registerEventListener(placeableType, "onFinalizePlacement", BigDisplaySpecialization);
@@ -89,6 +91,8 @@ function BigDisplaySpecialization.registerEventListeners(placeableType)
     SpecializationUtil.registerEventListener(placeableType, "onWriteStream", BigDisplaySpecialization)
 end
 
+--- register the functions for this spec
+-- @param any placeableType
 function BigDisplaySpecialization.registerFunctions(placeableType)
     SpecializationUtil.registerFunction(placeableType, "updateDisplays", BigDisplaySpecialization.updateDisplays);
     SpecializationUtil.registerFunction(placeableType, "updateDisplayData", BigDisplaySpecialization.updateDisplayData);
@@ -98,10 +102,15 @@ function BigDisplaySpecialization.registerFunctions(placeableType)
     SpecializationUtil.registerFunction(placeableType, "setTextSize", BigDisplaySpecialization.setTextSize)
 end
 
+--- register the overwritten functions for this spec
+-- @param any placeableType
 function BigDisplaySpecialization.registerOverwrittenFunctions(placeableType)
     SpecializationUtil.registerOverwrittenFunction(placeableType, "updateInfo", BigDisplaySpecialization.updateInfo)
 end
 
+---
+-- @param XMLSchema schema
+-- @param string basePath
 function BigDisplaySpecialization.registerXMLPaths(schema, basePath)
     schema:setXMLSpecializationType("BigDisplay");
 
@@ -119,13 +128,18 @@ function BigDisplaySpecialization.registerXMLPaths(schema, basePath)
     schema:setXMLSpecializationType();
 end
 
-function BigDisplaySpecialization.initSpecialization(schema, basePath)
+---Init the specialisation. Should be called only once
+function BigDisplaySpecialization.initSpecialization()
     local schemaSavegame = Placeable.xmlSchemaSavegame;
     schemaSavegame:register(XMLValueType.FLOAT, "placeables.placeable(?).FS25_DigitalDisplay.BigDisplay.display(?)#textSize", "Display text size", 0.11);
 
     DisplaySettingsDialog.register()
 end
 
+---Get save attributes and nodes
+-- @param table xmlFile
+-- @param string key
+-- @param table usedModNames
 function BigDisplaySpecialization:saveToXMLFile(xmlFile, key, usedModNames)
     local spec = self.spec_bigDisplay;
     local index = 0;
@@ -135,8 +149,12 @@ function BigDisplaySpecialization:saveToXMLFile(xmlFile, key, usedModNames)
     end
 end
 
+---Loading from attributes and nodes
+-- @param integer xmlFile id of xml object
+-- @param string key key
+-- @return boolean success success
 function BigDisplaySpecialization:loadFromXMLFile(xmlFile, key)
-    local spec = self.spec_bigDisplay
+    local spec = self.spec_bigDisplay;
 
     xmlFile:iterate(key .. ".display", function(index, displayKey)
         local size = xmlFile:getValue(displayKey.."#textSize", 0)
@@ -149,6 +167,8 @@ function BigDisplaySpecialization:loadFromXMLFile(xmlFile, key)
         end
         return
     end)
+
+    return true;
 end
 
 ---Called on loading
@@ -234,7 +254,8 @@ function BigDisplaySpecialization:onLoad(savegame)
     end
 end
 
-
+--- create the lines for the given display
+-- @param BigDisplay bigDisplay
 function BigDisplaySpecialization:CreateDisplayLines(bigDisplay)
 
     local newDisplayLines = {};
@@ -307,6 +328,8 @@ function BigDisplaySpecialization:triggerCallback(triggerId, otherId, onEnter, o
     end
 end
 
+--- called by base class when placement is finialzing
+-- @param table savegame savegame
 function BigDisplaySpecialization:onFinalizePlacement(savegame)
     local spec = self.spec_bigDisplay;
     if spec.loadingStationToUse == nil then
@@ -314,11 +337,15 @@ function BigDisplaySpecialization:onFinalizePlacement(savegame)
     end
 end
 
+--- called by base class when placement finialzing is done
+-- @param table savegame savegame
 function BigDisplaySpecialization:onPostFinalizePlacement(savegame)
     table.insert(BigDisplaySpecialization.displays, self);
     self:reconnectToStorage();
 end
 
+---Reconnect to the next storage in range
+-- @param table savegame savegame
 function BigDisplaySpecialization:reconnectToStorage(savegame)
 
     local spec = self.spec_bigDisplay;
@@ -488,6 +515,8 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
     BigDisplaySpecialization.devInfo("Connected to %s", spec.loadingStationToUse:getName());
 end
 
+--- Called when current registered station is deleted to reconnect to another one
+-- @param SellingStation station
 function BigDisplaySpecialization:onStationDeleted(station)
 
     if g_currentMission.isExitingGame == true then
@@ -498,6 +527,7 @@ function BigDisplaySpecialization:onStationDeleted(station)
     self:reconnectToStorage();
 end
 
+--- Called when Placeable is deleted and game closed
 function BigDisplaySpecialization:onDelete()
     table.removeElement(BigDisplaySpecialization.displays, self);
 
@@ -511,6 +541,12 @@ function BigDisplaySpecialization:onDelete()
     end
 end
 
+---Get the distance between the target object and the given coordinates
+-- @param Placeable loadingStation
+-- @param float x
+-- @param float y
+-- @param float z
+-- @return float distance
 function BigDisplaySpecialization:getDistance(loadingStation, x, y, z)
     if loadingStation ~= nil then
         local tx, ty, tz = getWorldTranslation(loadingStation.rootNode)
@@ -584,7 +620,7 @@ function BigDisplaySpecialization:updateDisplayData()
             end
         end
 
-        table.sort(bigDisplay.lineInfos,compLineInfos)
+        table.sort(bigDisplay.lineInfos, BigDisplaySpecialization.compLineInfos)
     end
 
     spec.updateDisplaysRunning = false;
@@ -592,6 +628,10 @@ function BigDisplaySpecialization:updateDisplayData()
     spec.updateDisplaysDtSinceLastTime = 0;
 end
 
+--- Get all fill levels of the given station accessable by farmId
+-- @param table station
+-- @param integer farmId
+-- @return table fillLevels
 function BigDisplaySpecialization:getAllFillLevels(station, farmId)
     local fillLevels = {}
 
@@ -660,10 +700,16 @@ function BigDisplaySpecialization:getAllFillLevels(station, farmId)
     return fillLevels
 end
 
-function compLineInfos(w1,w2)
+---Compare the given obects by title
+-- @param table w1
+-- @param table w2
+-- @return boolean CompareResult
+function BigDisplaySpecialization.compLineInfos(w1,w2)
     return w1.title < w2.title;
 end
 
+---Update the displays. Update the data if old
+-- @param float dt time since last call in ms
 function BigDisplaySpecialization:updateDisplays(dt)
     local spec = self.spec_bigDisplay;
     if spec == nil or spec.loadingStationToUse == nil then
@@ -752,6 +798,8 @@ function BigDisplaySpecialization:updateDisplays(dt)
     end
 end
 
+---Update
+-- @param float dt time since last call in ms
 function BigDisplaySpecialization:update(dt)
     -- update faken, muss auch entfernt werden beim löschen, wenn es so klappt
     for _, display in pairs(BigDisplaySpecialization.displays) do
@@ -759,11 +807,13 @@ function BigDisplaySpecialization:update(dt)
     end
 end
 
-
+---Update info for Info trigger
+-- @param function superFunc
+-- @param table infoTable
 function BigDisplaySpecialization:updateInfo(superFunc, infoTable)
     local spec = self.spec_bigDisplay;
 
-    local owningFarm = g_farmManager:getFarmById(self:getOwnerFarmId())
+    local owningFarm = g_farmManager:getFarmById(self:getOwnerFarmId());
 
     table.insert(infoTable, {
         title = g_i18n:getText("fieldInfo_ownedBy"),
@@ -778,6 +828,9 @@ function BigDisplaySpecialization:updateInfo(superFunc, infoTable)
     end
 end
 
+---Change Text size of all displays in this placable and send new size to server
+-- @param float textSize the size of the text
+-- @param boolean noEventSend if false will send the event
 function BigDisplaySpecialization:setTextSize(textSize, noEventSend)
     local spec = self.spec_bigDisplay;
 
@@ -792,6 +845,8 @@ function BigDisplaySpecialization:setTextSize(textSize, noEventSend)
 end
 
 ---Send information to new connected players
+-- @param integer streamId network stream identification
+-- @param table connection connection information
 function BigDisplaySpecialization:onWriteStream(streamId, connection)
     if not connection:getIsServer() then
         local spec = self.spec_bigDisplay;
@@ -800,9 +855,10 @@ function BigDisplaySpecialization:onWriteStream(streamId, connection)
 end
 
 ---new connected players get information here
+-- @param integer streamId network stream identification
+-- @param table connection connection information
 function BigDisplaySpecialization:onReadStream(streamId, connection)
     if connection:getIsServer() then
-        local spec = self.spec_bigDisplay;
         local textSize = streamReadFloat32(streamId);
         self:setTextSize(textSize, true);
     end
@@ -810,6 +866,7 @@ end
 
 addModEventListener(BigDisplaySpecialization)
 
+---Append to onStartMission to make sure all displays are connected on start playing
 function BigDisplaySpecialization:onStartMission()
     -- update faken, muss auch entfernt werden beim löschen, wenn es so klappt
     for _, display in pairs(BigDisplaySpecialization.displays) do
