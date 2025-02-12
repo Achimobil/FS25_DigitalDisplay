@@ -591,23 +591,35 @@ function BigDisplaySpecialization:updateDisplayData()
         -- möglich per filltype liste festzulegen was in welcher reihenfolge angezeigt wird, sinnvoll?
         -- sortieren per XML einstellung?
         bigDisplay.lineInfos = {};
-        for fillTypeId, fillLevel in pairs(BigDisplaySpecialization:getAllFillLevels(spec.loadingStationToUse, farmId)) do
+        for fillTypeId, fillLevelItem in pairs(BigDisplaySpecialization:getAllFillLevels(spec.loadingStationToUse, farmId)) do
             local lineInfo = {};
 
             -- fermenting special case
             local fermenting = false;
-            if fillTypeId > 1000000 then
-                fillTypeId = fillTypeId - 1000000;
-                fermenting = true;
+            if fillLevelItem.isFermenting ~= nil then
+                fermenting = fillLevelItem.isFermenting;
             end
 
             lineInfo.fillTypeId = fillTypeId;
-            lineInfo.title = g_fillTypeManager:getFillTypeByIndex(fillTypeId).title;
+            local fillTypeDesc = g_fillTypeManager:getFillTypeByIndex(fillTypeId);
+            lineInfo.title = fillTypeDesc.title;
             if fermenting then
                 lineInfo.title = lineInfo.title .. "(" .. g_i18n:getText("info_fermenting") .. ")";
             end
-            local myFillLevel = Utils.getNoNil(fillLevel, 0);
-            lineInfo.fillLevel = g_i18n:formatNumber(myFillLevel, 0);
+
+            local displayType = 2;  -- setting later 0 = only total, 1 = total and capacity, 2 = total and percentage
+
+            local myFillLevel = Utils.getNoNil(fillLevelItem.total, 0);
+
+--             lineInfo.fillLevel = g_i18n:formatNumber(myFillLevel, 0);
+
+            if displayType == 1 and fillLevelItem.capacity ~= nil then
+                lineInfo.fillLevel = BigDisplaySpecialization:formatCapacity(myFillLevel, fillLevelItem.capacity, 0, fillTypeDesc.unitShort);
+            elseif displayType == 2 and fillLevelItem.capacity ~= nil and fillLevelItem.capacity ~= 0 then
+                lineInfo.fillLevel = string.format("%s (%s%%)", BigDisplaySpecialization:formatVolume(myFillLevel, 0, fillTypeDesc.unitShort), g_i18n:formatNumber((myFillLevel / fillLevelItem.capacity)*100, 0));
+            else
+                lineInfo.fillLevel = BigDisplaySpecialization:formatVolume(myFillLevel, 0, fillTypeDesc.unitShort);
+            end
 
             if bigDisplay.emptyFilltypes then
                 table.insert(bigDisplay.lineInfos, lineInfo);
@@ -627,6 +639,27 @@ function BigDisplaySpecialization:updateDisplayData()
     spec.updateDisplaysDtSinceLastTime = 0;
 end
 
+---format a volume
+-- @param float liters amount to format
+-- @param integer precision how many decimals
+-- @param string unit which unit should be used, default 2
+-- @return string the formated value
+function BigDisplaySpecialization:formatVolume(liters, precision, unit)
+    unit = unit ~= "" and (unit == false and "" or unit) or nil
+
+    return g_i18n:formatVolume(liters, precision, unit)
+end
+
+---format a volume with capacity
+-- @param float liters amount to format
+-- @param float capacity capacity to format
+-- @param integer precision how many decimals
+-- @param string unit which unit should be used
+-- @return string the formated value
+function BigDisplaySpecialization:formatCapacity(liters, capacity, precision, unit)
+    return self:formatVolume(liters, precision, false) .. " / " .. self:formatVolume(capacity, precision, unit);
+end
+
 --- Get all fill levels of the given station accessable by farmId
 -- @param table station
 -- @param integer farmId
@@ -639,7 +672,15 @@ function BigDisplaySpecialization:getAllFillLevels(station, farmId)
         for _, sourceStorage in pairs(storages) do
             if station:hasFarmAccessToStorage(farmId, sourceStorage) then
                 for fillType, fillLevel in pairs(sourceStorage:getFillLevels()) do
-                    fillLevels[fillType] = Utils.getNoNil(fillLevels[fillType], 0) + fillLevel
+                    if fillLevels[fillType] == nil then
+                        fillLevels[fillType] = {};
+                    end
+
+                    fillLevels[fillType].total = Utils.getNoNil(fillLevels[fillType].total, 0) + fillLevel
+
+                    if(sourceStorage.capacities[fillType] ~= nil) then
+                        fillLevels[fillType].capacity = Utils.getNoNil(fillLevels[fillType].capacity, 0) + sourceStorage.capacities[fillType]
+                    end
                 end
             end
         end
@@ -648,7 +689,10 @@ function BigDisplaySpecialization:getAllFillLevels(station, farmId)
     -- Futter bei Tierställen hinzufügen
     if station.owningPlaceable ~= nil and station.owningPlaceable.spec_husbandryFood ~= nil then
         for fillType, fillLevel in pairs(station.owningPlaceable.spec_husbandryFood.fillLevels) do
-            fillLevels[fillType] = Utils.getNoNil(fillLevels[fillType], 0) + fillLevel;
+            if fillLevels[fillType] == nil then
+                fillLevels[fillType] = {};
+            end
+            fillLevels[fillType].total = Utils.getNoNil(fillLevels[fillType].total, 0) + fillLevel;
         end
     end
 
@@ -656,7 +700,10 @@ function BigDisplaySpecialization:getAllFillLevels(station, farmId)
     if station.owningPlaceable ~= nil and station.owningPlaceable.spec_husbandryFeedingRobot ~= nil then
         for fillType, _ in pairs(station.owningPlaceable.spec_husbandryFeedingRobot.feedingRobot.fillTypeToUnloadingSpot) do
             local fillLevel = station.owningPlaceable.spec_husbandryFeedingRobot.feedingRobot:getFillLevel(fillType);
-            fillLevels[fillType] = Utils.getNoNil(fillLevels[fillType], 0) + fillLevel
+            if fillLevels[fillType] == nil then
+                fillLevels[fillType] = {};
+            end
+            fillLevels[fillType].total = Utils.getNoNil(fillLevels[fillType].total, 0) + fillLevel
         end
     end
 
@@ -674,6 +721,7 @@ function BigDisplaySpecialization:getAllFillLevels(station, farmId)
             end
 
             for _, object in pairs(objectInfo.objects) do
+                local isFermenting = false;
 
                 if object.palletAttributes ~= nil then
                     fillType = object.palletAttributes.fillType;
@@ -682,13 +730,17 @@ function BigDisplaySpecialization:getAllFillLevels(station, farmId)
                     fillType = object.baleAttributes.fillType;
                     fillLevel = object.baleAttributes.fillLevel * serverClientDifferenceMultiplier;
                 elseif object.baleObject ~= nil then
-                    -- add 1000000 to say itis fermenting
-                    fillType = object.baleObject.fillType + 1000000;
+                    isFermenting = true;
+                    fillType = object.baleObject.fillType;
                     fillLevel = object.baleObject.fillLevel * serverClientDifferenceMultiplier;
                 end
 
                 if fillType ~= nil and fillLevel ~= nil then
-                    fillLevels[fillType] = Utils.getNoNil(fillLevels[fillType], 0) + fillLevel;
+                    if fillLevels[fillType] == nil then
+                        fillLevels[fillType] = {};
+                    end
+                    fillLevels[fillType].total = Utils.getNoNil(fillLevels[fillType].total, 0) + fillLevel;
+                    fillLevels[fillType].isFermenting = isFermenting;
                 else
                     BigDisplaySpecialization.DebugTable("not used storedObject", object);
                 end

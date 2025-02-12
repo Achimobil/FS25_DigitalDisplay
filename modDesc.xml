@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="95">
     <author>Achimobil</author>
-    <version>1.0.0.14</version>
+    <version>1.0.0.15</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -44,6 +44,7 @@ Changelog:
 1.0.0.12 - Sync beim ändern der größe und beim connecten in Skript eingebaut
 1.0.0.13 - Alle Displays mit dem Trigger für die Einstellungen versehen.
 1.0.0.14 - Filltype Text wird jetzt gekürzt, wenn er in den Mengentext rein kommen würde
+1.0.0.15 - Anzeige kann generell jetzt mit Kapazität bei elementen mit sourceStorage auch Kapazität und % anzeigen. Muss aber noch Konfigurierbar gemacht werden.
 ]]>
         </de>
         <en>
