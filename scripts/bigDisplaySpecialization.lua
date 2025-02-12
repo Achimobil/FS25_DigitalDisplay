@@ -12,7 +12,6 @@ No change Log because not allowed to use in other mods.
 ]]
 
 BigDisplaySpecialization = {
-    Version = "0.1.5.2",
     Name = "BigDisplaySpecialization",
     displays = {},
     Debug = false
@@ -71,7 +70,7 @@ function BigDisplaySpecialization.DebugText(text, ...)
     print("BigDisplaySpecialization Debug: " .. string.format(text, ...));
 end
 
-BigDisplaySpecialization.info("init %s(Version: %s)", BigDisplaySpecialization.Name, BigDisplaySpecialization.Version);
+BigDisplaySpecialization.info("init %s", BigDisplaySpecialization.Name);
 
 ---Checks if all prerequisite specializations are loaded
 -- @param table specializations specializations
