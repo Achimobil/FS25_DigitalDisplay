@@ -136,7 +136,7 @@ Please report bugs or suggestions for improvement on <a href="https://github.com
             <ru>Дисплеи могут быть закреплены на этом столбе, если на здании нет подходящей поверхности.</ru>
             <cz>Pokud na budově není vhodná plocha, lze na tento stojan připevnit nástěnné displeje.</cz>
             <it>Se nell'edificio non è presente una superficie adatta, è possibile fissare gli espositori da parete a questo palo.</it>
-            <fr>Les affichages muraux peuvent être fixés sur ce mât s'il n'y a pas de surface adaptée sur le bâtiment.
+            <fr>Les affichages muraux peuvent être fixés sur ce mât s'il n'y a pas de surface adaptée sur le bâtiment.</fr>
         </text>
         <text name="DisplaySettings_Title">
             <de>Display Einstellungen</de>
