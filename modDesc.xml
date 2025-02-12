@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="95">
     <author>Achimobil</author>
-    <version>1.0.0.15</version>
+    <version>1.0.0.16</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
         <cz>Digitální Displej</cz>
         <ru>Цифровые Дисплеи</ru>
+        <fr>Affichage Numérique</fr>
     </title>
     <description>
         <de>
@@ -45,6 +46,7 @@ Changelog:
 1.0.0.13 - Alle Displays mit dem Trigger für die Einstellungen versehen.
 1.0.0.14 - Filltype Text wird jetzt gekürzt, wenn er in den Mengentext rein kommen würde
 1.0.0.15 - Anzeige kann generell jetzt mit Kapazität bei elementen mit sourceStorage auch Kapazität und % anzeigen. Muss aber noch Konfigurierbar gemacht werden.
+1.0.0.16 - FR Übersetztungen von papa vendeuze
 ]]>
         </de>
         <en>
@@ -102,6 +104,7 @@ Please report bugs or suggestions for improvement on <a href="https://github.com
             <ru>Универсальный дисплей (%s Строк)</ru>
             <cz>Univerzální displej (%s Řádky)</cz>
             <it>Visualizzazione universale (%s linee)</it>
+            <fr>Affichage Universel</fr>
         </text>
         <text name="function_unversalDisplay">
             <de>Digitalanzeige für die nächste Produktion oder das Lager (keine Objektlager). Zeigt alle Inhalte alphabetisch (lua) sortiert an. Automatische Paging bei vielen Inhalten.</de>
@@ -109,6 +112,7 @@ Please report bugs or suggestions for improvement on <a href="https://github.com
             <ru>Цифровой дисплей для ближайшего производства или склада. Отображает всё содержимое, отсортированное в алфавитном порядке. Автоматическая прокрутка для длинного списка.</ru>
             <cz>Digitální displej pro další výrobu nebo sklad. Zobrazuje veškerý obsah seřazený podle abecedy (lua). Automatické stránkování při velkém množství obsahu.</cz>
             <it>Display digitale per la prossima produzione o magazzino (nessun oggetto di stoccaggio). Visualizza tutti i contenuti ordinati alfabeticamente (lua). Paginazione automatica quando c'è molto contenuto.</it>
+            <fr>Affichage numérique de la prochaine production ou du prochain entrepôt (pas de stockage d'objets). Affichage de tout le contenu trié par ordre alphabétique (lua). Passage automatique à une nouvelle page lorsque le contenu est volumineux.</fr>
         </text>
         <text name="bigDisplay_connected_with">
             <de>Verbunden mit</de>
@@ -116,6 +120,7 @@ Please report bugs or suggestions for improvement on <a href="https://github.com
             <ru>Подключён к</ru>
             <cz>Spojeno s</cz>
             <it>Connesso</it>
+            <fr>Connecté</fr>
         </text>
         <text name="storeItem_displayStand">
             <de>Mast für die Wanddisplays</de>
@@ -123,6 +128,7 @@ Please report bugs or suggestions for improvement on <a href="https://github.com
             <ru>Столб для дисплеев</ru>
             <cz>Stojan pro nástěnné displeje</cz>
             <it>Albero per espositori da parete</it>
+            <fr>Mât pour les vitrines murales</fr>
         </text>
         <text name="function_displayStand">
             <de>An diesen Mast können die Wanddisplays angebracht werden, wenn keine Fläche am Gebäude geeignet ist</de>
@@ -130,18 +136,22 @@ Please report bugs or suggestions for improvement on <a href="https://github.com
             <ru>Дисплеи могут быть закреплены на этом столбе, если на здании нет подходящей поверхности.</ru>
             <cz>Pokud na budově není vhodná plocha, lze na tento stojan připevnit nástěnné displeje.</cz>
             <it>Se nell'edificio non è presente una superficie adatta, è possibile fissare gli espositori da parete a questo palo.</it>
+            <fr>Les affichages muraux peuvent être fixés sur ce mât s'il n'y a pas de surface adaptée sur le bâtiment.
         </text>
         <text name="DisplaySettings_Title">
             <de>Display Einstellungen</de>
             <en>Display Settings</en>
+            <fr>Paramètres d'affichage</fr>
         </text>
         <text name="action_openDisplaySettings">
             <de>Display Einstellungen ändern</de>
             <en>Change Display Settings</en>
+            <fr>Modifier les paramètres d'affichage</fr>
         </text>
         <text name="display_textSizeLabel">
             <de>Schriftgröße</de>
             <en>Textsize</en>
+            <fr>Taille du texte</fr>
         </text>
     </l10n>
 </modDesc>
