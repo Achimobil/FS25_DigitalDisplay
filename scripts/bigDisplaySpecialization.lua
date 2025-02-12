@@ -14,7 +14,7 @@ No change Log because not allowed to use in other mods.
 BigDisplaySpecialization = {
     Name = "BigDisplaySpecialization",
     displays = {},
-    Debug = false
+    Debug = true
 }
 
 BigDisplaySpecialization.modName = g_currentModName;
@@ -98,7 +98,7 @@ function BigDisplaySpecialization.registerFunctions(placeableType)
     SpecializationUtil.registerFunction(placeableType, "reconnectToStorage", BigDisplaySpecialization.reconnectToStorage);
     SpecializationUtil.registerFunction(placeableType, "onStationDeleted", BigDisplaySpecialization.onStationDeleted);
     SpecializationUtil.registerFunction(placeableType, "triggerCallback", BigDisplaySpecialization.triggerCallback)
-    SpecializationUtil.registerFunction(placeableType, "setTextSize", BigDisplaySpecialization.setTextSize)
+    SpecializationUtil.registerFunction(placeableType, "setSettings", BigDisplaySpecialization.setSettings)
 end
 
 --- register the overwritten functions for this spec
@@ -131,6 +131,7 @@ end
 function BigDisplaySpecialization.initSpecialization()
     local schemaSavegame = Placeable.xmlSchemaSavegame;
     schemaSavegame:register(XMLValueType.FLOAT, "placeables.placeable(?).FS25_DigitalDisplay.BigDisplay.display(?)#textSize", "Display text size", 0.11);
+    schemaSavegame:register(XMLValueType.INT, "placeables.placeable(?).FS25_DigitalDisplay.BigDisplay.display(?)#displayType", "Type of display the value. later 0 = only total, 1 = total and capacity, 2 = total and percentage", 0);
 
     DisplaySettingsDialog.register()
 end
@@ -145,6 +146,8 @@ function BigDisplaySpecialization:saveToXMLFile(xmlFile, key, usedModNames)
     for _, bigDisplay in pairs(spec.bigDisplays) do
         local sizeKey = string.format("%s.display(%d)#textSize", key, index);
         xmlFile:setValue(sizeKey, bigDisplay.textSize);
+        local displayTypeKey = string.format("%s.display(%d)#displayType", key, index);
+        xmlFile:setValue(displayTypeKey, bigDisplay.displayType);
     end
 end
 
@@ -157,12 +160,14 @@ function BigDisplaySpecialization:loadFromXMLFile(xmlFile, key)
 
     xmlFile:iterate(key .. ".display", function(index, displayKey)
         local size = xmlFile:getValue(displayKey.."#textSize", 0)
+        local displayType = xmlFile:getValue(displayKey.."#displayType", 0)
 
-        if size ~= 0 then
-            if spec.bigDisplays[index] ~= nil then
+        if spec.bigDisplays[index] ~= nil then
+            if size ~= 0 then
                 spec.bigDisplays[index].textSize = size;
-                BigDisplaySpecialization:CreateDisplayLines(spec.bigDisplays[index]);
+            BigDisplaySpecialization:CreateDisplayLines(spec.bigDisplays[index]);
             end
+            spec.bigDisplays[index].displayType = displayType;
         end
         return
     end)
@@ -607,11 +612,9 @@ function BigDisplaySpecialization:updateDisplayData()
                 lineInfo.title = lineInfo.title .. "(" .. g_i18n:getText("info_fermenting") .. ")";
             end
 
-            local displayType = 2;  -- setting later 0 = only total, 1 = total and capacity, 2 = total and percentage
+            local displayType = bigDisplay.displayType;  -- setting later 0 = only total, 1 = total and capacity, 2 = total and percentage
 
             local myFillLevel = Utils.getNoNil(fillLevelItem.total, 0);
-
---             lineInfo.fillLevel = g_i18n:formatNumber(myFillLevel, 0);
 
             if displayType == 1 and fillLevelItem.capacity ~= nil then
                 lineInfo.fillLevel = BigDisplaySpecialization:formatCapacity(myFillLevel, fillLevelItem.capacity, 0, fillTypeDesc.unitShort);
@@ -836,9 +839,6 @@ function BigDisplaySpecialization:updateDisplays(dt)
 
                     end
 
-
---                     newTitle = lineInfo.title .. "      -"..  tostring(displayLine.width) .. "-"..  tostring(fillLevelWidth) .. "-"..  tostring(titleWidth) .. "-"..  tostring(maxWidth);
-
                     setTextAlignment(RenderText.ALIGN_LEFT)
                     renderText3D(displayLine.text.x, displayLine.text.y, displayLine.text.z, displayLine.rx, displayLine.ry, displayLine.rz, spec.bigDisplays[1].textSize, newTitle)
                     setTextAlignment(RenderText.ALIGN_RIGHT)
@@ -881,17 +881,20 @@ end
 
 ---Change Text size of all displays in this placable and send new size to server
 -- @param float textSize the size of the text
+-- @param integer displayType the size of the text
 -- @param boolean noEventSend if false will send the event
-function BigDisplaySpecialization:setTextSize(textSize, noEventSend)
+function BigDisplaySpecialization:setSettings(textSize, displayType, noEventSend)
     local spec = self.spec_bigDisplay;
 
     for _, bigDisplay in pairs(spec.bigDisplays) do
         bigDisplay.textSize = textSize;
+        bigDisplay.displayType = displayType;
         BigDisplaySpecialization:CreateDisplayLines(bigDisplay);
+        self:updateDisplayData();
     end
 
     if noEventSend == nil or noEventSend == false then
-        BigDisplaySettingEvent.sendEvent(self, textSize);
+        BigDisplaySettingEvent.sendEvent(self, textSize, displayType);
     end
 end
 
@@ -902,6 +905,7 @@ function BigDisplaySpecialization:onWriteStream(streamId, connection)
     if not connection:getIsServer() then
         local spec = self.spec_bigDisplay;
         streamWriteFloat32(streamId, spec.bigDisplays[1].textSize);
+        streamWriteFloat32(streamId, spec.bigDisplays[1].displayType);
     end
 end
 
@@ -911,7 +915,8 @@ end
 function BigDisplaySpecialization:onReadStream(streamId, connection)
     if connection:getIsServer() then
         local textSize = streamReadFloat32(streamId);
-        self:setTextSize(textSize, true);
+        local displayType = streamReadFloat32(streamId);
+        self:setSettings(textSize, displayType, true);
     end
 end
 

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="95">
     <author>Achimobil</author>
-    <version>1.0.0.16</version>
+    <version>1.0.0.17</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -47,6 +47,7 @@ Changelog:
 1.0.0.14 - Filltype Text wird jetzt gekürzt, wenn er in den Mengentext rein kommen würde
 1.0.0.15 - Anzeige kann generell jetzt mit Kapazität bei elementen mit sourceStorage auch Kapazität und % anzeigen. Muss aber noch Konfigurierbar gemacht werden.
 1.0.0.16 - FR Übersetztungen von papa vendeuze
+1.0.0.17 - Dialog kann jetzt die Anzeigearten der Menge ändern
 ]]>
         </de>
         <en>
@@ -152,6 +153,22 @@ Please report bugs or suggestions for improvement on <a href="https://github.com
             <de>Schriftgröße</de>
             <en>Textsize</en>
             <fr>Taille du texte</fr>
+        </text>
+        <text name="setting_Value_0">
+            <de>Nur Füllmenge</de>
+            <en>Only Amount</en>
+        </text>
+        <text name="setting_Value_1">
+            <de>Füllmenge and Kapazität</de>
+            <en>Amount and Capacity</en>
+        </text>
+        <text name="setting_Value_2">
+            <de>Füllmenge and Prozent</de>
+            <en>Amount and Percentage</en>
+        </text>
+        <text name="display_valueType">
+            <de>Wertanzeige</de>
+            <en>Valuedisplay</en>
         </text>
     </l10n>
 </modDesc>

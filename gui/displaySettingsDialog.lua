@@ -23,12 +23,10 @@ function DisplaySettingsDialog.new(target, custom_mt)
     self.selectedFillType = 1
     self.selectedPackage = 1
     self.selectedAmount = 0
-    self.selectedFarm = 1
-    self.maxUnloadAmount = math.huge
     return self
 end
 
-
+-- @param guiName name of the gui
 function DisplaySettingsDialog.createFromExistingGui(gui, guiName)
     DisplaySettingsDialog.register()
     local callback = gui.callbackFunc
@@ -39,37 +37,38 @@ function DisplaySettingsDialog.createFromExistingGui(gui, guiName)
 end
 
 
---Auswahl verarbeiten
+---Auswahl verarbeiten
 function DisplaySettingsDialog:onClickOk()
 
-    local newSize = (self.textSizeElement:getState() + 7) / 100;
+    local textSize = (self.textSizeElement:getState() + 7) / 100;
+    local displayType = self.valueDisplayTypeElement:getState() - 1;
 
     local spec = self.placable;
-    spec:setTextSize(newSize);
+    spec:setSettings(textSize, displayType);
 
     self:close()
 end
 
 
---Abbrechen
+---Abbrechen
 function DisplaySettingsDialog:onClickBack()
     self:close()
 end
 
 
---Dialog-Titel einstellen
+---Dialog-Titel einstellen
+-- @param string title
 function DisplaySettingsDialog:setTitle(title)
     DisplaySettingsDialog:superClass().setTitle(self, title)
     self.dialogTitle = title
 end
 
---Buttens anlegen
+---Buttens anlegen
 function DisplaySettingsDialog:onCreateButten()
 
 end
 
 function DisplaySettingsDialog:onOpen()
-
     local textSizeOptions = {}
     for i = 8, 15, 1 do
         local text = string.format("%d", i)
@@ -82,4 +81,12 @@ function DisplaySettingsDialog:onOpen()
 
     self.textSizeElement:setTexts(textSizeOptions)
     self.textSizeElement:setState(currentSize, true)
+
+    local valueDisplayTypeOptions = {}
+    table.insert(valueDisplayTypeOptions, g_i18n:getText("setting_Value_0"));
+    table.insert(valueDisplayTypeOptions, g_i18n:getText("setting_Value_1"));
+    table.insert(valueDisplayTypeOptions, g_i18n:getText("setting_Value_2"));
+
+    self.valueDisplayTypeElement:setTexts(valueDisplayTypeOptions)
+    self.valueDisplayTypeElement:setState(spec.bigDisplays[1].displayType + 1, true)
 end

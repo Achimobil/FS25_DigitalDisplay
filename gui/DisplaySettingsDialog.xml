@@ -11,12 +11,19 @@
             <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -35px"/>
 
             <GuiElement profile="fs25_dialogSettingsBoxContainer">
-                <!-- <Bitmap profile="fs25_dialogSettingsSliderContainer" id="templateSliderSetting"> -->
-                    <Text profile="fs25_dialogSettingsTemplateText" text="$l10n_display_textSizeLabel" name="name"/>
-                    <OptionSlider profile="fs25_textSizeOptionSlider" onClick="onClickAmount" id="textSizeElement" position="200px 0px" focusInit="onOpen">
-                        <Text profile="fs25_dialogoptionSliderText" id="itemTextAmount" name="text"/>
-                    </OptionSlider>
-                <!-- </Bitmap> -->
+                <ScrollingLayout profile="fs25_settingsLayout_dd" id="gameSettingsLayout">
+                    <Bitmap profile="fs25_multiTextOptionContainer_dd">
+                        <OptionSlider profile="fs25_textSizeOptionSlider" id="textSizeElement" focusInit="onOpen">
+                            <Text profile="fs25_dialogoptionSliderText" id="itemTextAmount" name="text"/>
+                        </OptionSlider>
+                        <Text profile="fs25_settingsMultiTextOptionTitle_dd" text="$l10n_display_textSizeLabel"/>
+                    </Bitmap>
+                    <Bitmap profile="fs25_multiTextOptionContainer_dd">
+                        <MultiTextOption profile="fs25_settingsMultiTextOption_dd" id="valueDisplayTypeElement">
+                        </MultiTextOption>
+                        <Text profile="fs25_settingsMultiTextOptionTitle_dd" text="$l10n_display_valueType"/>
+                    </Bitmap>
+                </ScrollingLayout>
             </GuiElement>
 
         </GuiElement>
@@ -28,28 +35,48 @@
         </BoxLayout>
     </GuiElement>
     <GUIProfiles>
+        <Profile name="fs25_multiTextOption_dd" extends="baseReference">
+            <size value="350px 36px"/>
+            <autoAddDefaultElements value="true"/>
+            <defaultProfileButtonLeft value="fs25_multiTextOptionLeft"/>
+            <defaultProfileButtonRight value="fs25_multiTextOptionRight"/>
+            <defaultProfileText value="fs25_multiTextOptionText"/>
+            <defaultProfileBgThreePart value="fs25_multiTextOptionBg"/>
+        </Profile>
+        <Profile name="fs25_settingsMultiTextOption_dd" extends="fs25_multiTextOption_dd" with="anchorMiddleLeft">
+            <position value="230px 0px"/>
+            <focusOnHighlight value="true"/>
+            <wrap value="false"/>
+            <hideButtonOnLimitReached value="true"/>
+        </Profile>
+        <Profile name="fs25_settingsLayout_dd" extends="baseReference" with="anchorStretchingYStretchingX pivotTopCenter">
+            <size value="100% 100%"/>
+            <wrapAround value="false"/>
+            <fitFlowToElements value="true"/>
+            <flowDirection value="vertical"/>
+            <imageColor value="$preset_colorTransparent"/>
+        </Profile>
+        <Profile name="fs25_multiTextOptionContainer_dd" extends="baseReference" with="anchorTopLeft">
+            <size value="100% 50px"/>
+            <imageColor value="$preset_colorTransparent"/>
+        </Profile>
+        <Profile name="fs25_settingsMultiTextOptionTitle_dd" extends="fs25_textDefault" with="anchorStretchingYLeft">
+            <width value="200px"/>
+            <position value="20px 0px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textLayoutMode value="scrolling"/>
+        </Profile>
         <Profile name="fs25_dialogoptionSliderText" extends="fs25_multiTextOptionText">
-            <position value="240px 0px"/>
+            <position value="220px 0px"/>
             <size value="60px 20px"/>
         </Profile>
         <Profile name="fs25_dialogSettingsBoxContainer" extends="emptyPanel" with="anchorTopCenter">
-            <size value="680px 70px"/>
             <position value="0px -90px"/>
         </Profile>
-        <Profile name="fs25_dialogSettingsTemplateText" extends="fs25_textDefault" with="anchorMiddleLeft">
-            <position value="10px 0px"/>
-            <size value="160px 20px"/>
-            <textSize value="18px"/>
-            <textLayoutMode value="scrolling"/>
-        </Profile>
-        <Profile name="fs25_dialogSettingsSliderContainer" extends="baseReference" with="anchorTopStretchingX">
-            <height value="70px"/>
-        </Profile>
-        <Profile name="fs25_productionStorageDialogBg" extends="fs25_dialogBg">
-            <size value="700px 260px"/>
-        </Profile>
         <Profile name="fs25_textSizeOptionSlider" extends="fs25_multiTextOption" with="anchorMiddleLeft">
-            <width value="400px"/>
+            <width value="350px"/>
+            <position value="230px 0px"/>
             <sliderOffset value="5px"/>
             <useFillingBar value="true"/>
             <updateTextPosition value="false"/>
@@ -61,14 +88,6 @@
         </Profile>
         <Profile name="fs25_productionStorageDialogBg" extends="fs25_dialogBg">
             <size value="700px 460px"/>
-        </Profile>
-        <Profile name="fs25_productionStorageMultiTextOption" extends="baseReference" with="anchorBottomCenter">
-            <size value="440px 36px"/>
-            <autoAddDefaultElements value="true"/>
-            <defaultProfileButtonLeft value="fs25_multiTextOptionLeft"/>
-            <defaultProfileButtonRight value="fs25_multiTextOptionRight"/>
-            <defaultProfileText value="fs25_dialogoptionSliderText"/>
-            <defaultProfileBgThreePart value="fs25_multiTextOptionBg"/>
         </Profile>
     </GUIProfiles>
 </GUI>
