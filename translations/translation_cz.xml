@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<l10n>
+    <translationContributors>Achimobil</translationContributors>
+    <texts>
+        <text name="unversalDisplay" text="Univerzální displej (%s Řádky)"/>
+        <text name="function_unversalDisplay" text="Digitální displej pro další výrobu nebo sklad. Zobrazuje veškerý obsah seřazený podle abecedy (lua). Automatické stránkování při velkém množství obsahu."/>
+        <text name="bigDisplay_connected_with" text="Spojeno s"/>
+        <text name="storeItem_displayStand" text="Stojan pro nástěnné displeje"/>
+        <text name="function_displayStand" text="Pokud na budově není vhodná plocha, lze na tento stojan připevnit nástěnné displeje."/>
+
+        <!-- New items -->
+        <text name="DisplaySettings_Title" text="Display Settings"/>
+        <text name="action_openDisplaySettings" text="Change Display Settings"/>
+        <text name="display_textSizeLabel" text="Textsize"/>
+        <text name="setting_Value_0" text="Only Amount"/>
+        <text name="setting_Value_1" text="Amount and Capacity"/>
+        <text name="setting_Value_2" text="Amount and Percentage"/>
+        <text name="display_valueType" text="Valuedisplay"/>
+    </texts>
+</l10n>

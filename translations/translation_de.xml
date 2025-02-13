@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<l10n>
+    <translationContributors>Achimobil</translationContributors>
+    <texts>
+        <text name="unversalDisplay" text="Universal Anzeige (%s Zeilen)"/>
+        <text name="function_unversalDisplay" text="Digitalanzeige für die nächste Produktion oder das Lager (keine Objektlager). Zeigt alle Inhalte alphabetisch (lua) sortiert an. Automatische Paging bei vielen Inhalten."/>
+        <text name="bigDisplay_connected_with" text="Verbunden mit"/>
+        <text name="storeItem_displayStand" text="Mast für die Wanddisplays"/>
+        <text name="function_displayStand" text="An diesen Mast können die Wanddisplays angebracht werden, wenn keine Fläche am Gebäude geeignet ist"/>
+
+        <!-- New items -->
+        <text name="DisplaySettings_Title" text="Display Einstellungen"/>
+        <text name="action_openDisplaySettings" text="Display Einstellungen ändern"/>
+        <text name="display_textSizeLabel" text="Schriftgröße"/>
+        <text name="setting_Value_0" text="Nur Füllmenge"/>
+        <text name="setting_Value_1" text="Füllmenge and Kapazität"/>
+        <text name="setting_Value_2" text="Füllmenge and Prozent"/>
+        <text name="display_valueType" text="Wertanzeige"/>
+    </texts>
+</l10n>

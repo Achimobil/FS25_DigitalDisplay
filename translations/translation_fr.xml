@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<l10n>
+    <translationContributors>Achimobil</translationContributors>
+    <texts>
+        <text name="unversalDisplay" text="Affichage Universel"/>
+        <text name="function_unversalDisplay" text="Affichage numérique de la prochaine production ou du prochain entrepôt (pas de stockage d'objets). Affichage de tout le contenu trié par ordre alphabétique (lua). Passage automatique à une nouvelle page lorsque le contenu est volumineux."/>
+        <text name="bigDisplay_connected_with" text="Connecté"/>
+        <text name="storeItem_displayStand" text="Mât pour les vitrines murales"/>
+        <text name="function_displayStand" text="Les affichages muraux peuvent être fixés sur ce mât s'il n'y a pas de surface adaptée sur le bâtiment."/>
+
+        <!-- New items -->
+        <text name="DisplaySettings_Title" text="Paramètres d'affichage"/>
+        <text name="action_openDisplaySettings" text="Modifier les paramètres d'affichage"/>
+        <text name="display_textSizeLabel" text="Taille du texte"/>
+        <text name="setting_Value_0" text="Only Amount"/>
+        <text name="setting_Value_1" text="Amount and Capacity"/>
+        <text name="setting_Value_2" text="Amount and Percentage"/>
+        <text name="display_valueType" text="Valuedisplay"/>
+    </texts>
+</l10n>

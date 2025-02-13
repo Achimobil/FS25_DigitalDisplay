@@ -147,7 +147,7 @@ function BigDisplaySpecialization:saveToXMLFile(xmlFile, key, usedModNames)
         local sizeKey = string.format("%s.display(%d)#textSize", key, index);
         xmlFile:setValue(sizeKey, bigDisplay.textSize);
         local displayTypeKey = string.format("%s.display(%d)#displayType", key, index);
-        xmlFile:setValue(displayTypeKey, bigDisplay.displayType);
+        xmlFile:setValue(displayTypeKey, bigDisplay.displayType or 0);
     end
 end
 
@@ -681,7 +681,7 @@ function BigDisplaySpecialization:getAllFillLevels(station, farmId)
 
                     fillLevels[fillType].total = Utils.getNoNil(fillLevels[fillType].total, 0) + fillLevel
 
-                    if(sourceStorage.capacities[fillType] ~= nil) then
+                    if sourceStorage.capacities ~= nil and sourceStorage.capacities[fillType] ~= nil then
                         fillLevels[fillType].capacity = Utils.getNoNil(fillLevels[fillType].capacity, 0) + sourceStorage.capacities[fillType]
                     end
                 end
@@ -696,6 +696,8 @@ function BigDisplaySpecialization:getAllFillLevels(station, farmId)
                 fillLevels[fillType] = {};
             end
             fillLevels[fillType].total = Utils.getNoNil(fillLevels[fillType].total, 0) + fillLevel;
+
+            -- capacity not possible, because I show every single filltype and the capacity is a total value
         end
     end
 
@@ -707,6 +709,8 @@ function BigDisplaySpecialization:getAllFillLevels(station, farmId)
                 fillLevels[fillType] = {};
             end
             fillLevels[fillType].total = Utils.getNoNil(fillLevels[fillType].total, 0) + fillLevel
+
+            -- capacity not possible, because I show every single filltype and the capacity is a total value
         end
     end
 

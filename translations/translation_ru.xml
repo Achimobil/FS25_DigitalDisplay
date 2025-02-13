@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<l10n>
+    <translationContributors>Achimobil</translationContributors>
+    <texts>
+        <text name="unversalDisplay" text="Универсальный дисплей (%s Строк)"/>
+        <text name="function_unversalDisplay" text="Цифровой дисплей для ближайшего производства или склада. Отображает всё содержимое, отсортированное в алфавитном порядке. Автоматическая прокрутка для длинного списка."/>
+        <text name="bigDisplay_connected_with" text="Подключён к"/>
+        <text name="storeItem_displayStand" text="Столб для дисплеев"/>
+        <text name="function_displayStand" text="Дисплеи могут быть закреплены на этом столбе, если на здании нет подходящей поверхности."/>
+
+        <!-- New items -->
+        <text name="DisplaySettings_Title" text="Display Settings"/>
+        <text name="action_openDisplaySettings" text="Change Display Settings"/>
+        <text name="display_textSizeLabel" text="Textsize"/>
+        <text name="setting_Value_0" text="Only Amount"/>
+        <text name="setting_Value_1" text="Amount and Capacity"/>
+        <text name="setting_Value_2" text="Amount and Percentage"/>
+        <text name="display_valueType" text="Valuedisplay"/>
+    </texts>
+</l10n>
