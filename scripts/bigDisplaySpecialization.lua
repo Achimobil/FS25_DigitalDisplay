@@ -14,7 +14,7 @@ No change Log because not allowed to use in other mods.
 BigDisplaySpecialization = {
     Name = "BigDisplaySpecialization",
     displays = {},
-    Debug = true
+    Debug = false
 }
 
 BigDisplaySpecialization.modName = g_currentModName;
