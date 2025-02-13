@@ -236,6 +236,7 @@ function BigDisplaySpecialization:onLoad(savegame)
             1
         };
         bigDisplay.textSize = size;
+        bigDisplay.displayType = 0;
         bigDisplay.currentPage = 1;
         bigDisplay.lastPageTime = 0;
         bigDisplay.nodeId = upperLeftNode;

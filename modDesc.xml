@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="95">
     <author>Achimobil</author>
-    <version>1.0.0.19</version>
+    <version>1.0.0.20</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -50,6 +50,7 @@ Changelog:
 1.0.0.17 - Dialog kann jetzt die Anzeigearten der Menge ändern
 1.0.0.18 - Übersetzungen in Dateien ausgelagert
 1.0.0.19 - Sicherstellen, dass wenn nil im savegame steht trotdem ein gültiger wert für die gespeicherten Daten da sind
+1.0.0.20 - try to fix MP sync error
 ]]>
         </de>
         <en>
