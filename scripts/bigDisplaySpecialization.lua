@@ -159,8 +159,8 @@ function BigDisplaySpecialization:loadFromXMLFile(xmlFile, key)
     local spec = self.spec_bigDisplay;
 
     xmlFile:iterate(key .. ".display", function(index, displayKey)
-        local size = xmlFile:getValue(displayKey.."#textSize", 0)
-        local displayType = xmlFile:getValue(displayKey.."#displayType", 0)
+        local size = xmlFile:getValue(displayKey.."#textSize", 0.11) or 0.11;
+        local displayType = xmlFile:getValue(displayKey.."#displayType", 0) or 0;
 
         if spec.bigDisplays[index] ~= nil then
             if size ~= 0 then
