@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<i3D name="DisplayStand" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+<i3D name="DisplayStand.i3d" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
   <Asset>
-    <Export program="i3dConverter" version="1.0"/>
+    <Export program="GIANTS Editor 64bit" version="10.0.3"/>
   </Asset>
 
   <Files>
@@ -13,7 +13,7 @@
 
 
   <Materials>
-    <Material name="stand_mat" materialId="1" diffuseColor="0.8 0.8 0.8 1" customShaderId="4" customShaderVariation="colorScale">
+    <Material name="stand_mat" materialId="5" diffuseColor="0.8 0.8 0.8 1" customShaderId="4" customShaderVariation="colorScale">
       <Normalmap fileId="2"/>
       <Glossmap fileId="3"/>
       <CustomParameter name="colorScale0" value="0.8 0.8 0.8 1"/>
@@ -25,26 +25,26 @@
   </Shapes>
 
   <Scene>
-    <TransformGroup name="displayStand" nodeId="4">
-      <TransformGroup name="clearAreas" nodeId="5">
-        <TransformGroup name="clearArea1Start" translation="0.15 0 -0.15" nodeId="6">
-          <TransformGroup name="clearArea1Height" translation="-0.3 0 0" nodeId="7"/>
-          <TransformGroup name="clearArea1Width" translation="0 0 0.3" nodeId="8"/>
+    <TransformGroup name="displayStand" clipDistance="200" nodeId="8">
+      <TransformGroup name="clearAreas" nodeId="9">
+        <TransformGroup name="clearArea1Start" translation="0.15 0 -0.15" nodeId="10">
+          <TransformGroup name="clearArea1Height" translation="-0.3 0 0" nodeId="11"/>
+          <TransformGroup name="clearArea1Width" translation="0 0 0.3" nodeId="12"/>
         </TransformGroup>
       </TransformGroup>
-      <TransformGroup name="levelAreas" nodeId="9">
-        <TransformGroup name="levelArea1Start" translation="0.5 0 -0.5" nodeId="10">
-          <TransformGroup name="levelArea1Height" translation="0 0 1" nodeId="11"/>
-          <TransformGroup name="levelArea1Width" translation="-1 0 0" nodeId="12"/>
+      <TransformGroup name="levelAreas" nodeId="13">
+        <TransformGroup name="levelArea1Start" translation="0.5 0 -0.5" nodeId="14">
+          <TransformGroup name="levelArea1Height" translation="0 0 1" nodeId="15"/>
+          <TransformGroup name="levelArea1Width" translation="-1 0 0" nodeId="16"/>
         </TransformGroup>
       </TransformGroup>
-      <TransformGroup name="tipOcclusionUpdateAreas" nodeId="13">
-        <TransformGroup name="tipOcclusionUpdateArea1Start" translation="0.15 0 -0.15" nodeId="14">
-          <TransformGroup name="tipOcclusionUpdateArea1End" translation="-0.3 0 0.3" nodeId="15"/>
+      <TransformGroup name="tipOcclusionUpdateAreas" nodeId="17">
+        <TransformGroup name="tipOcclusionUpdateArea1Start" translation="0.15 0 -0.15" nodeId="18">
+          <TransformGroup name="tipOcclusionUpdateArea1End" translation="-0.3 0 0.3" nodeId="19"/>
         </TransformGroup>
       </TransformGroup>
-      <TransformGroup name="visuals" nodeId="16">
-        <Shape name="Cylinder" translation="0 1.5 0" scale="1 1.49978 1" shapeId="1" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="17" castsShadows="true" receiveShadows="true" materialIds="1"/>
+      <TransformGroup name="visuals" nodeId="20">
+        <Shape name="Cylinder" translation="0 1.5 0" scale="1 1.49978 1" shapeId="1" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="21" castsShadows="true" receiveShadows="true" materialIds="5"/>
       </TransformGroup>
     </TransformGroup>
   </Scene>
