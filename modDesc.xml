@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="95">
     <author>Achimobil</author>
-    <version>1.0.0.21</version>
+    <version>1.0.0.22</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -31,26 +31,13 @@ Das Verändern oder erneutes Hochladen, ob ganz oder in Teilen, ist nicht gestat
 
 Fehler oder Verbesserungsvorschläge bitte auf <a href="https://github.com/Achimobil/FS25_DigitalDisplay">Github</a> melden.
 
-Changelog:
-1.0.0.2 - Mehr Tierställe werden jetzt unterstützt
-1.0.0.3 - Giants Objektlager werden jetzt unterstützt
-1.0.0.4 - Lua fehler aus 1.0.0.3 gefixed
-1.0.0.5 - Umbau von Objektlagern, da das benutzte nicht auf Clients verfügbar ist
-1.0.0.6 - 4 Standard Displays neu in Blender erstellt. Jetzt mit Farbwahl aber Position der Schrift nicht schön
-1.0.0.7 - Giants Objektlager noch mal umgebaut, da benutzte events nur server waren und so. Gähren wird nicht gesynced, ansonsten sieht das jetzt besser aus
-1.0.0.8 - Doppelbreites Display und Ständer neu gemacht mit Farbwahl. Stand Display bleibt wie es ist, nur textposition angepasst. Nostalgie ;)
-1.0.0.9 - Schrift Position an neue modelle angepasst. #12
-1.0.0.10 - Activatable eingefügt und im XtraSmall eingebaut als vorbereitung eines Einstellungsmenüs. Die Größe wird jetzt im Savegame gespeichert, aber noch nicht syncronisiert. Mit R kann jetzt die größe nur erhöht werden.
-1.0.0.11 - XtraSmall hat jetzt einen Einstellungsdialog mit Slider für die Größe. Muss nur noch gesynced werden im MP
-1.0.0.12 - Sync beim ändern der größe und beim connecten in Skript eingebaut
-1.0.0.13 - Alle Displays mit dem Trigger für die Einstellungen versehen.
-1.0.0.14 - Filltype Text wird jetzt gekürzt, wenn er in den Mengentext rein kommen würde
-1.0.0.15 - Anzeige kann generell jetzt mit Kapazität bei elementen mit sourceStorage auch Kapazität und % anzeigen. Muss aber noch Konfigurierbar gemacht werden.
-1.0.0.16 - FR Übersetztungen von papa vendeuze
-1.0.0.17 - Dialog kann jetzt die Anzeigearten der Menge ändern
-1.0.0.18 - Übersetzungen in Dateien ausgelagert
-1.0.0.19 - Sicherstellen, dass wenn nil im savegame steht trotdem ein gültiger wert für die gespeicherten Daten da sind
-1.0.0.20 - try to fix MP sync error
+Changelog 1.1.0.0
+- Unterstützt jetzt mehr Tierställe und Giants Objektlager
+- Displays überarbeitet und mit Farbwahl ausgestattet (Nicht das Klassische Standdisplay)
+- Etwas mehr Abstand der Schrift zum Rahmen für bessere Sicht
+- Einstellungsmenü pro Display zum Einstellen der Schriftgröße und Mengenanzeigetyps hinzugefügt
+- Filltype Text wird jetzt gekürzt, wenn er zu lang ist
+- FR Übersetzungen hinzugefügt
 ]]>
         </de>
         <en>
@@ -72,7 +59,16 @@ Price per pole: 250$
 Uploading to sites other than ModHub is prohibited and therefore illegal, linking only with original download link. NO substitute link!
 Modifying and re-uploading in whole or in part is not allowed!
 
-Please report bugs or suggestions for improvement on <a href="https://github.com/Achimobil/FS25_DigitalDisplay">Github</a>.]]>
+Please report bugs or suggestions for improvement on <a href="https://github.com/Achimobil/FS25_DigitalDisplay">Github</a>.
+
+Changelog 1.1.0.0
+- Now supports more animal husbandries and Giants object storage
+- Displays revised and equipped with colour selection (not the classic stand display)
+- Slightly more distance for the letters to the frame for better visibility
+- Added settings menu per display to set font size and quantity display type
+- Filltype text is now shortened if it is too long
+- FR translations added
+]]>
         </en>
     </description>
     <multiplayer supported="true"/>
