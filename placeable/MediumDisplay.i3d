@@ -33,7 +33,7 @@
   </Shapes>
 
   <Scene>
-    <TransformGroup name="MediumDisplay" nodeId="14">
+    <TransformGroup name="MediumDisplay" clipDistance="200" nodeId="14">
       <TransformGroup name="display" translation="0 0 0.1" nodeId="15">
         <Shape name="Bottom" shapeId="1" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="16" castsShadows="true" receiveShadows="true" materialIds="5"/>
         <Shape name="Middle" translation="0 0.05 0" scale="1 1.4 1" shapeId="2" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" nodeId="17" castsShadows="true" receiveShadows="true" materialIds="5">
@@ -43,9 +43,9 @@
           <TransformGroup name="displayStartPoint" translation="-0.95 0 0.089" nodeId="20"/>
         </Shape>
       </TransformGroup>
-      <TransformGroup name="functions" translation="0 0 0.05" nodeId="26">
-        <Shape name="infoTriggerNode" translation="0 0 0.7" shapeId="5" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x100000" clipDistance="100" nodeId="27" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="7"/>
-        <Shape name="playerTrigger" translation="0 0 0.7" shapeId="5" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x110000" clipDistance="100" nodeId="28" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="7"/>
+      <TransformGroup name="functions" translation="0 0 0.05" nodeId="21">
+        <Shape name="infoTriggerNode" translation="0 0 0.7" shapeId="5" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x100000" clipDistance="100" nodeId="22" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="7"/>
+        <Shape name="playerTrigger" translation="0 0 0.7" shapeId="5" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x110000" clipDistance="100" nodeId="23" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="7"/>
       </TransformGroup>
     </TransformGroup>
   </Scene>
