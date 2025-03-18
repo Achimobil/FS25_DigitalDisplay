@@ -9,12 +9,12 @@
         <text name="function_displayStand" text="Se nell'edificio non è presente una superficie adatta, è possibile fissare gli espositori da parete a questo palo."/>
 
         <!-- New items -->
-        <text name="DisplaySettings_Title" text="Display Settings"/>
-        <text name="action_openDisplaySettings" text="Change Display Settings"/>
-        <text name="display_textSizeLabel" text="Textsize"/>
-        <text name="setting_Value_0" text="Only Amount"/>
-        <text name="setting_Value_1" text="Amount and Capacity"/>
-        <text name="setting_Value_2" text="Amount and Percentage"/>
-        <text name="display_valueType" text="Valuedisplay"/>
+        <text name="DisplaySettings_Title" text="Impostazioni di visualizzazione"/>
+        <text name="action_openDisplaySettings" text="Modifica impostazioni di visualizzazione"/>
+        <text name="display_textSizeLabel" text="Dimensione del testo"/>
+        <text name="setting_Value_0" text="Solo Quantità"/>
+        <text name="setting_Value_1" text="Quantità e capacità"/>
+        <text name="setting_Value_2" text="Quantità e percentuale"/>
+        <text name="display_valueType" text="Visualizzazione del valore"/>
     </texts>
 </l10n>
