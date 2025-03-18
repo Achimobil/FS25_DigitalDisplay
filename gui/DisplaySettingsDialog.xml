@@ -29,7 +29,7 @@
         </GuiElement>
 
         <BoxLayout profile="fs25_dialogButtonBox" id="buttonsPC">
-            <Button profile="buttonOK" text="Auswählen" onClick="onClickOk" id="yesButton"/>
+            <Button profile="buttonOK" text="$l10n_button_ok" onClick="onClickOk" id="yesButton"/>
             <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
             <Button profile="buttonBack" text="$l10n_button_back" onClick="onClickBack" id="noButton"/>
         </BoxLayout>
