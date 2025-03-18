@@ -55,7 +55,6 @@ function DisplaySettingsDialog:onClickBack()
     self:close()
 end
 
-
 ---Dialog-Titel einstellen
 -- @param string title
 function DisplaySettingsDialog:setTitle(title)
@@ -63,12 +62,8 @@ function DisplaySettingsDialog:setTitle(title)
     self.dialogTitle = title
 end
 
----Buttens anlegen
-function DisplaySettingsDialog:onCreateButten()
-
-end
-
 function DisplaySettingsDialog:onOpen()
+    DisplaySettingsDialog:superClass().onOpen(self)
     local textSizeOptions = {}
     for i = 8, 15, 1 do
         local text = string.format("%d", i)
