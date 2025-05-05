@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<l10n>
+    <translationContributors>Ziuta</translationContributors>
+    <texts>
+        <text name="unversalDisplay" text="Wyświetlacz uniwersalny (Wierszy: %s)"/>
+        <text name="function_unversalDisplay" text="Cyfrowy wyświetlacz dla pobliskiej produkcji lub magazynu (bez magazynów bel/palet). Wyświetla całą zawartość posortowaną alfabetycznie. Automatyczne stronicowanie, gdy jest dużo treści."/>
+        <text name="bigDisplay_connected_with" text="Połączony z"/>
+        <text name="storeItem_displayStand" text="Maszt dla wyświetlaczy ściennych"/>
+        <text name="function_displayStand" text="Wyświetlacze ścienne można przymocować do tego masztu, jeśli w budynku nie ma odpowiedniej powierzchni."/>
+
+        <!-- New items -->
+        <text name="DisplaySettings_Title" text="Ustawienia wyświetlacza"/>
+        <text name="action_openDisplaySettings" text="Zmiana ustawień wyświetlacza"/>
+        <text name="display_textSizeLabel" text="Rozmiar tekstu"/>
+        <text name="setting_Value_0" text="Tylko stan"/>
+        <text name="setting_Value_1" text="Stan i pojemność"/>
+        <text name="setting_Value_2" text="Stan i wartość procentowa"/>
+        <text name="display_valueType" text="Wyświetlana zawartość"/>
+    </texts>
+</l10n>

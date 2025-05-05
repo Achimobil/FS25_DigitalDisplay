@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<modDesc descVersion="96">
+<modDesc descVersion="97">
     <author>Achimobil</author>
-    <version>1.1.0.0</version>
+    <version>1.1.0.1</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -31,7 +31,10 @@ Das Verändern oder erneutes Hochladen, ob ganz oder in Teilen, ist nicht gestat
 
 Fehler oder Verbesserungsvorschläge bitte auf <a href="https://github.com/Achimobil/FS25_DigitalDisplay">Github</a> melden.
 
-Changelog 1.1.0.0
+Changelog
+1.1.0.1 - PL Übersetzungen von Ziuta
+
+1.1.0.0
 - Unterstützt jetzt mehr Tierställe und Giants Objektlager
 - Displays überarbeitet und mit Farbwahl ausgestattet (Nicht das Klassische Standdisplay)
 - Etwas mehr Abstand der Schrift zum Rahmen für bessere Sicht
