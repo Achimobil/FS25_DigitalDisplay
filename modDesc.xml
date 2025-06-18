@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="99">
     <author>Achimobil</author>
-    <version>1.1.0.3</version>
+    <version>1.1.0.4</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -22,7 +22,7 @@ Enthalten ist ein klobiges Stand Display und mehrere Wanddisplays Mit 3 bis 26 Z
 Hinzu kommt noch ein 26 Zeiliges Wanddisplay mit doppelter Breite und somit 52 Anzeigbaren Inhalten.
 Für die Wanddiplays ist auch ein Mast dabei, wenn das Gebäude keine geeignete Fläche hat zum platzieren.
 
-Preis pro Display: 3.000€ bis 20.000€
+Preis pro Display: 2.000€ bis 20.000€
 Unterhalt pro Monat: 5€
 Preis für Mast: 250€
 
@@ -35,6 +35,7 @@ Changelog
 1.1.0.1 - PL Übersetzungen von Ziuta
 1.1.0.2 - Selten auftretenden nil Fehler abgefangen
 1.1.0.3 - FR Übersetzung ohne Placeholder korrigiert
+1.1.0.4 - Kleineres 3 Zeiliges Display hinzugefügt
 
 1.1.0.0
 - Unterstützt jetzt mehr Tierställe und Giants Objektlager
@@ -57,7 +58,7 @@ Included is a chunky stand display and several wall displays with 3 to 26 lines 
 In addition, there is a 26-line wall display with double width and thus 52 displayable content.
 For the wall displays is also a pole included, if the building has no suitable area to place.
 
-Price per display: 3.000$ to 20.000$
+Price per display: 2.000$ to 20.000$
 Maintenance per month: 5$
 Price per pole: 250$
 
@@ -80,6 +81,7 @@ Changelog 1.1.0.0
     <iconFilename>icon_bigDisplay.dds</iconFilename>
     <storeItems>
         <storeItem xmlFilename="displayStand.xml"/>
+        <storeItem xmlFilename="ShortXtraSmallDisplay.xml"/>
         <storeItem xmlFilename="XtraSmallDisplay.xml"/>
         <storeItem xmlFilename="smallDisplay.xml"/>
         <storeItem xmlFilename="mediumDisplay.xml"/>
