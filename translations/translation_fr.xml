@@ -2,7 +2,7 @@
 <l10n>
     <translationContributors>Achimobil</translationContributors>
     <texts>
-        <text name="unversalDisplay" text="Affichage Universel"/>
+        <text name="unversalDisplay" text="Affichage Universel (%s lignes)"/>
         <text name="function_unversalDisplay" text="Affichage numérique de la prochaine production ou du prochain entrepôt (pas de stockage d'objets). Affichage de tout le contenu trié par ordre alphabétique (lua). Passage automatique à une nouvelle page lorsque le contenu est volumineux."/>
         <text name="bigDisplay_connected_with" text="Connecté"/>
         <text name="storeItem_displayStand" text="Mât pour les vitrines murales"/>

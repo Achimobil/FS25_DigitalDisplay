@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="99">
     <author>Achimobil</author>
-    <version>1.1.0.2</version>
+    <version>1.1.0.3</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -33,7 +33,8 @@ Fehler oder Verbesserungsvorschläge bitte auf <a href="https://github.com/Achim
 
 Changelog
 1.1.0.1 - PL Übersetzungen von Ziuta
-1.1.0.1 - Selten auftretenden nil Fehler abgefangen
+1.1.0.2 - Selten auftretenden nil Fehler abgefangen
+1.1.0.3 - FR Übersetzung ohne Placeholder korrigiert
 
 1.1.0.0
 - Unterstützt jetzt mehr Tierställe und Giants Objektlager
