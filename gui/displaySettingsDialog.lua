@@ -44,7 +44,11 @@ function DisplaySettingsDialog:onClickOk()
     local displayType = self.valueDisplayTypeElement:getState() - 1;
 
     local spec = self.placable;
-    spec:setSettings(textSize, displayType);
+    if spec ~= nil then
+        spec:setSettings(textSize, displayType);
+    else
+        Logging.info("Could not find placable to set settings")
+    end
 
     self:close()
 end
