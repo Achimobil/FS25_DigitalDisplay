@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<modDesc descVersion="99">
+<modDesc descVersion="100">
     <author>Achimobil</author>
-    <version>1.1.0.4</version>
+    <version>1.1.0.5</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -36,6 +36,7 @@ Changelog
 1.1.0.2 - Selten auftretenden nil Fehler abgefangen
 1.1.0.3 - FR Übersetzung ohne Placeholder korrigiert
 1.1.0.4 - Kleineres 3 Zeiliges Display hinzugefügt
+1.1.0.5 - Fehlende Colli zu altem Display hinzugefügt
 
 1.1.0.0
 - Unterstützt jetzt mehr Tierställe und Giants Objektlager

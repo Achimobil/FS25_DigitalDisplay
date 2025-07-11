@@ -2,7 +2,7 @@
 
 <i3D name="BigDisplay.i3d" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
   <Asset>
-    <Export program="GIANTS Editor 64bit" version="10.0.3"/>
+    <Export program="GIANTS Editor 64bit" version="10.0.6"/>
   </Asset>
 
   <Files>
@@ -23,9 +23,9 @@
       <Normalmap fileId="11"/>
       <Glossmap fileId="12"/>
     </Material>
-    <Material name="i3d_default_material" materialId="19" diffuseColor="0.8 0.8 0.8 1" specularColor="0.6 1 0">
+    <Material name="i3d_default_material" materialId="6" diffuseColor="0.8 0.8 0.8 1" specularColor="0.6 1 0">
     </Material>
-    <Material name="Plastik_mat" materialId="6" customShaderId="2">
+    <Material name="Plastik_mat" materialId="7" customShaderId="2">
       <Texture fileId="1"/>
       <Custommap name="detailSpecular" fileId="3"/>
       <Custommap name="detailNormal" fileId="4"/>
@@ -40,14 +40,14 @@
 
   <Scene>
     <TransformGroup name="display" nodeId="12">
-      <Shape name="Cube" rotation="-6.83019e-06 -0 0" shapeId="1" static="true" clipDistance="200" nodeId="13" castsShadows="true" receiveShadows="true" materialIds="6"/>
+      <Shape name="Cube" rotation="-6.83019e-06 -0 0" shapeId="1" static="true" collisionFilterGroup="0x1034" collisionFilterMask="0xfffffbff" clipDistance="200" nodeId="13" castsShadows="true" receiveShadows="true" materialIds="7"/>
       <Shape name="Plane" translation="-0.0113409 1.76 0.014176" rotation="90 -0 0" shapeId="2" clipDistance="200" nodeId="14" castsShadows="true" receiveShadows="true" materialIds="5">
         <TransformGroup name="TextArea" translation="-0.909901 0.14 -1.15239" rotation="-90 -0 0" clipDistance="200" nodeId="15"/>
       </Shape>
     </TransformGroup>
-    <TransformGroup name="functions" translation="0 1.52338 0.05" nodeId="22">
-      <Shape name="infoTriggerNode" translation="0 0 0.7" shapeId="3" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x100000" clipDistance="100" nodeId="23" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="19"/>
-      <Shape name="playerTrigger" translation="0 0 0.7" shapeId="3" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x110000" clipDistance="100" nodeId="24" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="19"/>
+    <TransformGroup name="functions" translation="0 1.52338 0.05" nodeId="16">
+      <Shape name="infoTriggerNode" translation="0 0 0.7" shapeId="3" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x100000" clipDistance="100" nodeId="17" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="6"/>
+      <Shape name="playerTrigger" translation="0 0 0.7" shapeId="3" static="true" trigger="true" collisionFilterGroup="0x20000000" collisionFilterMask="0x110000" clipDistance="100" nodeId="18" castsShadows="false" receiveShadows="false" nonRenderable="true" materialIds="6"/>
     </TransformGroup>
   </Scene>
 
