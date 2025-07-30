@@ -255,7 +255,7 @@ function BigDisplaySpecialization:onLoad(savegame)
     end
 
     function spec.fillLevelChangedCallback(fillType, delta)
-        self:updateDisplayData();
+        spec.updateDisplaysRequested = true;
     end
 end
 
@@ -462,7 +462,8 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
     end
 
     spec.loadingStationToUse = currentLoadingStation;
-    self:updateDisplayData();
+    spec.updateDisplaysRequested = true;
+    self:updateDisplayData("reconnectToStorage");
 
     -- farben festlegen. Input, output oder beides?
     if usedProduction ~= nil then
@@ -511,8 +512,6 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
         spec.loadingStationToUse:addFillLevelChangedListeners(spec.fillLevelChangedCallback);
     else
         BigDisplaySpecialization.info("no storage to add listener found");
-        local storeSpec = spec.loadingStationToUse.spec_objectStorage;
-        BigDisplaySpecialization.DebugTable("storeSpec", storeSpec);
     end
 
     spec.loadingStationToUse:addDeleteListener(self, "onStationDeleted")
@@ -570,24 +569,26 @@ function BigDisplaySpecialization:getDistance(loadingStation, x, y, z)
 end
 
 ---Update the Data which the Display shows
-function BigDisplaySpecialization:updateDisplayData()
+function BigDisplaySpecialization:updateDisplayData(debugInfoText)
     local spec = self.spec_bigDisplay;
     if spec == nil or spec.loadingStationToUse == nil then
         return;
     end
 
+--     BigDisplaySpecialization.devInfo("updateDisplayData for %s from %s, %s, %s", spec.loadingStationToUse:getName(), debugInfoText, spec.updateDisplaysRunning, spec.updateDisplaysDtSinceLastTime)
+
     -- only one time read at a time for more performance
     if spec.updateDisplaysRunning then
         return
-    else
-        if spec.updateDisplaysDtSinceLastTime <= 500 then
-            spec.updateDisplaysRequested = true;
-            return;
-        end
+--     else
+--         if spec.updateDisplaysRequested == false and spec.updateDisplaysDtSinceLastTime >= 500 then
+--             spec.updateDisplaysRequested = true;
+--             return;
+--         end
     end
     spec.updateDisplaysRunning = true;
 
-    BigDisplaySpecialization.devInfo("updateDisplayData")
+    BigDisplaySpecialization.devInfo("updateDisplayData for %s from %s", spec.loadingStationToUse:getName(), debugInfoText)
 
     local farmId = self:getOwnerFarmId();
 
@@ -717,7 +718,6 @@ function BigDisplaySpecialization:getAllFillLevels(station, farmId)
 
     -- inhalt von object storages einfügen
     if station.spec_objectStorage ~= nil then
---         BigDisplaySpecialization.DebugTable("station.spec_objectStorage.objectInfos", station.spec_objectStorage.objectInfos, 4);
         for _, objectInfo in pairs(station.spec_objectStorage.objectInfos) do
             local fillType = nil;
             local fillLevel = nil;
@@ -779,33 +779,36 @@ function BigDisplaySpecialization:updateDisplays(dt)
         return;
     end
 
+    -- position des spielers
+    local x, z = 0, 0;
+    if g_currentMission.hud.controlledVehicle ~= nil then
+        x, _, z = getWorldTranslation(g_currentMission.hud.controlledVehicle.rootNode);
+    elseif g_localPlayer.rootNode ~= nil then
+        x, _, z = getWorldTranslation(g_localPlayer.rootNode);
+    end
+
+    -- entfernung zum display ermitteln damit es nicht immer gerendert und nicht aktualisiert wird, wenn der Spieler es nicht sieht
+    -- display position nur ein mal ermitteln
+    if spec.bigDisplays[1].worldTranslation == nil then
+        spec.bigDisplays[1].worldTranslation = {getWorldTranslation(spec.bigDisplays[1].nodeId)};
+    end
+    local currentDistance = MathUtil.vector2Length(x - spec.bigDisplays[1].worldTranslation[1], z - spec.bigDisplays[1].worldTranslation[3]);
+    if currentDistance > spec.bigDisplays[1].textDrawDistance then
+        return;
+    end
+
     spec.updateDisplaysDtSinceLastTime = spec.updateDisplaysDtSinceLastTime + dt;
-    if spec.updateDisplaysRequested then
-        self:updateDisplayData();
+    if spec.updateDisplaysRequested and spec.updateDisplaysDtSinceLastTime >= 1000 then
+        self:updateDisplayData("updateDisplays");
     end
 
     setTextVerticalAlignment(RenderText.VERTICAL_ALIGN_BASELINE)
 
     for _, bigDisplay in pairs(spec.bigDisplays) do
 
-        -- entfernung zum display ermitteln damit es nicht immer gerendert wird
-        -- display position nur ein mal ermitteln
-        if bigDisplay.worldTranslation == nil then
-            bigDisplay.worldTranslation = {getWorldTranslation(bigDisplay.nodeId)};
-        end
-
-        -- position des spielers
-        local x, z = 0, 0;
-        if g_currentMission.hud.controlledVehicle ~= nil then
-            x, _, z = getWorldTranslation(g_currentMission.hud.controlledVehicle.rootNode);
-        elseif g_localPlayer.rootNode ~= nil then
-            x, _, z = getWorldTranslation(g_localPlayer.rootNode);
-        end
-
-        local currentDistance = MathUtil.vector2Length(x - bigDisplay.worldTranslation[1], z - bigDisplay.worldTranslation[3]);
         local countOfDisplayLines = #bigDisplay.displayLines;
 
-        if currentDistance < bigDisplay.textDrawDistance and countOfDisplayLines ~= 0 then
+        if countOfDisplayLines ~= 0 then
             -- paging
             local pageOffset = 0;
             bigDisplay.lastPageTime = bigDisplay.lastPageTime + dt;
@@ -895,7 +898,7 @@ function BigDisplaySpecialization:setSettings(textSize, displayType, noEventSend
         bigDisplay.textSize = textSize;
         bigDisplay.displayType = displayType;
         BigDisplaySpecialization:CreateDisplayLines(bigDisplay);
-        self:updateDisplayData();
+        spec.updateDisplaysRequested = true;
     end
 
     if noEventSend == nil or noEventSend == false then
