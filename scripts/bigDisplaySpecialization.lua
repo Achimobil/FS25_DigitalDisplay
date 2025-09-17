@@ -15,7 +15,7 @@ BigDisplaySpecialization = {
     Name = "BigDisplaySpecialization",
     displays = {},
     Debug = false
-}
+};
 
 BigDisplaySpecialization.modName = g_currentModName;
 BigDisplaySpecialization.modDir = g_currentModDirectory;
@@ -561,7 +561,7 @@ function BigDisplaySpecialization:getDistance(loadingStation, x, y, z)
         end
 
         local distance = MathUtil.vector3Length(x - tx, y - ty, z - tz)
-        -- BigDisplaySpecialization.devInfo("Distance check for %s, distance %s, station %s-%s-%s, display %s-%s-%s", loadingStation:getName(), distance,tx, ty, tz, x, y, z);
+        BigDisplaySpecialization.devInfo("Distance check for %s, distance %s, station %s-%s-%s, display %s-%s-%s", loadingStation:getName(), distance,tx, ty, tz, x, y, z);
         return distance;
     end
 
@@ -591,6 +591,11 @@ function BigDisplaySpecialization:updateDisplayData(debugInfoText)
     BigDisplaySpecialization.devInfo("updateDisplayData for %s from %s", spec.loadingStationToUse:getName(), debugInfoText)
 
     local farmId = self:getOwnerFarmId();
+
+    -- wenn der User eine FarmId hat, dann diese benutzen, damit bei silos das ausgelesen wird, was der user farm gehört
+    if g_localPlayer ~= nil and g_localPlayer.farmId ~= nil then
+        farmId = g_localPlayer.farmId;
+    end
 
     for _, bigDisplay in pairs(spec.bigDisplays) do
         -- in jede line schreiben, was angezeigt werden soll
