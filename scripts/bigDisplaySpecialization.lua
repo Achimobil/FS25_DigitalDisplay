@@ -21,6 +21,7 @@ BigDisplaySpecialization.modName = g_currentModName;
 BigDisplaySpecialization.modDir = g_currentModDirectory;
 
 source(BigDisplaySpecialization.modDir.."gui/displaySettingsDialog.lua");
+source(BigDisplaySpecialization.modDir.."scripts/PlaceableHusbandryFoodExtension.lua");
 source(BigDisplaySpecialization.modDir.."scripts/PlaceableObjectStorageExtension.lua");
 source(BigDisplaySpecialization.modDir.."scripts/bigDisplaySpecializationActivatable.lua");
 source(BigDisplaySpecialization.modDir.."scripts/bigDisplaySettingEvent.lua");
@@ -255,6 +256,16 @@ function BigDisplaySpecialization:onLoad(savegame)
     end
 
     function spec.fillLevelChangedCallback(fillType, delta)
+        if spec.updateDisplaysRequested == false then
+            BigDisplaySpecialization.devInfo("fillLevelChangedCallback")
+        end
+        spec.updateDisplaysRequested = true;
+    end
+
+    function spec.onHusbandryFillLevelChanged(fillType, delta)
+        if spec.updateDisplaysRequested == false then
+            BigDisplaySpecialization.devInfo("onHusbandryFillLevelChanged")
+        end
         spec.updateDisplaysRequested = true;
     end
 end
@@ -361,6 +372,10 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
             for _, sourceStorage in pairs(storages) do
                 sourceStorage:removeFillLevelChangedListeners(spec.fillLevelChangedCallback);
             end
+        end
+        if spec.loadingStationToUse.owningPlaceable ~= nil and spec.loadingStationToUse.owningPlaceable.spec_husbandryFood ~= nil then
+            -- some husbanries the stations are not usable, this is a fallback to the eventlisteners directly
+            table.removeElement(spec.loadingStationToUse.owningPlaceable.eventListeners.onHusbandryFillLevelChanged, spec)
         end
         spec.loadingStationToUse:removeDeleteListener(self, "onStationDeleted")
         spec.loadingStationToUse = nil;
@@ -502,12 +517,50 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
         end
     end
 
+    -- Stroh bei Tierställen hinzufügen einfärben
+    if spec.loadingStationToUse.owningPlaceable ~= nil and spec.loadingStationToUse.owningPlaceable.spec_husbandryStraw ~= nil then
+        local fillType = spec.loadingStationToUse.owningPlaceable.spec_husbandryStraw.inputFillType;
+
+        if spec.changedColors[fillType] == nil then
+            spec.changedColors[fillType] = {isInput = false, isOutput = false};
+        end
+        spec.changedColors[fillType].color = spec.bigDisplays[1].colorInput;
+    end
+
+    -- Stroh bei Tierställen hinzufügen einfärben
+    if spec.loadingStationToUse.owningPlaceable ~= nil and spec.loadingStationToUse.owningPlaceable.spec_husbandryStraw ~= nil then
+        local fillType = spec.loadingStationToUse.owningPlaceable.spec_husbandryStraw.inputFillType;
+
+        if spec.changedColors[fillType] == nil then
+            spec.changedColors[fillType] = {isInput = false, isOutput = false};
+        end
+        spec.changedColors[fillType].color = spec.bigDisplays[1].colorInput;
+    end
+
+    -- Wasser bei Tierställen hinzufügen einfärben
+    if spec.loadingStationToUse.owningPlaceable ~= nil and spec.loadingStationToUse.owningPlaceable.spec_husbandryWater ~= nil then
+        local fillType = spec.loadingStationToUse.owningPlaceable.spec_husbandryWater.fillType;
+
+        if spec.changedColors[fillType] == nil then
+            spec.changedColors[fillType] = {isInput = false, isOutput = false};
+        end
+        spec.changedColors[fillType].color = spec.bigDisplays[1].colorInput;
+    end
+
     -- Auswahl welches storage connected wird
+--     BigDisplaySpecialization.DebugTable("spec.loadingStationToUse.owningPlaceable", spec.loadingStationToUse.owningPlaceable)
     local storages = spec.loadingStationToUse.sourceStorages or spec.loadingStationToUse.targetStorages;
-    if storages ~= nil then
+    if storages ~= nil and #storages ~= 0 then
         for _, sourceStorage in pairs(storages) do
             sourceStorage:addFillLevelChangedListeners(spec.fillLevelChangedCallback);
         end
+        if #storages == 0 then
+            BigDisplaySpecialization.info("storages list empty of %s", spec.loadingStationToUse:getName());
+        end
+    elseif spec.loadingStationToUse.owningPlaceable ~= nil and spec.loadingStationToUse.owningPlaceable.spec_husbandryFood ~= nil then
+        -- some husbanries the stations are not usable, this is a fallback to the eventlisteners directly
+        table.addElement(spec.loadingStationToUse.owningPlaceable.eventListeners.onHusbandryFillLevelChanged, spec)
+        BigDisplaySpecialization.devInfo("onHusbandryFillLevelChanged used for %s", spec.loadingStationToUse:getName());
     elseif spec.loadingStationToUse.addFillLevelChangedListeners ~= nil then
         spec.loadingStationToUse:addFillLevelChangedListeners(spec.fillLevelChangedCallback);
     else
@@ -569,6 +622,7 @@ function BigDisplaySpecialization:getDistance(loadingStation, x, y, z)
 end
 
 ---Update the Data which the Display shows
+-- @param string debugInfoText This text is used in the debug prints
 function BigDisplaySpecialization:updateDisplayData(debugInfoText)
     local spec = self.spec_bigDisplay;
     if spec == nil or spec.loadingStationToUse == nil then
