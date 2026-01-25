@@ -550,12 +550,9 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
     -- Auswahl welches storage connected wird
 --     BigDisplaySpecialization.DebugTable("spec.loadingStationToUse.owningPlaceable", spec.loadingStationToUse.owningPlaceable)
     local storages = spec.loadingStationToUse.sourceStorages or spec.loadingStationToUse.targetStorages;
-    if storages ~= nil and #storages ~= 0 then
+    if storages ~= nil and next(storages) then
         for _, sourceStorage in pairs(storages) do
             sourceStorage:addFillLevelChangedListeners(spec.fillLevelChangedCallback);
-        end
-        if #storages == 0 then
-            BigDisplaySpecialization.info("storages list empty of %s", spec.loadingStationToUse:getName());
         end
     elseif spec.loadingStationToUse.owningPlaceable ~= nil and spec.loadingStationToUse.owningPlaceable.spec_husbandryFood ~= nil then
         -- some husbanries the stations are not usable, this is a fallback to the eventlisteners directly
