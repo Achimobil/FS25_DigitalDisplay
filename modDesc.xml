@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<modDesc descVersion="105">
+<modDesc descVersion="106">
     <author>Achimobil</author>
-    <version>1.1.1.4</version>
+    <version>1.2.0.0</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -29,14 +29,14 @@ Preis für Mast: 250€
 Upload auf anderen Seiten außer dem ModHub ist verboten und somit illegal, Verlinkung nur mit Original-Downloadlink. KEIN Ersatzlink!
 Das Verändern oder erneutes Hochladen, ob ganz oder in Teilen, ist nicht gestattet!
 
-Fehler oder Verbesserungsvorschläge bitte auf <a href="https://github.com/Achimobil/FS25_DigitalDisplay">Github</a> melden.
+Fehler oder Verbesserungsvorschläge gerne auf Github: https://github.com/Achimobil/FS25_DigitalDisplay
 
 Changelog
-1.1.0.7 - Performance Optimierungen
-1.1.1.1 - Merge nach ModHub Release
-1.1.1.2 - Anzeige zeigt jetzt aus dem Verbundenen Lager immer das an was zur Farm des Spielers gehört. Zur unterstützung von Silos mit 'perFarm' setting.
-1.1.1.3 - Bei verbindungen ohne storage einträge diese nun über onHusbandryFillLevelChanged eingebunden. Den im Basegame fehlenden aufruf dazu in die PlaceableHusbandryFood eingefügt. Zusätzlich auch die Farben der Inputs bei Tierställen korrigiert.
-1.1.1.4 - Fix für nicht mehr aktualisierung von Silos und Produktionen entstanden in der 1.1.1.3
+1.2.0.0
+- Performance Optimierungen
+- Anzeige zeigt jetzt aus dem Verbundenen Lager immer das an was zur Farm des Spielers gehört. Zur unterstützung von Silos mit 'perFarm' setting
+- Bei verbindungen ohne storage einträge diese nun über onHusbandryFillLevelChanged eingebunden. Den im Basegame fehlenden aufruf dazu in die PlaceableHusbandryFood eingefügt
+- Farben der Inputs bei Tierställen korrigiert
 
 1.1.1.0
 - PL und FR übersetzungen hinzugefügt/korrigiert
@@ -72,9 +72,15 @@ Price per pole: 250$
 Uploading to sites other than ModHub is prohibited and therefore illegal, linking only with original download link. NO substitute link!
 Modifying and re-uploading in whole or in part is not allowed!
 
-Please report bugs or suggestions for improvement on <a href="https://github.com/Achimobil/FS25_DigitalDisplay">Github</a>.
+Please report bugs or suggestions for improvement on Github: https://github.com/Achimobil/FS25_DigitalDisplay
 
 Changelog
+1.2.0.0
+- Performance optimisations
+- Display now always shows what belongs to the player's farm from the connected storage. To support silos with 'perFarm' setting
+- For connections without storage entries, these are now integrated via onHusbandryFillLevelChanged. The call for this, which is missing in the base game, has been added to PlaceableHusbandryFood
+- Colours of inputs for animal stables corrected
+
 1.1.1.0
 - PL and FR translations added/corrected
 - Rare nil error caught
