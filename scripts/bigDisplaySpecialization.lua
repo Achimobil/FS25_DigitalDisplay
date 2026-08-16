@@ -11,6 +11,7 @@ An diesem Skript dürfen ohne Genehmigung von Achimobil keine Änderungen vorgen
 No change Log because not allowed to use in other mods.
 ]]
 
+---Placeable specialization that shows the fill levels of the nearest storage, production point or husbandry on digital displays
 BigDisplaySpecialization = {
     Name = "BigDisplaySpecialization",
     displays = {},
@@ -27,8 +28,8 @@ source(BigDisplaySpecialization.modDir.."scripts/bigDisplaySpecializationActivat
 source(BigDisplaySpecialization.modDir.."scripts/bigDisplaySettingEvent.lua");
 
 ---Print the text to the log as info. Example: BigDisplaySpecialization.info("Alter: %s", age)
--- @param string infoMessage the text to print formated
--- @param any ... format parameter
+---@param infoMessage string the text to print formated
+---@param ... any format parameter
 function BigDisplaySpecialization.info(infoMessage, ...)
     if BigDisplaySpecialization.Debug then
         BigDisplaySpecialization.DebugText("Info:" .. infoMessage, ...)
@@ -38,8 +39,8 @@ function BigDisplaySpecialization.info(infoMessage, ...)
 end
 
 ---Print the text to the log as dev info. Example: BigDisplaySpecialization.devInfo("Alter: %s", age)
--- @param string infoMessage the text to print formated
--- @param any ... format parameter
+---@param infoMessage string the text to print formated
+---@param ... any format parameter
 function BigDisplaySpecialization.devInfo(infoMessage, ...)
     if infoMessage == nil then infoMessage = "nil" end
     if BigDisplaySpecialization.Debug then
@@ -49,10 +50,10 @@ function BigDisplaySpecialization.devInfo(infoMessage, ...)
     end
 end
 
---- Print the given Table to the log
--- @param string text parameter Text before the table
--- @param table myTable The table to print
--- @param number maxDepth depth of print, default 2
+---Print the given Table to the log
+---@param text string Text before the table
+---@param myTable table The table to print
+---@param maxDepth number|nil depth of print, default 2
 function BigDisplaySpecialization.DebugTable(text, myTable, maxDepth)
     if not BigDisplaySpecialization.Debug then return end
     if myTable == nil then
@@ -64,8 +65,8 @@ function BigDisplaySpecialization.DebugTable(text, myTable, maxDepth)
 end
 
 ---Print the text to the log. Example: BigDisplaySpecialization.DebugText("Alter: %s", age)
--- @param string text the text to print formated
--- @param any ... format parameter
+---@param text string the text to print formated
+---@param ... any format parameter
 function BigDisplaySpecialization.DebugText(text, ...)
     if not BigDisplaySpecialization.Debug then return end
     print("BigDisplaySpecialization Debug: " .. string.format(text, ...));
@@ -74,14 +75,14 @@ end
 BigDisplaySpecialization.info("init %s", BigDisplaySpecialization.Name);
 
 ---Checks if all prerequisite specializations are loaded
--- @param table specializations specializations
--- @return boolean hasPrerequisite true if all prerequisite specializations are loaded
+---@param specializations table specializations already loaded on the placeable type
+---@return boolean hasPrerequisite true if all prerequisite specializations are loaded
 function BigDisplaySpecialization.prerequisitesPresent(specializations)
     return true;
 end
 
---- register the event listeners for this spec
--- @param any placeableType
+---Registers the event listeners for this specialization
+---@param placeableType table the placeable type to register the listeners on
 function BigDisplaySpecialization.registerEventListeners(placeableType)
     SpecializationUtil.registerEventListener(placeableType, "onLoad", BigDisplaySpecialization);
     SpecializationUtil.registerEventListener(placeableType, "onFinalizePlacement", BigDisplaySpecialization);
@@ -91,8 +92,8 @@ function BigDisplaySpecialization.registerEventListeners(placeableType)
     SpecializationUtil.registerEventListener(placeableType, "onWriteStream", BigDisplaySpecialization)
 end
 
---- register the functions for this spec
--- @param any placeableType
+---Registers the functions for this specialization
+---@param placeableType table the placeable type to register the functions on
 function BigDisplaySpecialization.registerFunctions(placeableType)
     SpecializationUtil.registerFunction(placeableType, "updateDisplays", BigDisplaySpecialization.updateDisplays);
     SpecializationUtil.registerFunction(placeableType, "updateDisplayData", BigDisplaySpecialization.updateDisplayData);
@@ -102,15 +103,15 @@ function BigDisplaySpecialization.registerFunctions(placeableType)
     SpecializationUtil.registerFunction(placeableType, "setSettings", BigDisplaySpecialization.setSettings)
 end
 
---- register the overwritten functions for this spec
--- @param any placeableType
+---Registers the overwritten functions for this specialization
+---@param placeableType table the placeable type to register the overwritten functions on
 function BigDisplaySpecialization.registerOverwrittenFunctions(placeableType)
     SpecializationUtil.registerOverwrittenFunction(placeableType, "updateInfo", BigDisplaySpecialization.updateInfo)
 end
 
----
--- @param XMLSchema schema
--- @param string basePath
+---Registers the XML schema paths used by this specialization
+---@param schema XMLSchema the xml schema to register paths on
+---@param basePath string base xml path prefix for this specialization
 function BigDisplaySpecialization.registerXMLPaths(schema, basePath)
     schema:setXMLSpecializationType("BigDisplay");
 
@@ -138,9 +139,9 @@ function BigDisplaySpecialization.initSpecialization()
 end
 
 ---Get save attributes and nodes
--- @param table xmlFile
--- @param string key
--- @param table usedModNames
+---@param xmlFile table xml file to write to
+---@param key string base xml key for this element
+---@param usedModNames table mod names already used in the savegame
 function BigDisplaySpecialization:saveToXMLFile(xmlFile, key, usedModNames)
     local spec = self.spec_bigDisplay;
     local index = 0;
@@ -153,9 +154,9 @@ function BigDisplaySpecialization:saveToXMLFile(xmlFile, key, usedModNames)
 end
 
 ---Loading from attributes and nodes
--- @param integer xmlFile id of xml object
--- @param string key key
--- @return boolean success success
+---@param xmlFile table xml file to read from
+---@param key string base xml key for this element
+---@return boolean success always true
 function BigDisplaySpecialization:loadFromXMLFile(xmlFile, key)
     local spec = self.spec_bigDisplay;
 
@@ -170,14 +171,13 @@ function BigDisplaySpecialization:loadFromXMLFile(xmlFile, key)
             end
             spec.bigDisplays[index].displayType = displayType;
         end
-        return
     end)
 
     return true;
 end
 
 ---Called on loading
--- @param table savegame savegame
+---@param savegame? table savegame data, nil when placed fresh
 function BigDisplaySpecialization:onLoad(savegame)
     self.spec_bigDisplay = {};
     local spec = self.spec_bigDisplay;
@@ -189,6 +189,7 @@ function BigDisplaySpecialization:onLoad(savegame)
     spec.updateDisplaysRequested = false;
     spec.updateDisplaysDtSinceLastTime = 9999;
 
+    ---@diagnostic disable-next-line: need-check-nil
     spec.playerTrigger = xmlFile:getValue("placeable.bigDisplays#playerTrigger", nil, self.components, self.i3dMappings)
 
     if spec.playerTrigger ~= nil then
@@ -204,17 +205,24 @@ function BigDisplaySpecialization:onLoad(savegame)
     while true do
         local bigDisplayKey = string.format("placeable.bigDisplays.bigDisplay(%d)", i);
 
+        ---@diagnostic disable-next-line: need-check-nil
         if not xmlFile:hasProperty(bigDisplayKey) then
             break;
         end
 
-        local upperLeftNode = self.xmlFile:getValue(bigDisplayKey .. "#upperLeftNode", nil, self.components, self.i3dMappings);
-        local height = self.xmlFile:getValue(bigDisplayKey .. "#height", 1);
-        local width = self.xmlFile:getValue(bigDisplayKey .. "#width", 1);
+        ---@diagnostic disable-next-line: need-check-nil
+        local upperLeftNode = xmlFile:getValue(bigDisplayKey .. "#upperLeftNode", nil, self.components, self.i3dMappings);
+        ---@diagnostic disable-next-line: need-check-nil
+        local height = xmlFile:getValue(bigDisplayKey .. "#height", 1);
+        ---@diagnostic disable-next-line: need-check-nil
+        local width = xmlFile:getValue(bigDisplayKey .. "#width", 1);
 
         -- display general stuff
-        local size = self.xmlFile:getValue(bigDisplayKey .. "#size", 0.11);
+        ---@diagnostic disable-next-line: need-check-nil
+        local size = xmlFile:getValue(bigDisplayKey .. "#size", 0.11);
+        ---@diagnostic disable-next-line: need-check-nil
         local emptyFilltypes = xmlFile:getValue(bigDisplayKey .. "#emptyFilltypes", false)
+        ---@diagnostic disable-next-line: need-check-nil
         local columns = xmlFile:getValue(bigDisplayKey .. "#columns", 1)
 
         local bigDisplay = {};
@@ -255,14 +263,20 @@ function BigDisplaySpecialization:onLoad(savegame)
         i = i + 1;
     end
 
-    function spec.fillLevelChangedCallback(fillType, delta)
+    ---Marks the display data as needing a refresh when this station's fill level changes
+    ---@param fillType integer fill type index that changed
+    ---@param delta number amount the fill level changed by
+    function spec.fillLevelChangedCallback(fillType, delta) ---@diagnostic disable-line: unused-local
         if spec.updateDisplaysRequested == false then
             BigDisplaySpecialization.devInfo("fillLevelChangedCallback")
         end
         spec.updateDisplaysRequested = true;
     end
 
-    function spec.onHusbandryFillLevelChanged(fillType, delta)
+    ---Marks the display data as needing a refresh when a connected husbandry's fill level changes
+    ---@param fillType integer fill type index that changed
+    ---@param delta number amount the fill level changed by
+    function spec.onHusbandryFillLevelChanged(fillType, delta) ---@diagnostic disable-line: unused-local
         if spec.updateDisplaysRequested == false then
             BigDisplaySpecialization.devInfo("onHusbandryFillLevelChanged")
         end
@@ -270,8 +284,8 @@ function BigDisplaySpecialization:onLoad(savegame)
     end
 end
 
---- create the lines for the given display
--- @param BigDisplay bigDisplay
+---Creates the display line layout for the given display
+---@param bigDisplay table the display to compute the line layout for
 function BigDisplaySpecialization:CreateDisplayLines(bigDisplay)
 
     local newDisplayLines = {};
@@ -318,11 +332,11 @@ function BigDisplaySpecialization:CreateDisplayLines(bigDisplay)
 end
 
 ---Trigger callback
--- @param integer triggerId id of trigger
--- @param integer otherId id of object that calls callback
--- @param boolean onEnter called on enter
--- @param boolean onLeave called on leave
--- @param boolean onStay called on stay
+---@param triggerId integer id of trigger
+---@param otherId integer id of object that entered/left the trigger
+---@param onEnter boolean called on enter
+---@param onLeave boolean called on leave
+---@param onStay boolean called on stay
 function BigDisplaySpecialization:triggerCallback(triggerId, otherId, onEnter, onLeave, onStay)
 
     if onEnter or onLeave then
@@ -344,8 +358,8 @@ function BigDisplaySpecialization:triggerCallback(triggerId, otherId, onEnter, o
     end
 end
 
---- called by base class when placement is finialzing
--- @param table savegame savegame
+---Called by base class when placement is finalizing
+---@param savegame? table savegame data, nil when placed fresh
 function BigDisplaySpecialization:onFinalizePlacement(savegame)
     local spec = self.spec_bigDisplay;
     if spec.loadingStationToUse == nil then
@@ -353,15 +367,15 @@ function BigDisplaySpecialization:onFinalizePlacement(savegame)
     end
 end
 
---- called by base class when placement finialzing is done
--- @param table savegame savegame
+---Called by base class when placement finalizing is done
+---@param savegame? table savegame data, nil when placed fresh
 function BigDisplaySpecialization:onPostFinalizePlacement(savegame)
     table.insert(BigDisplaySpecialization.displays, self);
     self:reconnectToStorage();
 end
 
 ---Reconnect to the next storage in range
--- @param table savegame savegame
+---@param savegame? table savegame data, nil when called outside loading
 function BigDisplaySpecialization:reconnectToStorage(savegame)
 
     local spec = self.spec_bigDisplay;
@@ -397,14 +411,14 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
         -- loadingStation oder unloadingStation aus der liste die jeweils erste benutzen
         local loadingStation = nil;
 
-        for j, loadingSt in pairs (storage.loadingStations) do
+        for _, loadingSt in pairs (storage.loadingStations) do
             if loadingStation == nil then
                 loadingStation = loadingSt;
             end
         end
 
         if loadingStation == nil then
-            for j, unloadingSt in pairs (storage.unloadingStations) do
+            for _, unloadingSt in pairs (storage.unloadingStations) do
                 if loadingStation == nil then
                     loadingStation = unloadingSt;
                 end
@@ -423,7 +437,7 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
 
     -- auch produktionen durchsuchen nach dem richtigen storage, die stehen nicht im storage system
     local farmId = self:getOwnerFarmId();
-    for index, productionPoint in ipairs(g_currentMission.productionChainManager:getProductionPointsForFarmId(farmId)) do
+    for _, productionPoint in ipairs(g_currentMission.productionChainManager:getProductionPointsForFarmId(farmId)) do
 
         local loadingStation = productionPoint.loadingStation;
         if loadingStation == nil then
@@ -441,7 +455,7 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
     end
 
     -- jetzt auch mal die Tierställe durchsuchen. Doppelt bei denen, die einen storage haben
-    for index, husbandryPlacable in ipairs(g_currentMission.husbandrySystem.placeables) do
+    for _, husbandryPlacable in ipairs(g_currentMission.husbandrySystem.placeables) do
 
         local loadingStation = husbandryPlacable.spec_husbandry.loadingStation;
         if loadingStation == nil then
@@ -460,7 +474,7 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
     end
 
     -- scan placables for object storages
-    for index, placable in ipairs(g_currentMission.placeableSystem.placeables) do
+    for _, placable in ipairs(g_currentMission.placeableSystem.placeables) do
         if placable.spec_objectStorage ~= nil then
             local x, y, z = getWorldTranslation(self.rootNode);
             local distance = BigDisplaySpecialization:getDistance(placable, x, y, z);
@@ -494,7 +508,7 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
             end
             spec.changedColors[outputFillTypeIndex].isOutput = true;
         end
-        for fillTypeIndex, changedColor in pairs(spec.changedColors) do
+        for _, changedColor in pairs(spec.changedColors) do
             if changedColor.isInput then
                 if changedColor.isOutput then
                     changedColor.color = spec.bigDisplays[1].colorHybrid;
@@ -509,7 +523,7 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
 
     -- Futter bei Tierställen hinzufügen einfärben
     if spec.loadingStationToUse.owningPlaceable ~= nil and spec.loadingStationToUse.owningPlaceable.spec_husbandryFood ~= nil then
-        for fillType, fillLevel in pairs(spec.loadingStationToUse.owningPlaceable.spec_husbandryFood.fillLevels) do
+        for fillType, _ in pairs(spec.loadingStationToUse.owningPlaceable.spec_husbandryFood.fillLevels) do
             if spec.changedColors[fillType] == nil then
                 spec.changedColors[fillType] = {isInput = false, isOutput = false};
             end
@@ -569,8 +583,8 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
     BigDisplaySpecialization.devInfo("Connected to %s", spec.loadingStationToUse:getName());
 end
 
---- Called when current registered station is deleted to reconnect to another one
--- @param SellingStation station
+---Called when the currently registered station is deleted, to reconnect to another one
+---@param station table the station that was deleted
 function BigDisplaySpecialization:onStationDeleted(station)
 
     if g_currentMission.isExitingGame == true then
@@ -595,12 +609,12 @@ function BigDisplaySpecialization:onDelete()
     end
 end
 
----Get the distance between the target object and the given coordinates
--- @param Placeable loadingStation
--- @param float x
--- @param float y
--- @param float z
--- @return float distance
+---Gets the distance between the target object and the given coordinates
+---@param loadingStation table the target object to measure the distance to
+---@param x number world x coordinate
+---@param y number world y coordinate
+---@param z number world z coordinate
+---@return number distance distance to the target, or math.huge if the target has no valid position
 function BigDisplaySpecialization:getDistance(loadingStation, x, y, z)
     if loadingStation ~= nil then
         local tx, ty, tz = getWorldTranslation(loadingStation.rootNode)
@@ -618,8 +632,8 @@ function BigDisplaySpecialization:getDistance(loadingStation, x, y, z)
     return math.huge
 end
 
----Update the Data which the Display shows
--- @param string debugInfoText This text is used in the debug prints
+---Updates the data which the display shows
+---@param debugInfoText string text used in the debug prints to identify the caller
 function BigDisplaySpecialization:updateDisplayData(debugInfoText)
     local spec = self.spec_bigDisplay;
     if spec == nil or spec.loadingStationToUse == nil then
@@ -701,10 +715,10 @@ function BigDisplaySpecialization:updateDisplayData(debugInfoText)
 end
 
 ---format a volume
--- @param float liters amount to format
--- @param integer precision how many decimals
--- @param string unit which unit should be used, default 2
--- @return string the formated value
+---@param liters number amount to format
+---@param precision integer how many decimals
+---@param unit string|false|nil which unit should be used (false = no unit, nil = default)
+---@return string the formated value
 function BigDisplaySpecialization:formatVolume(liters, precision, unit)
     unit = unit ~= "" and (unit == false and "" or unit) or nil
 
@@ -712,19 +726,19 @@ function BigDisplaySpecialization:formatVolume(liters, precision, unit)
 end
 
 ---format a volume with capacity
--- @param float liters amount to format
--- @param float capacity capacity to format
--- @param integer precision how many decimals
--- @param string unit which unit should be used
--- @return string the formated value
+---@param liters number amount to format
+---@param capacity number capacity to format
+---@param precision integer how many decimals
+---@param unit string|false|nil which unit should be used
+---@return string the formated value
 function BigDisplaySpecialization:formatCapacity(liters, capacity, precision, unit)
     return self:formatVolume(liters, precision, false) .. " / " .. self:formatVolume(capacity, precision, unit);
 end
 
---- Get all fill levels of the given station accessable by farmId
--- @param table station
--- @param integer farmId
--- @return table fillLevels
+---Gets all fill levels of the given station accessible by the given farm
+---@param station table the station (or object storage) to read fill levels from
+---@param farmId integer id of the farm the fill levels must be accessible to
+---@return table fillLevels fill levels per fill type index
 function BigDisplaySpecialization:getAllFillLevels(station, farmId)
     local fillLevels = {}
 
@@ -815,16 +829,16 @@ function BigDisplaySpecialization:getAllFillLevels(station, farmId)
     return fillLevels
 end
 
----Compare the given obects by title
--- @param table w1
--- @param table w2
--- @return boolean CompareResult
+---Compares the given line infos by title, for sorting
+---@param w1 table first line info
+---@param w2 table second line info
+---@return boolean isLess true if w1's title sorts before w2's title
 function BigDisplaySpecialization.compLineInfos(w1,w2)
     return w1.title < w2.title;
 end
 
----Update the displays. Update the data if old
--- @param float dt time since last call in ms
+---Updates the displays, refreshing the data first if it has grown stale
+---@param dt number time since last call in ms
 function BigDisplaySpecialization:updateDisplays(dt)
     local spec = self.spec_bigDisplay;
     if spec == nil or spec.loadingStationToUse == nil then
@@ -914,7 +928,7 @@ function BigDisplaySpecialization:updateDisplays(dt)
 end
 
 ---Update
--- @param float dt time since last call in ms
+---@param dt number time since last call in ms
 function BigDisplaySpecialization:update(dt)
     -- update faken, muss auch entfernt werden beim löschen, wenn es so klappt
     for _, display in pairs(BigDisplaySpecialization.displays) do
@@ -923,8 +937,8 @@ function BigDisplaySpecialization:update(dt)
 end
 
 ---Update info for Info trigger
--- @param function superFunc
--- @param table infoTable
+---@param superFunc function the original updateInfo implementation, discarded here since this override reimplements it instead of chaining to it
+---@param infoTable table info-table to append entries to
 function BigDisplaySpecialization:updateInfo(superFunc, infoTable)
     local spec = self.spec_bigDisplay;
 
@@ -943,10 +957,10 @@ function BigDisplaySpecialization:updateInfo(superFunc, infoTable)
     end
 end
 
----Change Text size of all displays in this placable and send new size to server
--- @param float textSize the size of the text
--- @param integer displayType the size of the text
--- @param boolean noEventSend if false will send the event
+---Change text size and display type of all displays in this placeable and send the new settings to the server
+---@param textSize number the size of the text
+---@param displayType integer the display type (0 = total, 1 = total and capacity, 2 = total and percentage)
+---@param noEventSend? boolean if false or nil, the change is sent as a network event
 function BigDisplaySpecialization:setSettings(textSize, displayType, noEventSend)
     local spec = self.spec_bigDisplay;
 
@@ -963,8 +977,8 @@ function BigDisplaySpecialization:setSettings(textSize, displayType, noEventSend
 end
 
 ---Send information to new connected players
--- @param integer streamId network stream identification
--- @param table connection connection information
+---@param streamId integer network stream identification
+---@param connection table connection information
 function BigDisplaySpecialization:onWriteStream(streamId, connection)
     if not connection:getIsServer() then
         local spec = self.spec_bigDisplay;
@@ -974,8 +988,8 @@ function BigDisplaySpecialization:onWriteStream(streamId, connection)
 end
 
 ---new connected players get information here
--- @param integer streamId network stream identification
--- @param table connection connection information
+---@param streamId integer network stream identification
+---@param connection table connection information
 function BigDisplaySpecialization:onReadStream(streamId, connection)
     if connection:getIsServer() then
         local textSize = streamReadFloat32(streamId);

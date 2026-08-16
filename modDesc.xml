@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="106">
     <author>Achimobil</author>
-    <version>1.2.0.0</version>
+    <version>1.2.0.1</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -10,8 +10,7 @@
         <fr>Affichage Numérique</fr>
     </title>
     <description>
-        <de>
-<![CDATA[Digitalanzeige für die nächste Produktion, Mithaufen, Tierställen (nur wenn diese ein Lager haben wie z.B. Wasser oder Gülle) oder ein Silo (keine Objektlager).
+        <de><![CDATA[Digitalanzeige für die nächste Produktion, Mithaufen, Tierställen (nur wenn diese ein Lager haben wie z.B. Wasser oder Gülle) oder ein Silo (keine Objektlager).
 Zeigt alle Inhalte alphabetisch (lua) sortiert an.
 Automatische Paging bei vielen Inhalten.
 
@@ -32,6 +31,8 @@ Das Verändern oder erneutes Hochladen, ob ganz oder in Teilen, ist nicht gestat
 Fehler oder Verbesserungsvorschläge gerne auf Github: https://github.com/Achimobil/FS25_DigitalDisplay
 
 Changelog
+1.2.0.1 - Interne Code und XML Aufräumarbeiten für VS Code und Giants Addin, keine spielerischen Änderungen
+
 1.2.0.0
 - Performance Optimierungen
 - Anzeige zeigt jetzt aus dem Verbundenen Lager immer das an was zur Farm des Spielers gehört. Zur unterstützung von Silos mit 'perFarm' setting
@@ -51,10 +52,8 @@ Changelog
 - Einstellungsmenü pro Display zum Einstellen der Schriftgröße und Mengenanzeigetyps hinzugefügt
 - Filltype Text wird jetzt gekürzt, wenn er zu lang ist
 - FR Übersetzungen hinzugefügt
-]]>
-        </de>
-        <en>
-<![CDATA[Digital display for the next production, silo, animal husbandry (only when it has a storage) or warehouse.
+]]></de>
+        <en><![CDATA[Digital display for the next production, silo, animal husbandry (only when it has a storage) or warehouse.
 Displays all content sorted alphabetically (lua).
 Automatic paging when there is a lot of content.
 
@@ -94,8 +93,7 @@ Changelog
 - Added settings menu per display to set font size and quantity display type
 - Filltype text is now shortened if it is too long
 - FR translations added
-]]>
-        </en>
+]]></en>
     </description>
     <multiplayer supported="true"/>
     <iconFilename>icon_bigDisplay.dds</iconFilename>
@@ -110,7 +108,7 @@ Changelog
         <storeItem xmlFilename="bigDisplay.xml"/>
     </storeItems>
     <brands>
-        <brand name="FARMERTOOLS" title="Farmer Tools" image="store/brand_FarmerTools.dds"/>
+        <brand name="FARMERTOOLS" title="Farmer Tools" image="store/brand_FarmerTools.png"/>
     </brands>
 
     <placeableSpecializations>

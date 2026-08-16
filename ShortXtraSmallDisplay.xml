@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<placeable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="bigDisplayType" xsi:noNamespaceSchemaLocation="../../../../shared/xml/schema/placeable.xsd">
+<placeable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="bigDisplayType" xsi:noNamespaceSchemaLocation="https://validation.gdn.giants-software.com/xml/fs25/placeable.xsd">
     <storeData>
         <name params="3">$l10n_unversalDisplay</name>
         <functions>
             <function>$l10n_function_unversalDisplay</function>
         </functions>
-        <image>store/store_ShortXtraSmallDisplay.dds</image>
+        <image>store/store_ShortXtraSmallDisplay.png</image>
         <price>2000</price>
         <lifetime>1000</lifetime>
         <dailyUpkeep>5</dailyUpkeep>
@@ -33,7 +33,6 @@
         <bigDisplay upperLeftNode="displayStartPoint" height="0.26" width="1.89" size="0.09" color="0 0.9 0 1"/>
     </bigDisplays>
     <clearAreas/>
-    <testArea/>
     <leveling requireLeveling="false"/>
     <indoorAreas/>
     <ai>
