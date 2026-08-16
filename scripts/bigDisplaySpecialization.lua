@@ -707,11 +707,40 @@ function BigDisplaySpecialization:updateDisplayData(debugInfoText)
         end
 
         table.sort(bigDisplay.lineInfos, BigDisplaySpecialization.compLineInfos)
+
+        -- Titel-Kürzung nur einmal pro Datenaktualisierung berechnen statt jeden Frame im Renderloop
+        local columnWidth = bigDisplay.displayLines[1] ~= nil and bigDisplay.displayLines[1].width or nil;
+        if columnWidth ~= nil then
+            for _, lineInfo in ipairs(bigDisplay.lineInfos) do
+                lineInfo.renderTitle = BigDisplaySpecialization:calcRenderTitle(bigDisplay.textSize, columnWidth, lineInfo.title, lineInfo.fillLevel);
+            end
+        end
     end
 
     spec.updateDisplaysRunning = false;
     spec.updateDisplaysRequested = false;
     spec.updateDisplaysDtSinceLastTime = 0;
+end
+
+---Calculates the title text to render for a display line, truncated with an ellipsis if it does not fit next to the fill level text
+---@param textSize number display text size
+---@param columnWidth number width available for title and fill level text together
+---@param title string filltype title
+---@param fillLevel string already formatted fill level text
+---@return string renderTitle the (possibly truncated) title to render
+function BigDisplaySpecialization:calcRenderTitle(textSize, columnWidth, title, fillLevel)
+    local fillLevelWidth = getText3DWidth(textSize, fillLevel);
+    local titleWidth = getText3DWidth(textSize, title);
+    local maxWidth = columnWidth - fillLevelWidth;
+
+    local renderTitle = title;
+    if titleWidth > maxWidth then
+        local numChars = getTextLength(textSize, renderTitle, 1);
+        local maxChars = math.floor(numChars / titleWidth * maxWidth) - 1;
+        renderTitle = utf8Substr(renderTitle, 0, maxChars) .. "…";
+    end
+
+    return renderTitle;
 end
 
 ---format a volume
@@ -905,17 +934,7 @@ function BigDisplaySpecialization:updateDisplays(dt)
 
                     setTextColor(color[1], color[2], color[3], color[4])
 
-                    local fillLevelWidth = getText3DWidth(spec.bigDisplays[1].textSize, lineInfo.fillLevel);
-                    local titleWidth = getText3DWidth(spec.bigDisplays[1].textSize, lineInfo.title);
-                    local maxWidth = displayLine.width - fillLevelWidth;
-
-                    local newTitle = lineInfo.title
-                    if titleWidth > maxWidth then
-                        local numChars = getTextLength(spec.bigDisplays[1].textSize, newTitle, 1);
-                        local maxChars = math.floor(numChars / titleWidth * maxWidth) - 1;
-                        newTitle = utf8Substr(newTitle, 0, maxChars) .. "…";
-
-                    end
+                    local newTitle = lineInfo.renderTitle or lineInfo.title;
 
                     setTextAlignment(RenderText.ALIGN_LEFT)
                     renderText3D(displayLine.text.x, displayLine.text.y, displayLine.text.z, displayLine.rx, displayLine.ry, displayLine.rz, spec.bigDisplays[1].textSize, newTitle)

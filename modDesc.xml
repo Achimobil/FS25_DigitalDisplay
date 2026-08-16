@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="106">
     <author>Achimobil</author>
-    <version>1.2.0.1</version>
+    <version>1.2.0.2</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -31,6 +31,8 @@ Das Verändern oder erneutes Hochladen, ob ganz oder in Teilen, ist nicht gestat
 Fehler oder Verbesserungsvorschläge gerne auf Github: https://github.com/Achimobil/FS25_DigitalDisplay
 
 Changelog
+1.2.0.2 - Performance verbessert: Anzeigen berechnen den Text jetzt seltener neu, spart Rechenzeit besonders bei vollen Lagern mit vielen verschiedenen Waren
+
 1.2.0.1 - Interne Code und XML Aufräumarbeiten für VS Code und Giants Addin, keine spielerischen Änderungen
 
 1.2.0.0
