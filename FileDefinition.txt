@@ -2,6 +2,9 @@
 *.txt
 .git*
 *.png
+*.code-workspace
+.vscode*
+.claude*
 store\*.png
 images
 sourceModels
