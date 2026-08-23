@@ -11,3 +11,4 @@ sourceModels
 *.md
 *.gspu
 *.gsp
+*.zip

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<modDesc descVersion="106">
+<modDesc descVersion="111">
     <author>Achimobil</author>
-    <version>1.2.0.3</version>
+    <version>1.3.0.0</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -31,10 +31,9 @@ Das Verändern oder erneutes Hochladen, ob ganz oder in Teilen, ist nicht gestat
 Fehler oder Verbesserungsvorschläge gerne auf Github: https://github.com/Achimobil/FS25_DigitalDisplay
 
 Changelog
-1.2.0.3 - Neues Tripple Display mit 3 Spalten und 3,80m Höhe hinzugefügt. Hier werden 105 Items bei standard Schriftgröße angezeigt.
-1.2.0.2 - Performance verbessert: Anzeigen berechnen den Text jetzt seltener neu, spart Rechenzeit besonders bei vollen Lagern mit vielen verschiedenen Waren
-
-1.2.0.1 - Interne Code und XML Aufräumarbeiten für VS Code und Giants Addin, keine spielerischen Änderungen
+1.3.0.0
+- Neues großes Tripple Display mit 3 Spalten und 3,80m Höhe hinzugefügt (105 Items bei Standard-Schriftgröße)
+- Performance verbessert: Anzeigen berechnen den Text jetzt seltener neu, spart Rechenzeit besonders bei vollen Lagern mit vielen verschiedenen Waren
 
 1.2.0.0
 - Performance Optimierungen
@@ -77,6 +76,10 @@ Modifying and re-uploading in whole or in part is not allowed!
 Please report bugs or suggestions for improvement on Github: https://github.com/Achimobil/FS25_DigitalDisplay
 
 Changelog
+1.3.0.0
+- Added a new large Triple Display with 3 columns and 3.80m height, showing up to 105 items at standard font size
+- Performance improved: displays now recalculate their text less often, saving computing time especially with full warehouses containing many different goods
+
 1.2.0.0
 - Performance optimisations
 - Display now always shows what belongs to the player's farm from the connected storage. To support silos with 'perFarm' setting
@@ -99,7 +102,7 @@ Changelog
 ]]></en>
     </description>
     <multiplayer supported="true"/>
-    <iconFilename>icon_bigDisplay.dds</iconFilename>
+    <iconFilename>icon_bigDisplay.png</iconFilename>
     <storeItems>
         <storeItem xmlFilename="displayStand.xml"/>
         <storeItem xmlFilename="ShortXtraSmallDisplay.xml"/>
