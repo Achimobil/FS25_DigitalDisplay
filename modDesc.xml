@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<modDesc descVersion="111">
+<modDesc descVersion="113">
     <author>Achimobil</author>
-    <version>1.3.0.0</version>
+    <version>1.3.0.1</version>
     <title>
         <de>Digitalanzeigen</de>
         <en>Digital Display</en>
@@ -31,6 +31,8 @@ Das Verändern oder erneutes Hochladen, ob ganz oder in Teilen, ist nicht gestat
 Fehler oder Verbesserungsvorschläge gerne auf Github: https://github.com/Achimobil/FS25_DigitalDisplay
 
 Changelog
+1.3.0.1 - Anzeigen wählen jetzt auch dann das richtige Ziel, wenn ein Lager an mehrere Gebäude angeschlossen ist
+
 1.3.0.0
 - Neues großes Tripple Display mit 3 Spalten und 3,80m Höhe hinzugefügt (105 Items bei Standard-Schriftgröße)
 - Performance verbessert: Anzeigen berechnen den Text jetzt seltener neu, spart Rechenzeit besonders bei vollen Lagern mit vielen verschiedenen Waren

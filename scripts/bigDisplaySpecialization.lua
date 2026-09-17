@@ -15,6 +15,7 @@ No change Log because not allowed to use in other mods.
 BigDisplaySpecialization = {
     Name = "BigDisplaySpecialization",
     displays = {},
+    missionStarted = false,
     Debug = false
 };
 
@@ -404,33 +405,21 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
     local currentDistance = math.huge;
     local usedProduction = nil;
     for _, storage in pairs(g_currentMission.storageSystem:getStorages()) do
+        local x, y, z = getWorldTranslation(self.rootNode);
 
-        -- wenn tierstall, dann ignorieren
-        local ignore = false;
-
-        -- loadingStation oder unloadingStation aus der liste die jeweils erste benutzen
-        local loadingStation = nil;
-
-        for _, loadingSt in pairs (storage.loadingStations) do
-            if loadingStation == nil then
-                loadingStation = loadingSt;
-            end
+        -- loadingStations benutzen, und nur wenn es keine gibt, auf die unloadingStations ausweichen
+        local stations = storage.loadingStations;
+        if next(stations) == nil then
+            stations = storage.unloadingStations;
         end
 
-        if loadingStation == nil then
-            for _, unloadingSt in pairs (storage.unloadingStations) do
-                if loadingStation == nil then
-                    loadingStation = unloadingSt;
-                end
-            end
-        end
-
-        if loadingStation ~= nil then
-            local x, y, z = getWorldTranslation(self.rootNode);
-            local distance = BigDisplaySpecialization:getDistance(loadingStation, x, y, z);
-            if distance < currentDistance and not ignore then
+        -- ein Lager kann an mehreren Stationen hängen, die beliebig weit auseinander stehen können,
+        -- deshalb jede davon einzeln messen statt die erstbeste aus der Liste zu nehmen
+        for _, station in pairs(stations) do
+            local distance = BigDisplaySpecialization:getDistance(station, x, y, z);
+            if distance < currentDistance then
                 currentDistance = distance;
-                currentLoadingStation = loadingStation;
+                currentLoadingStation = station;
             end
         end
     end
@@ -486,7 +475,10 @@ function BigDisplaySpecialization:reconnectToStorage(savegame)
     end
 
     if currentLoadingStation == nil then
-        BigDisplaySpecialization.info("no Loading Station found");
+        -- während des Ladens sind noch nicht alle Ziele da, erst der Durchlauf beim Missionsstart ist aussagekräftig
+        if BigDisplaySpecialization.missionStarted then
+            BigDisplaySpecialization.info("no Loading Station found");
+        end
         return;
     end
 
@@ -1021,6 +1013,8 @@ addModEventListener(BigDisplaySpecialization)
 
 ---Append to onStartMission to make sure all displays are connected on start playing
 function BigDisplaySpecialization:onStartMission()
+    BigDisplaySpecialization.missionStarted = true;
+
     -- update faken, muss auch entfernt werden beim löschen, wenn es so klappt
     for _, display in pairs(BigDisplaySpecialization.displays) do
         display:reconnectToStorage();
